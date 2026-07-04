@@ -1,0 +1,33 @@
+---
+interface Props {
+  href?: string;
+  class?: string;
+}
+
+const { href, class: className = "" } = Astro.props;
+---
+
+{href
+  ? <a href={href} class:list={["tag", className]}><slot /></a>
+  : <span class:list={["tag", className]}><slot /></span>
+}
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--apba-space-1) var(--apba-space-3);
+    background: var(--apba-surface-secondary);
+    color: var(--apba-text-secondary);
+    border-radius: var(--apba-radius-full);
+    font-size: var(--apba-text-overline);
+    font-weight: var(--apba-weight-medium);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    transition: background var(--apba-motion-fast), color var(--apba-motion-fast);
+  }
+  a.tag:hover { background: var(--apba-brand-tint); color: var(--apba-brand-primary); }
+  a.tag:focus-visible { outline: 3px solid var(--apba-focus-ring); outline-offset: 2px; }
+</style>

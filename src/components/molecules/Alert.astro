@@ -1,0 +1,51 @@
+---
+interface Props {
+  variant?: "info" | "success" | "warning" | "error";
+  title?: string;
+  dismissible?: boolean;
+  class?: string;
+}
+
+const { variant = "info", title, dismissible = false, class: className = "" } = Astro.props;
+
+const icons = {
+  info: `<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>`,
+  success: `<polyline points="20 6 9 17 4 12"/>`,
+  warning: `<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`,
+  error: `<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>`,
+};
+
+const roles = { info: "note", success: "status", warning: "alert", error: "alert" };
+---
+
+<div
+  class:list={["alert", `alert--${variant}`, className]}
+  role={roles[variant]}
+  aria-live={variant === "error" || variant === "warning" ? "assertive" : "polite"}
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="alert-icon">
+    <Fragment set:html={icons[variant]} />
+  </svg>
+  <div class="alert-body">
+    {title && <strong class="alert-title">{title}</strong>}
+    <div class="alert-content"><slot /></div>
+  </div>
+</div>
+
+<style>
+  .alert {
+    display: flex;
+    gap: var(--apba-space-3);
+    padding: var(--apba-space-4);
+    border-radius: var(--apba-radius-md);
+    border: 1px solid;
+  }
+  .alert--info { background: var(--apba-info-surface); color: var(--apba-info); border-color: var(--apba-info); }
+  .alert--success { background: var(--apba-success-surface); color: var(--apba-success); border-color: var(--apba-success); }
+  .alert--warning { background: var(--apba-warning-surface); color: var(--apba-warning); border-color: var(--apba-warning); }
+  .alert--error { background: var(--apba-error-surface); color: var(--apba-error); border-color: var(--apba-error); }
+  .alert-icon { flex-shrink: 0; margin-top: 2px; }
+  .alert-body { flex: 1; }
+  .alert-title { display: block; margin-bottom: var(--apba-space-1); }
+  .alert-content { font-size: var(--apba-text-body-sm); }
+</style>

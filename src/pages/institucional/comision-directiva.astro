@@ -1,0 +1,44 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ComingSoon from "@components/organisms/ComingSoon.astro";
+import { getPageBySlug } from "@lib/cms";
+
+const page = await getPageBySlug("comision-directiva");
+
+const seo = {
+  title: "Comisión Directiva — APBA",
+  description: "Autoridades y miembros de la Comisión Directiva de APBA.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  {page?.body ? (
+    <div class="container page-layout">
+      <nav aria-label="Ruta de navegación" class="breadcrumb">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/institucional/">Institucional</a></li>
+          <li aria-current="page">Comisión Directiva</li>
+        </ol>
+      </nav>
+      <h1>Comisión Directiva</h1>
+      <div class="page-body" set:html={page.body} />
+    </div>
+  ) : (
+    <ComingSoon
+      title="Comisión Directiva"
+      breadcrumbs={[
+        { label: "Inicio", href: "/" },
+        { label: "Institucional", href: "/institucional/" },
+        { label: "Comisión Directiva" },
+      ]}
+      lead="Estamos actualizando el listado de autoridades y miembros de la Comisión Directiva de APBA."
+    />
+  )}
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .page-body { max-width: 72ch; }
+</style>

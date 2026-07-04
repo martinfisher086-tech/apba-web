@@ -1,0 +1,29 @@
+---
+// Search results — noindex (internal search page)
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const query = Astro.url.searchParams.get("q") ?? "";
+
+const seo = {
+  title: "Buscar — APBA",
+  description: "Resultados de búsqueda en el sitio de APBA.",
+  noindex: true, // search pages are never indexed
+};
+---
+
+<BaseLayout {seo}>
+  <div class="container page-layout">
+    <h1>{query ? `Resultados para "${query}"` : "Buscar en el sitio"}</h1>
+    <p class="search-hint">La búsqueda del sitio estará disponible próximamente. Mientras tanto, explorá las secciones desde el menú principal o escribinos a <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>.</p>
+    <form role="search" action="/buscar/" method="get">
+      <label for="q">Buscar en psicologos.org.ar</label>
+      <input type="search" id="q" name="q" value={query} />
+      <button type="submit">Buscar</button>
+    </form>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .search-hint { color: var(--apba-text-secondary); line-height: var(--apba-leading-relaxed); margin: var(--apba-space-4) 0; }
+</style>

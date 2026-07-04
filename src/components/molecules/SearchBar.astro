@@ -1,0 +1,77 @@
+---
+interface Props {
+  value?: string;
+  placeholder?: string;
+  action?: string;
+  class?: string;
+}
+
+const {
+  value = "",
+  placeholder = "Buscar en psicologos.org.ar…",
+  action = "/buscar/",
+  class: className = "",
+} = Astro.props;
+---
+
+<form
+  role="search"
+  action={action}
+  method="get"
+  class:list={["search-bar", className]}
+>
+  <label for="search-input" class="sr-only">Buscar</label>
+  <input
+    type="search"
+    id="search-input"
+    name="q"
+    value={value}
+    placeholder={placeholder}
+    autocomplete="off"
+    spellcheck="false"
+  />
+  <button type="submit" aria-label="Buscar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.35-4.35" />
+    </svg>
+  </button>
+</form>
+
+<style>
+  .search-bar {
+    display: flex;
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-full);
+    overflow: hidden;
+    background: var(--apba-surface);
+    transition: box-shadow var(--apba-motion-fast), border-color var(--apba-motion-fast);
+  }
+  .search-bar:focus-within {
+    border-color: var(--apba-brand-primary);
+    box-shadow: 0 0 0 3px var(--apba-focus-ring);
+  }
+  input[type="search"] {
+    flex: 1;
+    padding: var(--apba-space-2) var(--apba-space-4);
+    border: none;
+    outline: none;
+    font-family: var(--apba-font-sans);
+    font-size: var(--apba-text-body-sm);
+    background: transparent;
+    min-height: 44px;
+  }
+  button[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--apba-space-3);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--apba-text-secondary);
+    min-width: 44px;
+    min-height: 44px;
+  }
+  button[type="submit"]:hover { color: var(--apba-brand-primary); }
+</style>

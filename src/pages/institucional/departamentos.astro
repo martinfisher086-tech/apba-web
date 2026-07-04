@@ -1,0 +1,44 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ComingSoon from "@components/organisms/ComingSoon.astro";
+import { getPageBySlug } from "@lib/cms";
+
+const page = await getPageBySlug("departamentos");
+
+const seo = {
+  title: "Departamentos — APBA",
+  description: "Departamentos y áreas de trabajo de la Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  {page?.body ? (
+    <div class="container page-layout">
+      <nav aria-label="Ruta de navegación" class="breadcrumb">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/institucional/">Institucional</a></li>
+          <li aria-current="page">Departamentos</li>
+        </ol>
+      </nav>
+      <h1>Departamentos</h1>
+      <div class="page-body" set:html={page.body} />
+    </div>
+  ) : (
+    <ComingSoon
+      title="Departamentos"
+      breadcrumbs={[
+        { label: "Inicio", href: "/" },
+        { label: "Institucional", href: "/institucional/" },
+        { label: "Departamentos" },
+      ]}
+      lead="Estamos actualizando la información sobre los departamentos y áreas de trabajo de APBA."
+    />
+  )}
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .page-body { max-width: 72ch; }
+</style>

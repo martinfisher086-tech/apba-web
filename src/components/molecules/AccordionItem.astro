@@ -1,0 +1,53 @@
+---
+interface Props {
+  id: string;
+  summary: string;
+  open?: boolean;
+  class?: string;
+}
+
+const { id, summary, open = false, class: className = "" } = Astro.props;
+---
+
+<details class:list={["accordion-item", className]} id={id} open={open}>
+  <summary class="accordion-summary">
+    <span>{summary}</span>
+    <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </summary>
+  <div class="accordion-body">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .accordion-item {
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-md);
+    overflow: hidden;
+  }
+  .accordion-item + .accordion-item { margin-top: var(--apba-space-2); }
+  .accordion-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--apba-space-4);
+    font-weight: var(--apba-weight-medium);
+    cursor: pointer;
+    list-style: none;
+    min-height: 44px;
+    gap: var(--apba-space-3);
+    user-select: none;
+  }
+  .accordion-summary::-webkit-details-marker { display: none; }
+  .accordion-summary:focus-visible { outline: 3px solid var(--apba-focus-ring); outline-offset: -3px; }
+  .accordion-summary:hover { background: var(--apba-surface-secondary); }
+  .accordion-chevron { flex-shrink: 0; transition: transform var(--apba-motion-fast); }
+  details[open] .accordion-chevron { transform: rotate(180deg); }
+  .accordion-body {
+    padding: 0 var(--apba-space-4) var(--apba-space-4);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+  }
+</style>

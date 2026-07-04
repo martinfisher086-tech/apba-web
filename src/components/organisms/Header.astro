@@ -1,0 +1,433 @@
+---
+/**
+ * Header — primary navigation organism.
+ * Dropdowns: CSS :hover on desktop; JS click for keyboard + mobile.
+ * Mobile: hamburger toggles .nav-open panel.
+ * Keyboard: Enter/Space opens; Escape closes; focus returns to trigger.
+ */
+---
+
+<header class="site-header" role="banner">
+  <div class="container header-inner">
+
+    <!-- Logo -->
+    <a href="/" class="header-logo" aria-label="APBA — Inicio">
+      <img
+        src="/images/downloaded/home--apba-logo.png"
+        alt="APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires"
+        width="140"
+        height="56"
+      />
+    </a>
+
+    <!-- Primary navigation -->
+    <nav id="primary-nav" class="primary-nav" aria-label="Navegación principal">
+      <ul class="nav-list" role="list">
+
+        <!-- INSTITUCIONAL (dropdown) — merges former APBA + NORMATIVA -->
+        <li class="nav-item nav-item--dropdown">
+          <button class="nav-trigger" aria-expanded="false" aria-controls="menu-institucional">
+            INSTITUCIONAL <span class="nav-caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="nav-dropdown nav-dropdown--grouped" id="menu-institucional">
+            <div class="nav-dropdown__group">
+              <p class="nav-dropdown__group-label" id="grp-apba">APBA</p>
+              <ul role="list" aria-labelledby="grp-apba">
+                <li><a href="/institucional/que-es-apba/">¿QUÉ ES APBA?</a></li>
+                <li><a href="/institucional/">INSTITUCIONAL</a></li>
+              </ul>
+            </div>
+            <div class="nav-dropdown__group">
+              <p class="nav-dropdown__group-label" id="grp-normativa">NORMATIVA</p>
+              <ul role="list" aria-labelledby="grp-normativa">
+                <li><a href="/normativa/">NORMATIVA</a></li>
+                <li><a href="/informacion-util/">INFORMACIÓN ÚTIL</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <!-- BENEFICIOS (dropdown) — Descuentos/Turismo/RepGremial merged into /beneficios/ -->
+        <li class="nav-item nav-item--dropdown">
+          <button class="nav-trigger" aria-expanded="false" aria-controls="menu-beneficios">
+            BENEFICIOS <span class="nav-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="nav-dropdown" id="menu-beneficios" role="list">
+            <li><a href="/beneficios/">NUESTROS BENEFICIOS</a></li>
+            <li><a href="/supervisiones/">SUPERVISIONES</a></li>
+            <li><a href="/fondo-de-solidaridad-profesional-fepra/">FONDO DE SOLIDARIDAD PROFESIONAL-FEPRA</a></li>
+            <li><a href="/asistencia/">ASISTENCIA</a></li>
+          </ul>
+        </li>
+
+        <!-- CURSOS (link) — renamed from CURSOS-JORNADAS -->
+        <li class="nav-item">
+          <a href="/cursos/" class="nav-link">CURSOS</a>
+        </li>
+
+        <!-- COMUNIDAD (dropdown) — merges former NOVEDADES + REVISTAS + AGENDA -->
+        <li class="nav-item nav-item--dropdown">
+          <button class="nav-trigger" aria-expanded="false" aria-controls="menu-comunidad">
+            COMUNIDAD <span class="nav-caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="nav-dropdown nav-dropdown--grouped" id="menu-comunidad">
+            <div class="nav-dropdown__group">
+              <p class="nav-dropdown__group-label" id="grp-novedades">NOVEDADES</p>
+              <ul role="list" aria-labelledby="grp-novedades">
+                <li><a href="/novedades/">NOVEDADES</a></li>
+                <li><a href="/newsletter/">NEWSLETTER</a></li>
+              </ul>
+            </div>
+            <div class="nav-dropdown__group">
+              <p class="nav-dropdown__group-label" id="grp-publicaciones">PUBLICACIONES</p>
+              <ul role="list" aria-labelledby="grp-publicaciones">
+                <li><a href="/revistas/">GACETA PSICOLÓGICA</a></li>
+              </ul>
+            </div>
+            <div class="nav-dropdown__group">
+              <p class="nav-dropdown__group-label" id="grp-agenda">AGENDA</p>
+              <ul role="list" aria-labelledby="grp-agenda">
+                <li><a href="/agenda/">AGENDA</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <!-- ASOCIATE — primary CTA -->
+        <li class="nav-item nav-item--cta">
+          <a href="/asociate/" class="nav-link nav-link--cta">ASOCIATE</a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <!-- Mobile hamburger -->
+    <button
+      class="hamburger"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+      aria-label="Abrir menú"
+    >
+      <span class="hamburger-line" aria-hidden="true"></span>
+      <span class="hamburger-line" aria-hidden="true"></span>
+      <span class="hamburger-line" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  /* ── Header shell ────────────────────────────────────────────────────────── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--apba-z-sticky);
+    background: var(--apba-surface-base);
+    border-bottom: 1px solid var(--apba-border);
+    box-shadow: var(--apba-shadow-1);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--apba-space-4);
+    min-height: 64px;
+  }
+  .header-logo img { height: 48px; width: auto; max-width: none; }
+
+  /* ── Desktop nav (≥ 768px) ───────────────────────────────────────────────── */
+  .primary-nav { display: none; }
+  @media (min-width: 768px) {
+    .primary-nav { display: flex; align-items: center; }
+  }
+
+  /* ── Nav list ────────────────────────────────────────────────────────────── */
+  .nav-list { display: flex; list-style: none; gap: var(--apba-space-1); align-items: center; }
+
+  .nav-link,
+  .nav-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-1);
+    padding: var(--apba-space-2) var(--apba-space-3);
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    letter-spacing: var(--apba-tracking-wide);
+    color: var(--apba-text-primary);
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: var(--apba-radius-md);
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--apba-duration-fast) var(--apba-ease-out),
+                color            var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .nav-link:hover,
+  .nav-trigger:hover,
+  .nav-trigger[aria-expanded="true"] {
+    background: var(--apba-surface-raised);
+    color: var(--apba-brand-primary);
+  }
+
+  /* ASOCIATE CTA */
+  .nav-link--cta {
+    background: var(--apba-brand-accent);
+    color: var(--apba-text-on-brand);
+    padding-inline: var(--apba-space-4);
+  }
+  .nav-link--cta:hover {
+    background: var(--apba-brand-primary-strong);
+    color: var(--apba-text-on-brand);
+  }
+
+  /* ── Dropdown items — positioning context ────────────────────────────────── */
+  .nav-item--dropdown { position: relative; padding-bottom: 8px; }
+
+  /* ── Dropdown panel ──────────────────────────────────────────────────────── */
+  .nav-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 240px;
+    background: var(--apba-surface-base);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    box-shadow: var(--apba-shadow-3);
+    list-style: none;
+    padding: var(--apba-space-2);
+    z-index: var(--apba-z-dropdown);
+  }
+  .nav-dropdown a {
+    display: block;
+    padding: var(--apba-space-2) var(--apba-space-3);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-primary);
+    text-decoration: none;
+    border-radius: var(--apba-radius-sm);
+    white-space: nowrap;
+  }
+  .nav-dropdown a:hover {
+    background: var(--apba-surface-raised);
+    color: var(--apba-brand-primary);
+  }
+
+  /* ── Grouped dropdown (labeled sub-sections within one panel) ─────────────── */
+  .nav-dropdown__group ul { list-style: none; }
+  .nav-dropdown__group + .nav-dropdown__group {
+    margin-top: var(--apba-space-2);
+  }
+  .nav-dropdown__group-label {
+    margin: 0;
+    padding: var(--apba-space-2) var(--apba-space-3) var(--apba-space-1);
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    letter-spacing: var(--apba-tracking-wider);
+    text-transform: uppercase;
+    color: var(--apba-text-muted);
+  }
+
+  /* Desktop — open on CSS :hover; panel hover keeps it open across the 8px padding bridge */
+  @media (min-width: 768px) {
+    .nav-item--dropdown:hover > .nav-dropdown,
+    .nav-item--dropdown > .nav-dropdown:hover { display: block; }
+    .nav-item--dropdown:hover > .nav-trigger  {
+      background: var(--apba-surface-raised);
+      color: var(--apba-brand-primary);
+    }
+  }
+
+  /* JS click/keyboard toggle — works on both desktop and mobile */
+  .nav-dropdown.dropdown-open { display: block; }
+
+  /* ── Hamburger ───────────────────────────────────────────────────────────── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: var(--apba-space-2);
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--apba-radius-md);
+  }
+  .hamburger-line {
+    width: 100%;
+    height: 2px;
+    background: var(--apba-text-primary);
+    border-radius: 2px;
+    transform-origin: center;
+    transition: transform  var(--apba-duration-fast) var(--apba-ease-out),
+                opacity    var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  /* X animation when open */
+  .hamburger[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ── Mobile nav panel (< 768px, when .nav-open is set) ──────────────────── */
+  @media (max-width: 767px) {
+    .hamburger { display: flex; }
+    .primary-nav.nav-open {
+      display: flex;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--apba-surface-base);
+      border-bottom: 1px solid var(--apba-border);
+      box-shadow: var(--apba-shadow-3);
+      padding: var(--apba-space-2) var(--apba-space-4) var(--apba-space-4);
+      z-index: var(--apba-z-dropdown);
+    }
+    .primary-nav.nav-open .nav-list {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      gap: 0;
+    }
+    .primary-nav.nav-open .nav-link,
+    .primary-nav.nav-open .nav-trigger {
+      width: 100%;
+      justify-content: space-between;
+      border-radius: var(--apba-radius-sm);
+      padding: var(--apba-space-3) var(--apba-space-3);
+    }
+    .primary-nav.nav-open .nav-item--cta {
+      margin-top: var(--apba-space-2);
+    }
+    .primary-nav.nav-open .nav-link--cta {
+      justify-content: center;
+    }
+    /* Mobile dropdown — inline (not floating) */
+    .primary-nav.nav-open .nav-dropdown.dropdown-open {
+      display: flex;
+      flex-direction: column;
+      position: static;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: var(--apba-space-1) 0 var(--apba-space-1) var(--apba-space-4);
+      min-width: 0;
+    }
+    .primary-nav.nav-open .nav-dropdown.dropdown-open a {
+      border-radius: var(--apba-radius-sm);
+      padding: var(--apba-space-2) var(--apba-space-3);
+    }
+  }
+</style>
+
+<script>
+  const header  = document.querySelector<HTMLElement>('.site-header')!;
+  const hamburger  = header.querySelector<HTMLButtonElement>('.hamburger')!;
+  const primaryNav = header.querySelector<HTMLElement>('.primary-nav')!;
+  const triggers   = header.querySelectorAll<HTMLButtonElement>('.nav-trigger');
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+
+  function getDropdown(trigger: HTMLButtonElement): HTMLElement | null {
+    return trigger.nextElementSibling as HTMLElement | null;
+  }
+
+  function openDropdown(trigger: HTMLButtonElement) {
+    const dropdown = getDropdown(trigger);
+    if (!dropdown) return;
+    trigger.setAttribute('aria-expanded', 'true');
+    dropdown.classList.add('dropdown-open');
+  }
+
+  function closeDropdown(trigger: HTMLButtonElement) {
+    const dropdown = getDropdown(trigger);
+    if (!dropdown) return;
+    trigger.setAttribute('aria-expanded', 'false');
+    dropdown.classList.remove('dropdown-open');
+  }
+
+  function closeAllDropdowns(except?: HTMLButtonElement) {
+    triggers.forEach(t => { if (t !== except) closeDropdown(t); });
+  }
+
+  // ── Hamburger ──────────────────────────────────────────────────────────────
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+    if (isOpen) {
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Abrir menú');
+      primaryNav.classList.remove('nav-open');
+      closeAllDropdowns();
+    } else {
+      hamburger.setAttribute('aria-expanded', 'true');
+      hamburger.setAttribute('aria-label', 'Cerrar menú');
+      primaryNav.classList.add('nav-open');
+    }
+  });
+
+  // ── Dropdown triggers — click ──────────────────────────────────────────────
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      closeAllDropdowns(isOpen ? undefined : trigger);
+      if (isOpen) {
+        closeDropdown(trigger);
+      } else {
+        openDropdown(trigger);
+      }
+    });
+  });
+
+  // ── Close on outside click ─────────────────────────────────────────────────
+
+  document.addEventListener('click', (e) => {
+    if (!header.contains(e.target as Node)) {
+      closeAllDropdowns();
+    }
+  });
+
+  // ── Close on Escape ────────────────────────────────────────────────────────
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+
+    // Close any open dropdown and return focus to its trigger
+    triggers.forEach(trigger => {
+      if (trigger.getAttribute('aria-expanded') === 'true') {
+        closeDropdown(trigger);
+        trigger.focus();
+      }
+    });
+
+    // Close mobile nav
+    if (hamburger.getAttribute('aria-expanded') === 'true') {
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Abrir menú');
+      primaryNav.classList.remove('nav-open');
+      hamburger.focus();
+    }
+  });
+
+  // ── Close mobile nav on internal link click ────────────────────────────────
+
+  primaryNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Abrir menú');
+      primaryNav.classList.remove('nav-open');
+      closeAllDropdowns();
+    });
+  });
+</script>

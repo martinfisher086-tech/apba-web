@@ -1,0 +1,280 @@
+---
+/**
+ * Beneficios — /beneficios/
+ * Unified hub for all member benefits: aranceles, turismo, supervisiones,
+ * fondo solidario FEPRA, and representación gremial.
+ * Tasks 6 & 7: consolidated from Descuentos, Turismo, and standalone cards.
+ */
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+
+const seo = {
+  title: "Beneficios para socios — APBA",
+  description: "Descubrí todos los beneficios exclusivos para socias y socios de APBA: aranceles preferenciales, turismo, supervisiones, Fondo Solidario FEPRA y representación gremial.",
+  noindex: false,
+};
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Beneficios para socios — APBA",
+  url: "https://psicologos.org.ar/beneficios/",
+  description: seo.description,
+};
+
+// Five consolidated benefit areas — replaces separate Descuentos, Turismo and Representación Gremial pages/cards
+const benefitItems = [
+  {
+    id: "aranceles",
+    icon: "cap",
+    title: "Aranceles preferenciales",
+    description: "Accedé a posgrados y especializaciones en psicología con aranceles reducidos, exclusivos para socias y socios de APBA.",
+    detail: "Convenios vigentes con universidades e instituciones de formación en salud mental y áreas afines.",
+    href: null as string | null,
+    hrefLabel: null as string | null,
+  },
+  {
+    id: "turismo",
+    icon: "globe",
+    title: "Turismo para socios",
+    description: "Beneficios y descuentos en turismo y recreación para las socias y socios de APBA, accesibles presentando constancia de socio vigente.",
+    detail: "Consultá la disponibilidad de beneficios turísticos escribiendo a la Secretaría Administrativa.",
+    href: null as string | null,
+    hrefLabel: null as string | null,
+  },
+  {
+    id: "supervisiones",
+    icon: "users",
+    title: "Supervisiones",
+    description: "Espacios de acompañamiento y reflexión clínica con supervisoras y supervisores especializados, en modalidad presencial u online.",
+    detail: "Coordinados a través de la Secretaría Administrativa de APBA.",
+    href: "/supervisiones/",
+    hrefLabel: "Ver supervisores disponibles",
+  },
+  {
+    id: "fepra",
+    icon: "shield",
+    title: "Fondo Solidario FEPRA",
+    description: "Cobertura profesional integral: seguro de mala praxis, subsidios solidarios y asistencia económica ante imprevistos.",
+    detail: "RC Profesional $1.000.000 · RC Consultorio $3.000.000 · Cobertura por enfermedades graves.",
+    href: "/fondo-de-solidaridad-profesional-fepra/",
+    hrefLabel: "Conocer el Fondo",
+  },
+  {
+    id: "gremial",
+    icon: "megaphone",
+    title: "Representación Gremial",
+    description: "Participación y representación profesional ante organismos del sector en Buenos Aires y el país.",
+    detail: "APBA actúa como voz colectiva de sus socias y socios en ámbitos institucionales y legislativos.",
+    href: null as string | null,
+    hrefLabel: null as string | null,
+  },
+];
+---
+
+<BaseLayout {seo}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <PageHero
+    title="Beneficios"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Beneficios" },
+    ]}
+  />
+
+  <div class="container page-layout">
+
+    <p class="section-lead">
+      Como socia o socio de APBA accedés a un conjunto integral de beneficios profesionales:
+      formación con descuento, turismo, supervisión clínica, cobertura solidaria y representación gremial.
+    </p>
+
+    <ul class="benefit-unified-grid" role="list">
+      {benefitItems.map((item) => (
+        <li class="benefit-unified-card">
+          <div class="buc-icon" aria-hidden="true">
+            {item.icon === "cap" && (
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+            )}
+            {item.icon === "globe" && (
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            )}
+            {item.icon === "users" && (
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            )}
+            {item.icon === "shield" && (
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            )}
+            {item.icon === "megaphone" && (
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11l19-9-9 19-2-8-8-2z"></path>
+              </svg>
+            )}
+          </div>
+          <div class="buc-body">
+            <h2 class="buc-title">{item.title}</h2>
+            <p class="buc-desc">{item.description}</p>
+            <p class="buc-detail">{item.detail}</p>
+            {item.href && (
+              <a href={item.href} class="buc-link">
+                {item.hrefLabel}
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <div class="contact-cta">
+      <p>
+        ¿Querés acceder a todos estos beneficios?{" "}
+        <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>
+      </p>
+      <a href="/asociate/" class="btn-join">ASOCIATE</a>
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-10) var(--apba-space-16); }
+
+  .section-lead {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-loose);
+    max-width: 72ch;
+    margin: 0 0 var(--apba-space-10);
+  }
+
+  /* Unified benefit cards grid */
+  .benefit-unified-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--apba-space-10);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--apba-space-5);
+  }
+  @media (min-width: 640px) {
+    .benefit-unified-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .benefit-unified-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-4);
+    padding: var(--apba-space-6);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-xl);
+    background: var(--apba-surface);
+    box-shadow: var(--apba-shadow-1);
+    transition:
+      box-shadow var(--apba-duration-fast) var(--apba-ease-out),
+      border-color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .benefit-unified-card:hover {
+    border-color: var(--apba-brand-primary);
+    box-shadow: var(--apba-shadow-2);
+  }
+
+  .buc-icon {
+    width: 52px; height: 52px;
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-lg);
+    color: var(--apba-brand-primary);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .buc-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+    flex: 1;
+  }
+
+  .buc-title {
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    margin: 0;
+    line-height: var(--apba-leading-tight);
+  }
+
+  .buc-desc {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-primary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+  }
+
+  .buc-detail {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+    padding: var(--apba-space-2) var(--apba-space-3);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-sm);
+    font-style: italic;
+  }
+
+  .buc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-brand-primary);
+    text-decoration: none;
+    font-weight: var(--apba-weight-semibold);
+    margin-top: auto;
+    padding-top: var(--apba-space-2);
+  }
+  .buc-link:hover { text-decoration: underline; }
+
+  /* Join CTA */
+  .contact-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--apba-space-4);
+    padding: var(--apba-space-6);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-lg);
+    border-left: 4px solid var(--apba-brand-primary);
+  }
+  .contact-cta p { color: var(--apba-text-secondary); margin: 0; }
+  .contact-cta a[href^="mailto"] { color: var(--apba-brand-primary); }
+  .btn-join {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--apba-space-3) var(--apba-space-8);
+    background: var(--apba-brand-accent);
+    color: var(--apba-text-on-brand);
+    text-decoration: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    min-height: 44px;
+    transition: background-color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .btn-join:hover { background: #9c1248; color: var(--apba-text-on-brand); }
+</style>

@@ -1,0 +1,121 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCourseBySlug, getCourses } from "@lib/cms";
+import type { Course } from "@types/models";
+
+export async function getStaticPaths() {
+  const courses = await getCourses();
+  return courses.map((course) => ({
+    params: { slug: course.slug },
+    props: { course },
+  }));
+}
+
+interface Props { course: Course }
+const { course } = Astro.props;
+
+const seo = {
+  title: `${course.title} — Cursos APBA`,
+  description: course.seo?.description ?? "",
+  noindex: false,
+};
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: course.title,
+  description: course.description,
+  provider: {
+    "@type": "Organization",
+    name: "APBA",
+    sameAs: "https://psicologos.org.ar",
+  },
+};
+---
+
+<BaseLayout {seo}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <div class="container page-layout">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/cursos/">Cursos y jornadas</a></li>
+        <li aria-current="page">{course.title}</li>
+      </ol>
+    </nav>
+
+    <article class="course-detail">
+      <header class="course-header">
+        <h1>{course.title}</h1>
+        {course.description && <p class="course-lead" set:html={course.description} />}
+      </header>
+
+      <div class="course-meta">
+        {course.startDate && (
+          <div class="meta-item">
+            <span class="meta-label">Inicio</span>
+            <time datetime={course.startDate}>{course.startDate}</time>
+          </div>
+        )}
+        {course.modality && (
+          <div class="meta-item">
+            <span class="meta-label">Modalidad</span>
+            <span>{course.modality}</span>
+          </div>
+        )}
+        <div class="meta-item">
+          <span class="meta-label">Arancel</span>
+          <span>{course.isFree ? "Gratuito" : course.price ?? "Consultar"}</span>
+        </div>
+      </div>
+
+      <p class="placeholder-notice">Estamos actualizando el contenido de este curso. Para más información, escribinos a <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>.</p>
+
+      {course.registrationUrl && (
+        <a href={course.registrationUrl} class="btn-register" target="_blank" rel="noopener noreferrer">
+          Inscribirse
+        </a>
+      )}
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .course-header { margin-bottom: var(--apba-space-6); }
+  .course-lead {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-secondary);
+    max-width: 72ch;
+    margin-top: var(--apba-space-3);
+  }
+  .course-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--apba-space-6);
+    padding: var(--apba-space-4);
+    background: var(--apba-surface-secondary);
+    border-radius: var(--apba-radius-lg);
+    margin-bottom: var(--apba-space-8);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: var(--apba-space-1); }
+  .meta-label { font-size: var(--apba-text-caption); font-weight: var(--apba-weight-semibold); text-transform: uppercase; letter-spacing: 0.05em; color: var(--apba-text-tertiary); }
+  .btn-register {
+    display: inline-flex;
+    margin-top: var(--apba-space-8);
+    padding: var(--apba-space-3) var(--apba-space-8);
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    text-decoration: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    min-height: 44px;
+    align-items: center;
+  }
+  .placeholder-notice {
+    background: var(--apba-warning-surface);
+    color: var(--apba-warning);
+    padding: var(--apba-space-4);
+    border-radius: var(--apba-radius-md);
+  }
+</style>

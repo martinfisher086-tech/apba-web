@@ -1,0 +1,92 @@
+---
+interface Props {
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  variant?: "primary" | "secondary" | "ghost" | "accent";
+  size?: "sm" | "md" | "lg";
+  disabled?: boolean;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  type = "button",
+  variant = "primary",
+  size = "md",
+  disabled = false,
+  external = false,
+  class: className = "",
+} = Astro.props;
+
+const externalAttrs = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+const Tag = href ? "a" : "button";
+---
+
+{href
+  ? <a href={href} class:list={["btn", `btn--${variant}`, `btn--${size}`, className]} {...externalAttrs}>
+      <slot />
+    </a>
+  : <button type={type} class:list={["btn", `btn--${variant}`, `btn--${size}`, className]} disabled={disabled}>
+      <slot />
+    </button>
+}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--apba-space-2);
+    border: 2px solid transparent;
+    border-radius: var(--apba-radius-md);
+    font-family: var(--apba-font-sans);
+    font-weight: var(--apba-weight-semibold);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background var(--apba-motion-fast),
+      color var(--apba-motion-fast),
+      border-color var(--apba-motion-fast),
+      box-shadow var(--apba-motion-fast);
+    white-space: nowrap;
+  }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn:focus-visible { outline: 3px solid var(--apba-focus-ring); outline-offset: 2px; }
+
+  /* Variants */
+  .btn--primary {
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    border-color: var(--apba-brand-primary);
+  }
+  .btn--primary:hover:not(:disabled) {
+    background: var(--apba-brand-primary-dark);
+    border-color: var(--apba-brand-primary-dark);
+  }
+  .btn--secondary {
+    background: transparent;
+    color: var(--apba-brand-primary);
+    border-color: var(--apba-brand-primary);
+  }
+  .btn--secondary:hover:not(:disabled) {
+    background: var(--apba-brand-tint);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--apba-text-primary);
+    border-color: transparent;
+  }
+  .btn--ghost:hover:not(:disabled) { background: var(--apba-surface-secondary); }
+  .btn--accent {
+    background: var(--apba-brand-accent);
+    color: #fff;
+    border-color: var(--apba-brand-accent);
+  }
+  .btn--accent:hover:not(:disabled) { filter: brightness(0.9); }
+
+  /* Sizes — min-height ≥44px on all to meet touch target requirement */
+  .btn--sm { padding: var(--apba-space-2) var(--apba-space-4); font-size: var(--apba-text-body-sm); min-height: 44px; }
+  .btn--md { padding: var(--apba-space-3) var(--apba-space-6); font-size: var(--apba-text-body); min-height: 44px; }
+  .btn--lg { padding: var(--apba-space-4) var(--apba-space-8); font-size: var(--apba-text-body-lg); min-height: 52px; }
+</style>

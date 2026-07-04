@@ -1,0 +1,77 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const seo = {
+  title: "Newsletter — APBA",
+  description: "Suscribite al newsletter de APBA para recibir novedades de la Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  <div class="container page-layout">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li aria-current="page">Newsletter</li>
+      </ol>
+    </nav>
+    <h1>Suscribite al newsletter</h1>
+    <p class="lead">Recibí las novedades, convocatorias y publicaciones de APBA directamente en tu correo.</p>
+
+    <form class="newsletter-form" method="POST" action="/api/newsletter" novalidate>
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" required autocomplete="given-name" />
+      </div>
+      <div class="field">
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" name="apellido" autocomplete="family-name" />
+      </div>
+      <div class="field">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="visually-hidden" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+      <button type="submit">SUSCRIBIRME</button>
+      <p class="privacy-note">
+        Al suscribirte aceptás nuestra <a href="/privacidad/">Política de privacidad</a>.
+        Podés darte de baja en cualquier momento.
+      </p>
+    </form>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); max-width: 520px; }
+  .lead { font-size: var(--apba-text-body-lg); color: var(--apba-text-secondary); max-width: 72ch; margin-bottom: var(--apba-space-6); }
+  .newsletter-form { display: flex; flex-direction: column; gap: var(--apba-space-4); }
+  .field { display: flex; flex-direction: column; gap: var(--apba-space-1); }
+  .field label { font-weight: var(--apba-weight-medium); font-size: var(--apba-text-body-sm); }
+  .field input {
+    padding: var(--apba-space-2) var(--apba-space-3);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-md);
+    font-size: var(--apba-text-body);
+    font-family: var(--apba-font-sans);
+    min-height: 44px;
+  }
+  .visually-hidden { position: absolute; left: -9999px; }
+  button[type="submit"] {
+    align-self: flex-start;
+    padding: var(--apba-space-3) var(--apba-space-8);
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    border: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    cursor: pointer;
+    min-height: 44px;
+    font-family: var(--apba-font-sans);
+    letter-spacing: 0.05em;
+  }
+  .privacy-note { font-size: var(--apba-text-body-sm); color: var(--apba-text-tertiary); margin-top: var(--apba-space-2); }
+  .privacy-note a { color: var(--apba-brand-primary); }
+</style>

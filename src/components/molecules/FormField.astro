@@ -1,0 +1,107 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  type?: "text" | "email" | "tel" | "number" | "password" | "url" | "textarea" | "select";
+  name?: string;
+  required?: boolean;
+  placeholder?: string;
+  hint?: string;
+  error?: string;
+  autocomplete?: string;
+  rows?: number;
+  class?: string;
+}
+
+const {
+  id,
+  label,
+  type = "text",
+  name,
+  required = false,
+  placeholder,
+  hint,
+  error,
+  autocomplete,
+  rows = 4,
+  class: className = "",
+} = Astro.props;
+
+const fieldName = name ?? id;
+const hintId = hint ? `${id}-hint` : undefined;
+const errorId = error ? `${id}-error` : undefined;
+const describedBy = [hintId, errorId].filter(Boolean).join(" ") || undefined;
+---
+
+<div class:list={["form-field", error && "form-field--error", className]}>
+  <label for={id} class="field-label">
+    {label}
+    {required && <span class="required-mark" aria-hidden="true">*</span>}
+    {required && <span class="sr-only"> (requerido)</span>}
+  </label>
+
+  {hint && <p id={hintId} class="field-hint">{hint}</p>}
+
+  {type === "textarea"
+    ? <textarea
+        id={id}
+        name={fieldName}
+        required={required}
+        placeholder={placeholder}
+        aria-describedby={describedBy}
+        aria-invalid={error ? "true" : undefined}
+        rows={rows}
+      ></textarea>
+    : type === "select"
+    ? <select
+        id={id}
+        name={fieldName}
+        required={required}
+        aria-describedby={describedBy}
+        aria-invalid={error ? "true" : undefined}
+      >
+        <slot />
+      </select>
+    : <input
+        type={type}
+        id={id}
+        name={fieldName}
+        required={required}
+        placeholder={placeholder}
+        autocomplete={autocomplete}
+        aria-describedby={describedBy}
+        aria-invalid={error ? "true" : undefined}
+      />
+  }
+
+  {error && <p id={errorId} class="field-error" role="alert">{error}</p>}
+</div>
+
+<style>
+  .form-field { display: flex; flex-direction: column; gap: var(--apba-space-1); }
+  .field-label { font-weight: var(--apba-weight-medium); font-size: var(--apba-text-body-sm); color: var(--apba-text-primary); }
+  .required-mark { color: var(--apba-error); margin-left: 2px; }
+  .field-hint { font-size: var(--apba-text-caption); color: var(--apba-text-tertiary); margin: 0; }
+  .field-error { font-size: var(--apba-text-caption); color: var(--apba-error); margin: 0; }
+  input, textarea, select {
+    padding: var(--apba-space-2) var(--apba-space-3);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-md);
+    font-size: var(--apba-text-body);
+    font-family: var(--apba-font-sans);
+    color: var(--apba-text-primary);
+    background: var(--apba-surface);
+    min-height: 44px;
+    transition: border-color var(--apba-motion-fast), box-shadow var(--apba-motion-fast);
+    width: 100%;
+  }
+  input:focus-visible, textarea:focus-visible, select:focus-visible {
+    outline: 3px solid var(--apba-focus-ring);
+    outline-offset: 0;
+    border-color: var(--apba-brand-primary);
+  }
+  textarea { min-height: unset; resize: vertical; }
+  .form-field--error input,
+  .form-field--error textarea,
+  .form-field--error select { border-color: var(--apba-error); }
+</style>

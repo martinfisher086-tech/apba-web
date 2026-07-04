@@ -1,0 +1,300 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+
+const seo = {
+  title: "Supervisiones — APBA",
+  description: "Espacios de supervisión clínica para psicólogas y psicólogos socios de APBA. Conocé a nuestros supervisores y cómo acceder al servicio.",
+  noindex: false,
+};
+
+const supervisores = [
+  {
+    nombre: "Lic. Alicia Marta Dellepiane",
+    especialidades: "Niños, niñas, adolescentes, adultos, familia y parejas.",
+    bio: "Lic. en Psicología (UBA). Práctica privada: atención analítica con adultos, niños y adolescentes. Psicóloga del Cesac N° 11 y Hospital Ramos Mejía (1992–1997). Responsable del Gabinete Psicológico del Centro de Estudios Manuel Ugarte. Profesora en Ciencias de la Educación. Miembro de APBA. Miembro del Equipo de Asistencia Psicológica Convenio APBA-ATE-UTE. Miembro de la EOL y de la AMP. Autora y coautora de publicaciones y libros.",
+    email: "apba@psicologos.org.ar",
+    telefono: "11 5866-1347",
+  },
+  {
+    nombre: "Lic. Silvia Quevedo",
+    especialidades: "Adultos, adolescentes, neurosis, consumos problemáticos, clínica del acto. Supervisión a equipos interdisciplinarios territoriales.",
+    bio: "Lic. en Psicología y en Sociología (UBA). Práctica institucional pública: atención clínica y dirección de cursos en Centro de Día Carlos Gardel (1994–2018) y Cesac 45. Supervisora de equipos de Cesacs CABA. Hospital Nacional Lic. Laura Bonaparte: supervisora y docente en RISAM y equipos de profesionales. Práctica privada: atención analítica con adultos, adolescentes, neurosis y clínica del acto. APBA: Miembro de CD, Secretaria científica y Directora Depto. Consumos problemáticos. Delegada a comisión científica de FEPRA. Ex Docente Facultad de Psicología UBA. Autora y coautora de libros y publicaciones.",
+    email: "apba@psicologos.org.ar",
+    telefono: "11 6745-5888",
+  },
+];
+---
+
+<BaseLayout {seo}>
+  <PageHero
+    title="Supervisiones"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Beneficios", href: "/beneficios/" },
+      { label: "Supervisiones" },
+    ]}
+  />
+
+  <div class="container page-layout">
+
+    <div class="intro-block">
+      <p class="intro-lead">
+        Las supervisiones son un espacio de acompañamiento y reflexión clínica para socias y socios de APBA.
+        La modalidad puede ser <strong>presencial u online</strong>, según lo ofrecido por cada supervisor/a.
+      </p>
+    </div>
+
+    <h2 class="section-title">Supervisores y supervisoras</h2>
+
+    <div class="supervisores-grid">
+      {supervisores.map((sup) => (
+        <article class="supervisor-card">
+          <div class="supervisor-avatar" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <div class="supervisor-body">
+            <h3 class="supervisor-name">{sup.nombre}</h3>
+            <p class="supervisor-specialties">
+              <strong>Supervisión en:</strong> {sup.especialidades}
+            </p>
+            <p class="supervisor-bio">{sup.bio}</p>
+            <div class="supervisor-contact">
+              <a href={`mailto:${sup.email}`} class="contact-link">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                {sup.email}
+              </a>
+              {/* Phone as plain styled text — no anchor, not interactive */}
+              <span class="contact-phone-plain">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6 6l1.07-1.07a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                {sup.telefono}
+              </span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="access-block">
+      <div class="access-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 8v4l3 2"></path>
+        </svg>
+      </div>
+      <div class="access-content">
+        <h2 class="access-title">¿Cómo acceder?</h2>
+        <p>
+          Para acceder a las supervisiones contactate con la Secretaría Administrativa de APBA.
+          Se coordinará la derivación al supervisor/a más adecuado/a para tu situación clínica.
+        </p>
+        <div class="access-contacts">
+          <a href="mailto:apba@psicologos.org.ar" class="access-btn access-btn--primary">
+            apba@psicologos.org.ar
+          </a>
+          <!-- Phone numbers as plain display — not links per design spec -->
+          <span class="access-phone">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6 6l1.07-1.07a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            11 5778-0142
+          </span>
+          <span class="access-phone">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6 6l1.07-1.07a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            11 5778-0185
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-10) var(--apba-space-16); }
+
+  .intro-block {
+    max-width: 72ch;
+    margin-bottom: var(--apba-space-10);
+    padding: var(--apba-space-5) var(--apba-space-6);
+    background: var(--apba-brand-tint);
+    border-left: 4px solid var(--apba-brand-primary);
+    border-radius: 0 var(--apba-radius-md) var(--apba-radius-md) 0;
+  }
+  .intro-lead {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-primary);
+    line-height: var(--apba-leading-loose);
+    margin: 0;
+  }
+
+  .section-title {
+    font-size: var(--apba-text-h3);
+    color: var(--apba-text-primary);
+    margin-bottom: var(--apba-space-6);
+  }
+
+  .supervisores-grid {
+    display: grid;
+    gap: var(--apba-space-6);
+    margin-bottom: var(--apba-space-10);
+  }
+  @media (min-width: 900px) {
+    .supervisores-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .supervisor-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-4);
+    padding: var(--apba-space-6);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-xl);
+    background: var(--apba-surface);
+    box-shadow: var(--apba-shadow-1);
+  }
+  .supervisor-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--apba-radius-full);
+    background: var(--apba-brand-tint);
+    color: var(--apba-brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .supervisor-body { display: flex; flex-direction: column; gap: var(--apba-space-3); }
+  .supervisor-name {
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    margin: 0;
+    line-height: var(--apba-leading-tight);
+  }
+  .supervisor-specialties {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-primary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+    padding: var(--apba-space-3);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-md);
+  }
+  .supervisor-bio {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+  }
+  .supervisor-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--apba-space-3);
+    margin-top: var(--apba-space-1);
+    padding-top: var(--apba-space-3);
+    border-top: 1px solid var(--apba-border);
+  }
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-brand-primary);
+    text-decoration: none;
+    font-weight: var(--apba-weight-medium);
+  }
+  .contact-link:hover { text-decoration: underline; }
+
+  /* Plain phone display — informational, not a link */
+  .contact-phone-plain {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    font-weight: var(--apba-weight-medium);
+    user-select: all;
+  }
+
+  /* Access block */
+  .access-block {
+    display: flex;
+    gap: var(--apba-space-5);
+    align-items: flex-start;
+    padding: var(--apba-space-6) var(--apba-space-8);
+    background: var(--apba-surface-raised);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-xl);
+  }
+  .access-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--apba-radius-full);
+    background: var(--apba-brand-tint);
+    color: var(--apba-brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .access-content { flex: 1; }
+  .access-title {
+    font-size: var(--apba-text-h3);
+    margin: 0 0 var(--apba-space-3);
+  }
+  .access-content p {
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0 0 var(--apba-space-4);
+  }
+  .access-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--apba-space-3);
+  }
+  .access-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--apba-space-3) var(--apba-space-5);
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body-sm);
+    text-decoration: none;
+    min-height: 44px;
+    transition: background-color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .access-btn--primary {
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+  }
+  .access-btn--primary:hover { background: var(--apba-brand-primary-strong); }
+  .access-btn--secondary {
+    background: var(--apba-surface-base);
+    color: var(--apba-brand-primary);
+    border: 1.5px solid var(--apba-brand-primary);
+  }
+  .access-btn--secondary:hover { background: var(--apba-brand-tint); }
+
+  /* Plain phone display — not interactive, just informational text */
+  .access-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    padding: var(--apba-space-3) var(--apba-space-5);
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body-sm);
+    min-height: 44px;
+    background: var(--apba-surface-raised);
+    color: var(--apba-text-primary);
+    border: 1.5px solid var(--apba-border);
+    user-select: all;
+  }
+</style>

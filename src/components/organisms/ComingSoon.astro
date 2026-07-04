@@ -1,0 +1,127 @@
+---
+/**
+ * ComingSoon — dignified "content not yet available" page body.
+ * Reused for genuinely-missing pages (benefit details, Información Útil) and for
+ * sections awaiting editorial/extraction content (Asistencia, Agenda).
+ * Renders PageHero + a calm institutional card with a contact fallback.
+ * Never render a raw "[PLACEHOLDER ...]" string to visitors.
+ */
+import PageHero from "@components/organisms/PageHero.astro";
+
+interface Props {
+  title: string;
+  breadcrumbs?: { label: string; href?: string }[];
+  lead?: string;
+  note?: string;
+  /** Show the ASOCIATE call-to-action (relevant for member-benefit pages). */
+  showJoin?: boolean;
+}
+
+const {
+  title,
+  breadcrumbs = [],
+  lead = "Estamos preparando el contenido de esta sección.",
+  note = "Pronto vas a encontrar aquí toda la información actualizada. Mientras tanto, escribinos y te respondemos a la brevedad.",
+  showJoin = false,
+} = Astro.props;
+---
+
+<PageHero {title} {breadcrumbs} />
+
+<section class="coming-soon">
+  <div class="container">
+    <div class="coming-soon-card">
+      <div class="coming-soon-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 7v5l3 2"></path>
+        </svg>
+      </div>
+      <h2>Contenido en preparación</h2>
+      <p class="cs-lead">{lead}</p>
+      <p class="cs-note">{note}</p>
+      <div class="coming-soon-actions">
+        <a class="cs-btn cs-btn--primary" href="mailto:apba@psicologos.org.ar">
+          Escribinos a apba@psicologos.org.ar
+        </a>
+        {showJoin && (
+          <a class="cs-btn cs-btn--accent" href="/asociate/">ASOCIATE</a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .coming-soon {
+    padding-block: var(--apba-space-12) var(--apba-space-16);
+  }
+  .coming-soon-card {
+    max-width: 60ch;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--apba-space-4);
+    padding: var(--apba-space-10) var(--apba-space-6);
+    background: var(--apba-surface-raised);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-xl);
+  }
+  .coming-soon-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--apba-radius-full);
+    background: var(--apba-brand-tint);
+    color: var(--apba-brand-primary);
+  }
+  .coming-soon-card h2 {
+    font-size: var(--apba-text-h3);
+    color: var(--apba-text-primary);
+    margin: 0;
+  }
+  .cs-lead {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-primary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+  }
+  .cs-note {
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+  }
+  .coming-soon-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--apba-space-3);
+    margin-top: var(--apba-space-2);
+  }
+  .cs-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--apba-space-3) var(--apba-space-6);
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    text-decoration: none;
+    min-height: 44px;
+    transition: background-color var(--apba-duration-fast) var(--apba-ease-out),
+                color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .cs-btn--primary {
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+  }
+  .cs-btn--primary:hover { background: var(--apba-brand-primary-strong); color: var(--apba-text-on-brand); }
+  .cs-btn--accent {
+    background: var(--apba-brand-accent);
+    color: var(--apba-text-on-brand);
+  }
+  .cs-btn--accent:hover { background: #9c1248; color: var(--apba-text-on-brand); }
+</style>

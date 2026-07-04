@@ -1,0 +1,49 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ComingSoon from "@components/organisms/ComingSoon.astro";
+import { getEvents } from "@lib/cms";
+
+const events = await getEvents({ upcoming: true });
+
+const seo = {
+  title: "Agenda — APBA",
+  description: "Agenda de eventos, cursos y jornadas de la Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  {events.length === 0 ? (
+    <ComingSoon
+      title="Agenda"
+      breadcrumbs={[
+        { label: "Inicio", href: "/" },
+        { label: "Agenda" },
+      ]}
+      lead="La agenda de APBA está momentáneamente en pausa. Próximamente publicaremos los próximos eventos, cursos y jornadas."
+      note="Para consultas sobre actividades futuras, escribinos a apba@psicologos.org.ar"
+    />
+  ) : (
+    <div class="container page-layout">
+      <nav aria-label="Ruta de navegación" class="breadcrumb">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-current="page">Agenda</li>
+        </ol>
+      </nav>
+      <h1>Agenda</h1>
+      <ul class="agenda-list">
+        {events.map((e) => (
+          <li>
+            <a href={`/agenda/${e.slug}/`}>{e.title}</a>
+            {" "}— <time datetime={e.startDateTime}>{e.startDateTime}</time>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+</style>

@@ -1,0 +1,389 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+
+const seo = {
+  title: "Asistencia Psicológica — APBA",
+  description: "Servicio de asistencia y orientación psicológica de APBA para la comunidad. Conocé los aranceles, la cartilla de profesionales y cómo solicitar turno.",
+  noindex: false,
+};
+
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Servicio de Asistencia Psicológica — APBA",
+  provider: { "@type": "Organization", name: "APBA" },
+  areaServed: "Buenos Aires, Argentina",
+  contactPoint: { "@type": "ContactPoint", email: "apba@psicologos.org.ar" },
+});
+
+const aranceles = [
+  { prestacion: "Admisión — Sesión individual", socios: "$19.000", noSocios: "$24.700" },
+  { prestacion: "Admisión — Sesión pareja y familiar/vincular", socios: "$22.000", noSocios: "$28.600" },
+  { prestacion: "Psicodiagnóstico", socios: "$190.000", noSocios: "$270.000" },
+  { prestacion: "Informe pericial", socios: "$285.000", noSocios: "$350.000" },
+  { prestacion: "Prestación domiciliaria", socios: "100%", noSocios: "100%" },
+  { prestacion: "Supervisiones", socios: "$28.000", noSocios: "$37.000" },
+];
+
+const cartillaGeneral = [
+  { nombre: "Ana María Plumari", especialidad: "Clínica de adultos, parejas" },
+  { nombre: "Beatriz Haydeé Rodriguez", especialidad: "Clínicas de adultos, adolescentes, pareja, familia. Psicoterapia en Grupo. Supervisión Clínica." },
+  { nombre: "Graciela Mabel González", especialidad: "Clínica de adultos, niños, niñas y adolescentes." },
+  { nombre: "Irene Loyácono", especialidad: "Clínica de adultos, familia." },
+  { nombre: "Luciano Dayan", especialidad: "Evaluación psicológica, psicodiagnóstico. Psicología del deporte." },
+  { nombre: "Liliana Szapiro", especialidad: "Clínica de adultos y adolescentes. Trastornos de la alimentación." },
+  { nombre: "Stella Maris Carnevale", especialidad: "Clínica de adultos." },
+  { nombre: "Carlos Reinaldo Miranda", especialidad: "Clínica de adultos y adolescentes." },
+  { nombre: "Stella Maris Scalise", especialidad: "Psicodiagnóstico. Orientación vocacional." },
+  { nombre: "Felisa Senderovsky", especialidad: "Clínica de adultos, adolescentes, parejas. Orientación a padres." },
+  { nombre: "Alfonso Gutierrez Reto", especialidad: "Clínica de adultos." },
+];
+
+const arancelesSindicatos = [
+  { prestacion: "Admisión — Sesión individual", monto: "$19.000" },
+  { prestacion: "Admisión — Sesión pareja y familiar/vincular", monto: "$22.000" },
+  { prestacion: "Psicodiagnóstico", monto: "$190.000" },
+  { prestacion: "Supervisiones", monto: "$28.000" },
+];
+
+const cartillaSindicatos = [
+  "Arriagada, Malena", "Baruch, Valeria", "Bondarovsky, Federico",
+  "Carnevale, Stella Maris", "Codina, Gerardo", "Corvaglia, Morena",
+  "Dellepiane, Alicia Marta", "Faletti, Laura", "Gendra, Marina",
+  "Goldring, Mariana", "González, Graciela", "Iacono, Adriana",
+  "Kostoff, Viviana", "Lopez de Vicuña, Javier", "Margules, Graciela",
+  "Mickelsen, Laura B.", "Moszkowski, Irene", "Ortiz, Sergio M.",
+  "Riveros, Julio César", "Rotela, Alicia", "Serra, Gabriel Fdo",
+  "Sforza, Laura", "Sirok, Elena", "Stokle, Adriana",
+  "Tonella, Carla", "Vicente, Silvina Marcela", "Vila, Paula",
+];
+---
+
+<BaseLayout {seo}>
+  <Fragment slot="structured-data">
+    <script type="application/ld+json" set:html={structuredData} />
+  </Fragment>
+
+  <PageHero
+    title="Asistencia Psicológica"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Asistencia" },
+    ]}
+  />
+
+  <div class="container page-layout">
+
+    <!-- Intro -->
+    <div class="intro-block">
+      <p class="intro-lead">
+        APBA Asistencia está integrado por psicólogas y psicólogos de amplia experiencia en el ejercicio
+        de su profesión, que brindan atención, asesoramiento y acompañamiento, diseñando un plan
+        terapéutico singular para cada persona que lo requiera.
+      </p>
+      <p class="intro-sub">
+        <strong>Clínica de adultos y adultas, adolescentes, niños, niñas, pareja y familia.</strong>
+      </p>
+      <p class="intro-note">
+        En la admisión se plantea el motivo de consulta para la posterior derivación. Si el/la paciente
+        lo requiere, puede solicitar derivación a cualquier integrante de nuestra cartilla profesional;
+        de lo contrario, se derivará a quien se considere más idóneo para cada caso particular.
+      </p>
+    </div>
+
+    <!-- General Asistencia -->
+    <section class="asistencia-section" aria-labelledby="asistencia-general">
+      <h2 id="asistencia-general" class="section-title">APBA Asistencia — Servicio general</h2>
+
+      <div class="table-wrapper">
+        <table class="aranceles-table">
+          <caption class="table-caption">Honorarios institucionales 2025</caption>
+          <thead>
+            <tr>
+              <th scope="col">Prestación</th>
+              <th scope="col">Socias/os</th>
+              <th scope="col">No socias/os</th>
+            </tr>
+          </thead>
+          <tbody>
+            {aranceles.map((row) => (
+              <tr>
+                <td>{row.prestacion}</td>
+                <td class="amount">{row.socios}</td>
+                <td class="amount">{row.noSocios}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="contact-card">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <p>
+          Para solicitar turno de admisión escribinos a
+          <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>
+        </p>
+      </div>
+
+      <h3 class="cartilla-title">Cartilla profesional</h3>
+      <div class="cartilla-grid">
+        {cartillaGeneral.map((p) => (
+          <div class="cartilla-card">
+            <div class="cartilla-avatar" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div class="cartilla-info">
+              <strong class="cartilla-name">{p.nombre}</strong>
+              <span class="cartilla-specialty">{p.especialidad}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Sindicatos section -->
+    <section class="asistencia-section asistencia-section--sindicatos" aria-labelledby="asistencia-sindicatos">
+      <h2 id="asistencia-sindicatos" class="section-title">Dispositivo para afiliados/as a Sindicatos</h2>
+
+      <div class="sindicatos-intro">
+        <p>
+          La salud mental de las trabajadoras y trabajadores es un derecho. Promoverla y acompañarla es nuestro desafío.
+        </p>
+        <p>
+          Tenemos convenios con distintos sindicatos para atenciones psicológicas de sus afiliados/as y grupo familiar.
+        </p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="aranceles-table">
+          <caption class="table-caption">Honorarios para afiliados/as y familiares 2025</caption>
+          <thead>
+            <tr>
+              <th scope="col">Prestación</th>
+              <th scope="col">Afiliados/as y familiares</th>
+            </tr>
+          </thead>
+          <tbody>
+            {arancelesSindicatos.map((row) => (
+              <tr>
+                <td>{row.prestacion}</td>
+                <td class="amount">{row.monto}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="contact-card">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6 6l1.07-1.07a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        <p>
+          Para solicitar turno de admisión llamá al <a href="tel:+541125844111">11 2584 4111</a> o escribí a
+          <a href="mailto:saludmentalapba@gmail.com">saludmentalapba@gmail.com</a>
+        </p>
+      </div>
+
+      <h3 class="cartilla-title">Cartilla de profesionales</h3>
+      <ul class="cartilla-simple-list" role="list">
+        {cartillaSindicatos.map((nombre) => (
+          <li>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            {nombre}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-10) var(--apba-space-16); }
+
+  /* Intro */
+  .intro-block {
+    max-width: 80ch;
+    margin-bottom: var(--apba-space-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-3);
+  }
+  .intro-lead {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-loose);
+    margin: 0;
+  }
+  .intro-sub {
+    font-size: var(--apba-text-body);
+    color: var(--apba-brand-primary-strong);
+    margin: 0;
+  }
+  .intro-note {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    padding: var(--apba-space-4);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-md);
+    border-left: 3px solid var(--apba-brand-primary);
+    margin: 0;
+  }
+
+  /* Sections */
+  .asistencia-section { margin-bottom: var(--apba-space-14); }
+  .asistencia-section--sindicatos {
+    padding-top: var(--apba-space-10);
+    border-top: 2px solid var(--apba-border);
+  }
+  .section-title {
+    font-size: var(--apba-text-h3);
+    color: var(--apba-brand-primary-strong);
+    margin: 0 0 var(--apba-space-6);
+  }
+  .sindicatos-intro {
+    max-width: 72ch;
+    margin-bottom: var(--apba-space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+  }
+  .sindicatos-intro p {
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+  }
+
+  /* Aranceles table */
+  .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: var(--apba-space-6);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+  }
+  .aranceles-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--apba-text-body-sm);
+  }
+  .table-caption {
+    caption-side: top;
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--apba-tracking-wide);
+    color: var(--apba-text-tertiary);
+    padding: var(--apba-space-3) var(--apba-space-4) var(--apba-space-2);
+    text-align: left;
+  }
+  .aranceles-table th {
+    background: var(--apba-surface-raised);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-text-primary);
+    padding: var(--apba-space-3) var(--apba-space-4);
+    text-align: left;
+    border-bottom: 2px solid var(--apba-border);
+  }
+  .aranceles-table td {
+    padding: var(--apba-space-3) var(--apba-space-4);
+    color: var(--apba-text-secondary);
+    border-bottom: 1px solid var(--apba-border);
+    line-height: var(--apba-leading-snug);
+  }
+  .aranceles-table tr:last-child td { border-bottom: none; }
+  .aranceles-table tr:hover td { background: var(--apba-surface-raised); }
+  td.amount {
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    white-space: nowrap;
+  }
+
+  /* Contact card */
+  .contact-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--apba-space-3);
+    padding: var(--apba-space-4) var(--apba-space-5);
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-md);
+    margin-bottom: var(--apba-space-8);
+    color: var(--apba-brand-primary);
+  }
+  .contact-card svg { flex-shrink: 0; margin-top: 2px; }
+  .contact-card p { margin: 0; color: var(--apba-text-secondary); font-size: var(--apba-text-body-sm); line-height: var(--apba-leading-relaxed); }
+  .contact-card a { color: var(--apba-brand-primary); font-weight: var(--apba-weight-semibold); }
+
+  /* Cartilla — general (card grid) */
+  .cartilla-title {
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-text-primary);
+    margin: 0 0 var(--apba-space-4);
+  }
+  .cartilla-grid {
+    display: grid;
+    gap: var(--apba-space-3);
+  }
+  @media (min-width: 640px) { .cartilla-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .cartilla-grid { grid-template-columns: repeat(3, 1fr); } }
+  .cartilla-card {
+    display: flex;
+    gap: var(--apba-space-3);
+    align-items: flex-start;
+    padding: var(--apba-space-4);
+    background: var(--apba-surface);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+  }
+  .cartilla-avatar {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: var(--apba-radius-full);
+    background: var(--apba-brand-tint);
+    color: var(--apba-brand-primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cartilla-info { display: flex; flex-direction: column; gap: 2px; }
+  .cartilla-name {
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    line-height: var(--apba-leading-tight);
+  }
+  .cartilla-specialty {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+  }
+
+  /* Cartilla — sindicatos (compact list) */
+  .cartilla-simple-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--apba-space-2);
+  }
+  @media (min-width: 560px) { .cartilla-simple-list { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .cartilla-simple-list { grid-template-columns: repeat(3, 1fr); } }
+  .cartilla-simple-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    padding: var(--apba-space-3);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-md);
+  }
+  .cartilla-simple-list li svg { color: var(--apba-brand-primary); flex-shrink: 0; }
+</style>

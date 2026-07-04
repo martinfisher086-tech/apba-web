@@ -1,0 +1,11 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0E2F5C"/>
+  <!-- Accent stripe -->
+  <rect x="0" y="0" width="12" height="630" fill="#C2185B"/>
+  <!-- APBA logotype -->
+  <text x="80" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="96" font-weight="700" fill="#FFFFFF" letter-spacing="-2">APBA</text>
+  <!-- Full name -->
+  <text x="80" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400" fill="rgba(255,255,255,0.75)">Asociación de Psicólogas y Psicólogos de Buenos Aires</text>
+  <!-- URL -->
+  <text x="80" y="410" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="400" fill="rgba(255,255,255,0.5)">psicologos.org.ar</text>
+</svg>

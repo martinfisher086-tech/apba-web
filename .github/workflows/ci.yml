@@ -1,0 +1,111 @@
+name: CI — APBA Web
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+
+  # ── Type check + lint ───────────────────────────────────────────────────────
+  check:
+    name: Type check & lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run check          # astro check (TypeScript)
+      - run: npm run lint
+      - run: npm run format:check
+
+  # ── Build ───────────────────────────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: check
+    env:
+      # Stubs only in CI — real CMS env set in Vercel/deployment env
+      SANITY_PROJECT_ID: ci_stub
+      SANITY_DATASET: production
+      PUBLIC_ENV: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  # ── Route / IA coverage check ───────────────────────────────────────────────
+  routes:
+    name: Route ↔ IA coverage
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: ${{ env.NODE_VERSION }}, cache: "npm" }
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with: { name: dist }
+      - name: Check all IA routes exist in dist/
+        run: node scripts/verify-routes.mjs
+
+  # ── Redirect map check ──────────────────────────────────────────────────────
+  redirects:
+    name: 301 redirect coverage
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: ${{ env.NODE_VERSION }}, cache: "npm" }
+      - run: npm ci
+      - run: npm run test:redirects
+
+  # ── Accessibility (axe) ─────────────────────────────────────────────────────
+  a11y:
+    name: Accessibility — axe-core
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: ${{ env.NODE_VERSION }}, cache: "npm" }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:a11y
+      # Thresholds from Phase 2 §3.4 and Phase 5 §2.4:
+      # axe must return 0 critical/serious violations
+
+  # ── Lighthouse CI ───────────────────────────────────────────────────────────
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    needs: build
+    # Only run on main branch (expensive)
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: ${{ env.NODE_VERSION }}, cache: "npm" }
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with: { name: dist }
+      - run: npm run ci:lighthouse
+      # Thresholds defined in lighthouserc.json:
+      # Performance ≥90 (mobile), Accessibility ≥95, SEO ≥95, Best-Practices ≥95

@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+import { getRegulations, getPageBySlug } from "@lib/cms";
+
+const regulations = await getRegulations();
+const page = await getPageBySlug("normativa");
+
+const seo = {
+  title: "Normativa — APBA",
+  description: "Normativa y legislación relacionada con el ejercicio de la Psicología en la Ciudad Autónoma de Buenos Aires.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  <PageHero
+    title="Normativa"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Normativa" },
+    ]}
+  />
+
+  <div class="container page-layout">
+    <p class="lead">Legislación y reglamentación que rige el ejercicio de la Psicología.</p>
+
+    {page?.body && <div class="page-body" set:html={page.body} />}
+
+    {regulations.length === 0 && !page?.body
+      ? <p class="content-pending">Estamos actualizando los documentos de normativa. Para más información, escribinos a <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>.</p>
+      : regulations.length > 0 && (
+        <ul class="regulation-list">
+          {regulations.map((reg) => (
+            <li class="regulation-item">
+              {reg.document
+                ? <a href={reg.document.url} class="regulation-link" target="_blank" rel="noopener noreferrer">{reg.title}</a>
+                : <span class="regulation-link">{reg.title}</span>
+              }
+              {reg.effectiveDate && (
+                <p class="regulation-meta">
+                  <time datetime={reg.effectiveDate}>{reg.effectiveDate}</time>
+                </p>
+              )}
+              {reg.body && <div class="regulation-body" set:html={reg.body} />}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .lead { font-size: var(--apba-text-body-lg); color: var(--apba-text-secondary); max-width: 72ch; }
+  .page-body { max-width: 72ch; margin-top: var(--apba-space-6); }
+  .regulation-list { list-style: none; padding: 0; margin-top: var(--apba-space-6); display: flex; flex-direction: column; gap: var(--apba-space-4); }
+  .regulation-item { padding: var(--apba-space-4); border: 1px solid var(--apba-border); border-radius: var(--apba-radius-md); }
+  .regulation-link { font-weight: var(--apba-weight-medium); color: var(--apba-brand-primary); }
+  a.regulation-link { text-decoration: none; }
+  a.regulation-link:hover { text-decoration: underline; }
+  .regulation-meta { margin: var(--apba-space-1) 0 0; font-size: var(--apba-text-caption); color: var(--apba-text-tertiary); }
+  .regulation-body { margin-top: var(--apba-space-2); font-size: var(--apba-text-body-sm); color: var(--apba-text-secondary); }
+  .content-pending { color: var(--apba-text-secondary); line-height: var(--apba-leading-relaxed); margin-top: var(--apba-space-6); }
+</style>

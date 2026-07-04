@@ -1,0 +1,97 @@
+---
+interface Props {
+  title: string;
+  breadcrumbs?: { label: string; href?: string }[];
+}
+const { title, breadcrumbs = [] } = Astro.props;
+---
+
+<div class="page-hero">
+  <div class="container page-hero-inner">
+    <h1 class="page-hero-title">{title}</h1>
+    {breadcrumbs.length > 0 && (
+      <nav aria-label="Ruta de navegación" class="page-hero-crumbs">
+        <ol>
+          {breadcrumbs.map((crumb) => (
+            <li>
+              {crumb.href
+                ? <a href={crumb.href}>{crumb.label}</a>
+                : <span aria-current="page">{crumb.label}</span>
+              }
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+  </div>
+</div>
+
+<style>
+  .page-hero {
+    background: var(--apba-brand-primary-strong);
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    padding-block: var(--apba-space-4) var(--apba-space-6);
+  }
+  .page-hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+  }
+  .page-hero-title {
+    color: var(--apba-text-on-brand);
+    font-size: var(--apba-text-h2);
+    font-weight: var(--apba-weight-bold);
+    margin: 0;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .page-hero-crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: var(--apba-space-1);
+    font-size: var(--apba-text-body-sm);
+  }
+  .page-hero-crumbs li {
+    display: flex;
+    align-items: center;
+  }
+  .page-hero-crumbs li:not(:last-child)::after {
+    content: "/";
+    margin: 0 var(--apba-space-1);
+    color: rgba(255,255,255,0.35);
+  }
+  .page-hero-crumbs a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+  }
+  .page-hero-crumbs a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+  .page-hero-crumbs span {
+    color: rgba(255,255,255,0.85);
+  }
+
+  @media (min-width: 768px) {
+    .page-hero {
+      min-height: 120px;
+      padding-block: var(--apba-space-6) var(--apba-space-8);
+    }
+    .page-hero-inner {
+      align-items: center;
+      text-align: center;
+    }
+    .page-hero-crumbs ol {
+      justify-content: center;
+    }
+    .page-hero-title {
+      font-size: var(--apba-text-h1);
+    }
+  }
+</style>

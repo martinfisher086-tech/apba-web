@@ -1,0 +1,51 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ComingSoon from "@components/organisms/ComingSoon.astro";
+import { getCourses } from "@lib/cms";
+
+const courses = await getCourses();
+
+const seo = {
+  title: "Cursos y Jornadas — APBA",
+  description: "Cursos, jornadas y actividades de formación continua de APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  {courses.length === 0 ? (
+    <ComingSoon
+      title="Cursos y Jornadas"
+      breadcrumbs={[
+        { label: "Inicio", href: "/" },
+        { label: "Cursos y Jornadas" },
+      ]}
+      lead="Estamos actualizando la oferta de cursos, jornadas y actividades de formación continua de APBA. Volvé pronto o escribinos para más información."
+    />
+  ) : (
+    <div class="container page-layout">
+      <nav aria-label="Ruta de navegación" class="breadcrumb">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-current="page">Cursos y Jornadas</li>
+        </ol>
+      </nav>
+
+      <h1>Cursos y Jornadas</h1>
+
+      <ul class="course-list">
+        {courses.map((c) => (
+          <li>
+            <a href={`/cursos/${c.slug}/`}><h2>{c.title}</h2></a>
+            <p class="caption">{c.modality} · {c.isFree ? "Gratuito" : c.price ?? ""}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .course-list { list-style: none; display: flex; flex-direction: column; gap: var(--apba-space-6); margin-top: var(--apba-space-6); }
+</style>

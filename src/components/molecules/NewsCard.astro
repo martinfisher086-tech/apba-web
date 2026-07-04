@@ -1,0 +1,171 @@
+---
+import type { NewsArticle } from "@types/models";
+import Badge from "@components/atoms/Badge.astro";
+
+interface Props {
+  article: NewsArticle;
+  headingLevel?: 2 | 3 | 4;
+  class?: string;
+}
+
+const { article, headingLevel = 3, class: className = "" } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3" | "h4";
+
+const dateFormatted = article.publishDate
+  ? new Date(article.publishDate).toLocaleDateString("es-AR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : null;
+
+// Guard against raw stub objects ({status:"pending_download"}) that lack .url
+const heroImgSrc = (() => {
+  if (!article.heroImage) return null;
+  const raw = article.heroImage as Record<string, unknown>;
+  if (raw["status"] === "pending_download" || typeof raw["url"] !== "string" || !raw["url"]) {
+    return null; // treat as no image → branded placeholder
+  }
+  return article.heroImage.url;
+})();
+
+const hasRealImage = heroImgSrc !== null;
+---
+
+<article class:list={["news-card", className]}>
+  <a href={`/novedades/${article.slug}/`} class:list={["card-image", { "card-image--placeholder": !hasRealImage }]} tabindex="-1" aria-hidden="true">
+    {hasRealImage
+      ? (
+        <img
+          src={heroImgSrc}
+          alt={article.heroImage?.alt ?? ""}
+          loading="lazy"
+          decoding="async"
+          width="640"
+          height="360"
+        />
+      )
+      : (
+        <div class="placeholder-inner">
+          <img src="/images/apba-logo.svg" alt="" class="placeholder-logo" width="56" height="56" aria-hidden="true" />
+          {article.category && <span class="placeholder-label">{article.category}</span>}
+        </div>
+      )
+    }
+  </a>
+  <div class="card-body">
+    {article.category && (
+      <Badge variant="primary" class="card-category">{article.category}</Badge>
+    )}
+    <Heading class="card-title">
+      <a href={`/novedades/${article.slug}/`}>{article.title}</a>
+    </Heading>
+    {article.excerpt && <p class="card-excerpt">{article.excerpt}</p>}
+    {dateFormatted && (
+      <time class="card-date" datetime={article.publishDate}>{dateFormatted}</time>
+    )}
+  </div>
+</article>
+
+<style>
+  .news-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    overflow: hidden;
+    background: var(--apba-surface);
+    transition:
+      box-shadow var(--apba-duration-normal) var(--apba-ease-out),
+      transform var(--apba-duration-normal) var(--apba-ease-out);
+  }
+  .news-card:hover {
+    box-shadow: var(--apba-shadow-md);
+    transform: translateY(-2px);
+  }
+
+  /* Real image */
+  .card-image {
+    display: block;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--apba-duration-normal) var(--apba-ease-out);
+  }
+  .news-card:hover .card-image img { transform: scale(1.03); }
+
+  /* Branded placeholder — shown when no hero image is available */
+  .card-image--placeholder {
+    background: var(--apba-surface-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placeholder-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--apba-space-2);
+    padding: var(--apba-space-4);
+    width: 100%;
+    height: 100%;
+  }
+  .placeholder-logo {
+    width: 56px;
+    height: 56px;
+    opacity: 0.18;
+    object-fit: contain;
+    filter: invert(29%) sepia(67%) saturate(608%) hue-rotate(194deg) brightness(82%) contrast(95%);
+  }
+  .placeholder-label {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--apba-tracking-wider);
+    color: var(--apba-text-tertiary);
+  }
+
+  /* Card body */
+  .card-body {
+    padding: var(--apba-space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+    flex: 1;
+  }
+  .card-category { align-self: flex-start; }
+  .card-title {
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-semibold);
+    line-height: var(--apba-leading-tight);
+    margin: 0;
+  }
+  .card-title a { color: var(--apba-text-primary); text-decoration: none; }
+  .card-title a:hover { color: var(--apba-brand-primary); }
+  .card-title a:focus-visible {
+    outline: 3px solid var(--apba-focus-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .card-excerpt {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-date {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-tertiary);
+    margin-top: auto;
+  }
+</style>

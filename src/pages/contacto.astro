@@ -1,0 +1,68 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const seo = {
+  title: "Contacto — APBA",
+  description: "Ponete en contacto con la Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  <div class="container page-layout">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li aria-current="page">Contacto</li>
+      </ol>
+    </nav>
+    <h1>Contacto</h1>
+    <p><a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a></p>
+
+    <form class="contact-form" method="POST" action="/api/contacto" novalidate>
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" required autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+      </div>
+      <div class="visually-hidden" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); max-width: 600px; }
+  .contact-form { display: flex; flex-direction: column; gap: var(--apba-space-4); margin-top: var(--apba-space-6); }
+  .field { display: flex; flex-direction: column; gap: var(--apba-space-1); }
+  .field label { font-weight: var(--apba-weight-medium); font-size: var(--apba-text-body-sm); }
+  .field input, .field textarea {
+    padding: var(--apba-space-2) var(--apba-space-3);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-md);
+    font-size: var(--apba-text-body);
+    font-family: var(--apba-font-sans);
+  }
+  .visually-hidden { position: absolute; left: -9999px; }
+  button[type="submit"] {
+    align-self: flex-start;
+    padding: var(--apba-space-3) var(--apba-space-8);
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    border: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    cursor: pointer;
+    min-height: 44px;
+    font-family: var(--apba-font-sans);
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const seo = {
+  title: "Publicaciones — APBA",
+  description: "Publicaciones institucionales de APBA, incluyendo la Gaceta Psicológica.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  <div class="container page-layout">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/institucional/">Institucional</a></li>
+        <li aria-current="page">Publicaciones</li>
+      </ol>
+    </nav>
+
+    <h1>Publicaciones</h1>
+    <p>Las publicaciones institucionales de APBA incluyen la Gaceta Psicológica, nuestro boletín de difusión.</p>
+
+    <div class="pub-links">
+      <a href="/revistas/" class="pub-card">
+        <h2>Gaceta Psicológica</h2>
+        <p>Boletín de la Asociación de Psicólogas y Psicólogos de Buenos Aires. Descargá los números disponibles.</p>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .pub-links { margin-top: var(--apba-space-8); }
+  .pub-card {
+    display: block;
+    padding: var(--apba-space-6);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    text-decoration: none;
+    color: inherit;
+    max-width: 480px;
+    transition: box-shadow var(--apba-motion-fast);
+  }
+  .pub-card:hover { box-shadow: var(--apba-shadow-md); }
+  .pub-card h2 { color: var(--apba-brand-primary); margin-bottom: var(--apba-space-2); }
+  .pub-card p { color: var(--apba-text-secondary); font-size: var(--apba-text-body-sm); margin: 0; }
+</style>

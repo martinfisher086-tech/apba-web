@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const seo = {
+  title: "Términos y condiciones — APBA",
+  description: "Términos y condiciones de uso de psicologos.org.ar.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  <div class="container page-layout">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li aria-current="page">Términos y condiciones</li>
+      </ol>
+    </nav>
+
+    <h1>Términos y condiciones</h1>
+    <p class="legal-notice">Estamos finalizando la redacción de nuestros términos y condiciones de uso. Si tenés alguna consulta, escribinos a <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>.</p>
+
+    <section class="terms-section">
+      <h2>Uso del sitio</h2>
+      <p>El uso de este sitio web está sujeto a los términos y condiciones aquí establecidos.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); max-width: 72ch; }
+  .legal-notice { background: var(--apba-info-surface); color: var(--apba-info); padding: var(--apba-space-4); border-radius: var(--apba-radius-md); margin-bottom: var(--apba-space-8); }
+  .terms-section { margin-top: var(--apba-space-8); }
+  .terms-section h2 { font-size: var(--apba-text-h3); margin-bottom: var(--apba-space-3); }
+</style>

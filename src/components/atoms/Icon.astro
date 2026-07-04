@@ -1,0 +1,46 @@
+---
+/**
+ * Inline SVG icon wrapper. Renders a named icon from the icon sprite or as
+ * a bare SVG slot. aria-hidden defaults to true for decorative icons; pass
+ * aria-label to make it meaningful.
+ */
+interface Props {
+  name?: string;
+  size?: number | string;
+  "aria-hidden"?: "true" | "false";
+  "aria-label"?: string;
+  class?: string;
+}
+
+const {
+  name,
+  size = 20,
+  "aria-hidden": ariaHidden,
+  "aria-label": ariaLabel,
+  class: className = "",
+} = Astro.props;
+
+const isDecorative = !ariaLabel;
+---
+
+<svg
+  width={size}
+  height={size}
+  aria-hidden={isDecorative ? "true" : undefined}
+  aria-label={ariaLabel}
+  role={ariaLabel ? "img" : undefined}
+  focusable="false"
+  class:list={["icon", className]}
+>
+  {name && <use href={`/icons/sprite.svg#${name}`} />}
+  <slot />
+</svg>
+
+<style>
+  .icon {
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+</style>

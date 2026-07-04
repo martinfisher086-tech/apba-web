@@ -1,0 +1,526 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+
+const seo = {
+  title: "Fondo de Solidaridad Profesional — FEPRA — APBA",
+  description: "El Fondo de Solidaridad Profesional de FEPRA brinda cobertura de mala praxis y apoyo económico a psicólogas y psicólogos socios. Conocé cómo adherirte.",
+  noindex: false,
+};
+
+const beneficios = [
+  {
+    letra: "a",
+    titulo: "Seguro por mala praxis",
+    desc: "Contratación de un seguro por mala praxis en el ejercicio profesional, con asesoramiento jurídico y defensa técnica en juicio. Incluye responsabilidad civil comprensiva en consultorio. Suma asegurada RC Profesional: $1.000.000. RC en Consultorio: $3.000.000.",
+  },
+  {
+    letra: "b",
+    titulo: "Subsidio para actividades científicas",
+    desc: "Acceso a subsidios para la realización de actividades científicas y/o académicas, según reglamento del Fondo.",
+  },
+  {
+    letra: "c",
+    titulo: "Actividades de la comunidad FEPRA",
+    desc: "Participación en actividades científicas, académicas, culturales y sociales en el marco del Fondo Solidario.",
+  },
+  {
+    letra: "d",
+    titulo: "Subsidios reintegrables sin intereses",
+    desc: "Otorgamiento de subsidios reintegrables sin intereses para situaciones puntuales que lo requieran.",
+  },
+  {
+    letra: "e",
+    titulo: "Asistencia económica ante imprevistos",
+    desc: "Asistencia económica para situaciones imprevistas que generen dificultades insalvables para el ejercicio de la profesión, según reglamento.",
+  },
+  {
+    letra: "f",
+    titulo: "Cobertura de salud",
+    desc: "Indemnización por diagnóstico de enfermedades graves (infarto, cáncer y ACV), por intervenciones quirúrgicas de alta complejidad, trasplantes e histocompatibilidad, y renta diaria por internación hospitalaria en caso de accidente.",
+  },
+];
+
+// Forms hosted on psicologos.org.ar — open in new tab
+const forms = [
+  {
+    label: "Solicitud de Adhesión",
+    url: "https://psicologos.org.ar/wp-content/uploads/2019/12/SOLICITUD-DE-ADHESION-FRP.pdf",
+  },
+  {
+    label: "Solicitud de Baja",
+    url: "https://psicologos.org.ar/wp-content/uploads/2019/12/frp_form_baja_fondo.pdf",
+  },
+  {
+    label: "Actualización de Datos Personales",
+    url: "https://psicologos.org.ar/wp-content/uploads/2019/12/frp_form_act_datos_pers.pdf",
+  },
+  {
+    label: "Declaración Jurada de Salud",
+    note: "Requerida para mayores de 65 años",
+    url: "https://psicologos.org.ar/wp-content/uploads/2019/12/Declaracion-Jurada-Salud.pdf",
+  },
+];
+---
+
+<BaseLayout {seo}>
+  <PageHero
+    title="Fondo de Solidaridad Profesional — FEPRA"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Beneficios", href: "/beneficios/" },
+      { label: "Fondo de Solidaridad — FEPRA" },
+    ]}
+  />
+
+  <div class="container page-layout">
+
+    <!-- Intro -->
+    <div class="intro-band">
+      <div class="intro-band-content">
+        <h2 class="intro-title">¿Qué es el Fondo de Solidaridad Profesional?</h2>
+        <p>
+          Es una prestación solidaria que brinda la <strong>Federación de Psicólogos de la República Argentina (FEPRA)</strong>,
+          para asistir a las psicólogas y psicólogos matriculados/as y/o asociados/as a las entidades del país que
+          la integran, que voluntariamente decidan ingresar y deban enfrentar demandas judiciales a causa del ejercicio profesional,
+          cualquiera sea el ámbito de ejercicio.
+        </p>
+        <p>
+          Es solidario porque todos/as los/as psicólogos/as adherentes pagan por igual para la solución de los problemas
+          que pueda tener cada uno. La cobertura está garantizada por una póliza contratada a través de una reconocida
+          compañía de seguros.
+        </p>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <section class="info-section" aria-labelledby="como-funciona">
+      <h2 id="como-funciona" class="section-title">¿Cómo funciona?</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h3>Adhesión</h3>
+          <p>Completá la ficha de adhesión y cumplimentá los requisitos requeridos para ingresar al Fondo.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+          </div>
+          <h3>Cuota mensual</h3>
+          <p>Mediante el pago de una cuota mensual por débito automático, quedás incluido/a en la cobertura.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3>Cobertura activa</h3>
+          <p>Para solicitar la cobertura, el/la psicólogo/a debe estar al día en los pagos mensuales al Fondo.</p>
+        </div>
+      </div>
+      <div class="recaudacion-note">
+        La cuota mensual es recaudada por FEPRA en una cuenta especial destinada exclusivamente al pago de subsidios y gastos administrativos del Fondo.
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="info-section" aria-labelledby="beneficios-heading">
+      <h2 id="beneficios-heading" class="section-title">¿Qué beneficios solidarios otorga?</h2>
+      <div class="benefits-list">
+        {beneficios.map((b) => (
+          <div class="benefit-row">
+            <div class="benefit-letra" aria-hidden="true">{b.letra}</div>
+            <div class="benefit-content">
+              <h3 class="benefit-title">{b.titulo}</h3>
+              <p class="benefit-desc">{b.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- How to join -->
+    <section class="info-section" aria-labelledby="como-ingresar">
+      <h2 id="como-ingresar" class="section-title">¿Cómo se ingresa?</h2>
+      <div class="join-options">
+        <div class="join-option">
+          <div class="join-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <div>
+            <strong>En persona</strong>
+            <p>Tramitarlo de forma presencial en nuestra sede de APBA.</p>
+          </div>
+        </div>
+        <div class="join-option">
+          <div class="join-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <div>
+            <strong>Por correo electrónico</strong>
+            <p>Enviá el formulario y los requisitos a <a href="mailto:info@fepra.org.ar">info@fepra.org.ar</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="requisitos-block">
+        <h3>Requisitos de adhesión</h3>
+        <ul>
+          <li>Ficha de Adhesión firmada y escaneada</li>
+          <li>Certificado de Ética Profesional emitido por el Colegio/Asociación</li>
+          <li>Copia del DNI (1ª y 2ª hoja)</li>
+          <li>Copia de la matrícula profesional o de socio según corresponda</li>
+          <li>Copia del pago del primer mes</li>
+        </ul>
+        <p class="requisitos-note">
+          Las personas mayores de 65 años deben enviar por correo postal la Declaración Jurada de Salud a:
+          Azcuénaga 767, 3° piso, oficinas 32 y 33, CABA — CP 1029.
+        </p>
+      </div>
+
+      <div class="cuentas-block">
+        <h3>Datos bancarios para el primer pago</h3>
+        <div class="cuentas-grid">
+          <div class="cuenta-card">
+            <strong>Banco Credicoop</strong>
+            <p>Cta. Cte. 026-045412/8</p>
+            <p class="cuenta-cbu">CBU: 1910026155002604541282</p>
+            <p class="cuenta-cuit">CUIT: 30-69227167-6</p>
+          </div>
+          <div class="cuenta-card">
+            <strong>Banco Nación</strong>
+            <p>Cta. Cte. 0022-400132/76</p>
+            <p class="cuenta-cbu">CBU: 0110004420000400132769</p>
+            <p class="cuenta-cuit">CUIT: 30-69227167-6</p>
+          </div>
+        </div>
+        <p class="cuentas-note">Luego del primer pago, la cuota mensual se abona por <strong>débito automático únicamente</strong>.</p>
+      </div>
+    </section>
+
+    <!-- Forms — direct download links hosted on psicologos.org.ar -->
+    <section class="info-section" aria-labelledby="formularios-heading">
+      <h2 id="formularios-heading" class="section-title">Formularios de adhesión</h2>
+      <p class="forms-intro">
+        Descargá directamente los formularios del Fondo de Solidaridad Profesional.
+        Cada enlace abre el PDF en una nueva pestaña.
+      </p>
+      <div class="forms-download-grid">
+        {forms.map((form) => (
+          <a
+            href={form.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="form-download-btn"
+          >
+            <span class="form-download-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="12" x2="12" y2="18"></line>
+                <polyline points="9 15 12 18 15 15"></polyline>
+              </svg>
+            </span>
+            <span class="form-download-body">
+              <strong class="form-download-label">{form.label}</strong>
+              {form.note && <span class="form-download-note">{form.note}</span>}
+            </span>
+            <span class="form-download-badge">PDF</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-10) var(--apba-space-16); }
+
+  /* Intro band */
+  .intro-band {
+    background: var(--apba-brand-tint);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-xl);
+    padding: var(--apba-space-8);
+    margin-bottom: var(--apba-space-12);
+  }
+  .intro-title {
+    font-size: var(--apba-text-h3);
+    color: var(--apba-brand-primary-strong);
+    margin: 0 0 var(--apba-space-4);
+  }
+  .intro-band-content p {
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-loose);
+    max-width: 80ch;
+    margin: 0 0 var(--apba-space-3);
+  }
+  .intro-band-content p:last-child { margin-bottom: 0; }
+
+  /* Section layout */
+  .info-section { margin-bottom: var(--apba-space-12); }
+  .section-title {
+    font-size: var(--apba-text-h3);
+    color: var(--apba-text-primary);
+    margin: 0 0 var(--apba-space-6);
+    padding-bottom: var(--apba-space-3);
+    border-bottom: 2px solid var(--apba-border);
+  }
+
+  /* How it works cards */
+  .info-grid {
+    display: grid;
+    gap: var(--apba-space-4);
+    margin-bottom: var(--apba-space-5);
+  }
+  @media (min-width: 640px) { .info-grid { grid-template-columns: repeat(3, 1fr); } }
+  .info-card {
+    padding: var(--apba-space-5);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    background: var(--apba-surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+  }
+  .info-icon {
+    width: 44px; height: 44px;
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--apba-brand-primary);
+    margin-bottom: var(--apba-space-1);
+  }
+  .info-card h3 {
+    font-size: var(--apba-text-body);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    margin: 0;
+  }
+  .info-card p {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+  }
+  .recaudacion-note {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-tertiary);
+    font-style: italic;
+    padding: var(--apba-space-3) var(--apba-space-4);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-md);
+  }
+
+  /* Benefits list */
+  .benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-3);
+  }
+  .benefit-row {
+    display: flex;
+    gap: var(--apba-space-4);
+    align-items: flex-start;
+    padding: var(--apba-space-4) var(--apba-space-5);
+    background: var(--apba-surface);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+  }
+  .benefit-letra {
+    width: 32px; height: 32px; flex-shrink: 0;
+    border-radius: var(--apba-radius-full);
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    font-weight: var(--apba-weight-bold);
+    font-size: var(--apba-text-body-sm);
+    text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .benefit-content { flex: 1; }
+  .benefit-title {
+    font-size: var(--apba-text-body);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    margin: 0 0 var(--apba-space-1);
+  }
+  .benefit-desc {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+  }
+
+  /* Join section */
+  .join-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-3);
+    margin-bottom: var(--apba-space-6);
+  }
+  @media (min-width: 640px) { .join-options { flex-direction: row; } }
+  .join-option {
+    flex: 1;
+    display: flex;
+    gap: var(--apba-space-3);
+    align-items: flex-start;
+    padding: var(--apba-space-4);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-lg);
+  }
+  .join-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--apba-brand-primary);
+  }
+  .join-option strong { display: block; font-weight: var(--apba-weight-semibold); color: var(--apba-text-primary); margin-bottom: 4px; }
+  .join-option p { font-size: var(--apba-text-body-sm); color: var(--apba-text-secondary); margin: 0; line-height: var(--apba-leading-relaxed); }
+  .join-option a { color: var(--apba-brand-primary); }
+
+  /* Requisitos */
+  .requisitos-block {
+    padding: var(--apba-space-5) var(--apba-space-6);
+    background: var(--apba-surface);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    margin-bottom: var(--apba-space-5);
+  }
+  .requisitos-block h3 {
+    font-size: var(--apba-text-body);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-text-primary);
+    margin: 0 0 var(--apba-space-3);
+  }
+  .requisitos-block ul {
+    padding-left: var(--apba-space-5);
+    margin: 0 0 var(--apba-space-3);
+    display: flex; flex-direction: column; gap: var(--apba-space-2);
+  }
+  .requisitos-block li {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+  }
+  .requisitos-note {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-tertiary);
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Cuentas */
+  .cuentas-block { margin-bottom: var(--apba-space-3); }
+  .cuentas-block h3 {
+    font-size: var(--apba-text-body);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-text-primary);
+    margin: 0 0 var(--apba-space-4);
+  }
+  .cuentas-grid {
+    display: grid;
+    gap: var(--apba-space-4);
+    margin-bottom: var(--apba-space-4);
+  }
+  @media (min-width: 560px) { .cuentas-grid { grid-template-columns: repeat(2, 1fr); } }
+  .cuenta-card {
+    padding: var(--apba-space-4);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-md);
+    border: 1px solid var(--apba-border);
+  }
+  .cuenta-card strong { display: block; font-weight: var(--apba-weight-semibold); color: var(--apba-brand-primary-strong); margin-bottom: var(--apba-space-2); }
+  .cuenta-card p { font-size: var(--apba-text-body-sm); color: var(--apba-text-secondary); margin: 0 0 2px; }
+  .cuenta-cbu, .cuenta-cuit { font-size: var(--apba-text-caption) !important; color: var(--apba-text-tertiary) !important; font-family: monospace; }
+  .cuentas-note { font-size: var(--apba-text-body-sm); color: var(--apba-text-secondary); margin: 0; }
+
+  /* Forms — direct download buttons */
+  .forms-intro {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0 0 var(--apba-space-5);
+    max-width: 72ch;
+  }
+  .forms-download-grid {
+    display: grid;
+    gap: var(--apba-space-3);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .forms-download-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .form-download-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--apba-space-3);
+    padding: var(--apba-space-4) var(--apba-space-5);
+    background: var(--apba-surface);
+    border: 1.5px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    text-decoration: none;
+    transition:
+      border-color var(--apba-duration-fast) var(--apba-ease-out),
+      background var(--apba-duration-fast) var(--apba-ease-out),
+      box-shadow var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .form-download-btn:hover {
+    border-color: var(--apba-brand-primary);
+    background: var(--apba-brand-tint);
+    box-shadow: var(--apba-shadow-1);
+  }
+  .form-download-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-md);
+    color: var(--apba-brand-primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .form-download-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .form-download-label {
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    line-height: var(--apba-leading-snug);
+  }
+  .form-download-note {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-tertiary);
+    font-style: italic;
+  }
+  .form-download-badge {
+    flex-shrink: 0;
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    color: var(--apba-brand-primary);
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-sm);
+    padding: 2px var(--apba-space-2);
+    letter-spacing: 0.04em;
+  }
+</style>

@@ -1,0 +1,305 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getJournalIssues } from "@lib/cms";
+
+const issues = await getJournalIssues();
+
+// Sort descending by number; latest issue gets the hero treatment
+const sorted = [...issues].sort((a, b) => b.number - a.number);
+const [latestIssue, ...olderIssues] = sorted;
+
+const seo = {
+  title: "Gaceta Psicológica — APBA",
+  description: "Archivo completo de la Gaceta Psicológica, revista de la Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  <div class="container">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li aria-current="page">Gaceta Psicológica</li>
+      </ol>
+    </nav>
+    <h1>Gaceta Psicológica</h1>
+    <p class="body-lg intro-lead">La revista de APBA. Publicaciones de investigación, análisis y debate en psicología.</p>
+
+    <!-- ── P7: Hero destacado para el número más reciente ── -->
+    {latestIssue && (
+      <div class="gaceta-hero" aria-label={`Número más reciente: N° ${latestIssue.number}`}>
+        {latestIssue.coverImage && (
+          <div class="gaceta-hero-cover">
+            <img
+              src={latestIssue.coverImage.url}
+              alt={latestIssue.coverImage.alt ?? `Portada Gaceta Psicológica N° ${latestIssue.number}`}
+              width="280"
+              height="390"
+              loading="eager"
+            />
+          </div>
+        )}
+        <div class="gaceta-hero-body">
+          <p class="overline gaceta-hero-overline">
+            N° {latestIssue.number} · Número más reciente
+          </p>
+          <h2 class="gaceta-hero-title">{latestIssue.title}</h2>
+          {latestIssue.subtitle && (
+            <p class="gaceta-hero-subtitle">{latestIssue.subtitle}</p>
+          )}
+          {latestIssue.description && (
+            <p class="gaceta-hero-desc">{latestIssue.description}</p>
+          )}
+          <div class="gaceta-hero-actions">
+            <a href={`/revistas/${latestIssue.slug}/`} class="btn-primary">
+              Ver número completo
+            </a>
+            {latestIssue.pdfFile && (
+              <a
+                href={latestIssue.pdfFile.url}
+                download={latestIssue.pdfFile.filename}
+                class="btn-download"
+                aria-label={`Descargar Gaceta Psicológica N° ${latestIssue.number} — ${latestIssue.title} (PDF)`}
+              >
+                Descargar N° {latestIssue.number} (PDF)
+                <span class="sr-only">(abre archivo PDF)</span>
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- ── Grid: números anteriores ── -->
+    {olderIssues.length > 0 && (
+      <>
+        <h2 class="archive-heading">Números anteriores</h2>
+        <div class="journal-grid">
+          {olderIssues.map((issue) => (
+            <article class="journal-card">
+              <a href={`/revistas/${issue.slug}/`} class="journal-card-link">
+                {issue.coverImage && (
+                  <img
+                    src={issue.coverImage.url}
+                    alt={issue.coverImage.alt ?? `Portada Gaceta Psicológica N° ${issue.number}`}
+                    width="300"
+                    height="420"
+                    loading="lazy"
+                  />
+                )}
+                <div class="journal-card-body">
+                  <p class="overline">Número {issue.number}</p>
+                  <h3 class="journal-card-title">{issue.title}</h3>
+                  {issue.subtitle && <p class="body-sm">{issue.subtitle}</p>}
+                </div>
+              </a>
+              {issue.pdfFile && (
+                <a
+                  href={issue.pdfFile.url}
+                  download={issue.pdfFile.filename}
+                  class="btn btn--download"
+                  aria-label={`Descargar Gaceta Psicológica N° ${issue.number} — ${issue.title} (PDF)`}
+                >
+                  Descargar PDF
+                  <span class="sr-only">(abre archivo PDF)</span>
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+      </>
+    )}
+
+    <!-- Fallback: show all issues if sorting produces no latestIssue -->
+    {!latestIssue && issues.length > 0 && (
+      <div class="journal-grid">
+        {issues.map((issue) => (
+          <article class="journal-card">
+            <a href={`/revistas/${issue.slug}/`} class="journal-card-link">
+              {issue.coverImage && (
+                <img
+                  src={issue.coverImage.url}
+                  alt={issue.coverImage.alt ?? `Portada Gaceta Psicológica N° ${issue.number}`}
+                  width="300"
+                  height="420"
+                  loading="lazy"
+                />
+              )}
+              <div class="journal-card-body">
+                <p class="overline">Número {issue.number}</p>
+                <h2>{issue.title}</h2>
+                {issue.subtitle && <p class="body-sm">{issue.subtitle}</p>}
+              </div>
+            </a>
+            {issue.pdfFile && (
+              <a
+                href={issue.pdfFile.url}
+                download={issue.pdfFile.filename}
+                class="btn btn--download"
+                aria-label={`Descargar Gaceta Psicológica N° ${issue.number} — ${issue.title} (PDF)`}
+              >
+                Descargar PDF
+                <span class="sr-only">(abre archivo PDF)</span>
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .container { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .intro-lead { color: var(--apba-text-secondary); margin-top: var(--apba-space-2); max-width: 68ch; }
+
+  /* ── Gaceta hero — latest issue featured block ── */
+  .gaceta-hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-6);
+    margin-top: var(--apba-space-8);
+    padding: var(--apba-space-6);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-lg);
+    border-left: 4px solid var(--apba-brand-accent);
+  }
+  @media (min-width: 640px) {
+    .gaceta-hero {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--apba-space-8);
+      padding: var(--apba-space-8);
+    }
+  }
+  .gaceta-hero-cover {
+    flex-shrink: 0;
+    width: 160px;
+    align-self: flex-start;
+  }
+  @media (min-width: 640px) {
+    .gaceta-hero-cover { width: 200px; }
+  }
+  .gaceta-hero-cover img {
+    width: 100%;
+    border-radius: var(--apba-radius-md);
+    box-shadow: var(--apba-shadow-lg);
+    aspect-ratio: 3/4;
+    object-fit: cover;
+  }
+  .gaceta-hero-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-3);
+    flex: 1;
+  }
+  .gaceta-hero-overline {
+    color: var(--apba-brand-accent);
+  }
+  .gaceta-hero-title {
+    font-size: var(--apba-text-h2);
+    color: var(--apba-brand-primary-strong);
+    line-height: var(--apba-leading-snug);
+    margin: 0;
+  }
+  .gaceta-hero-subtitle {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-secondary);
+    font-style: italic;
+    margin: 0;
+  }
+  .gaceta-hero-desc {
+    font-size: var(--apba-text-body);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    max-width: 60ch;
+    margin: 0;
+  }
+  .gaceta-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--apba-space-3);
+    margin-top: var(--apba-space-2);
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--apba-space-3) var(--apba-space-6);
+    background: var(--apba-brand-primary-strong);
+    color: var(--apba-text-on-brand);
+    text-decoration: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body-sm);
+    min-height: 44px;
+    transition: background var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .btn-primary:hover { background: var(--apba-brand-primary); color: var(--apba-text-on-brand); }
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--apba-space-3) var(--apba-space-6);
+    background: transparent;
+    color: var(--apba-brand-primary-strong);
+    border: 2px solid var(--apba-brand-primary-strong);
+    text-decoration: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body-sm);
+    min-height: 44px;
+    transition:
+      background var(--apba-duration-fast) var(--apba-ease-out),
+      color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .btn-download:hover {
+    background: var(--apba-brand-primary-strong);
+    color: var(--apba-text-on-brand);
+  }
+
+  /* ── Archive grid ── */
+  .archive-heading {
+    font-size: var(--apba-text-h3);
+    color: var(--apba-text-primary);
+    margin-top: var(--apba-space-12);
+    margin-bottom: var(--apba-space-6);
+    padding-bottom: var(--apba-space-3);
+    border-bottom: 1px solid var(--apba-border);
+  }
+  .journal-grid {
+    display: grid;
+    gap: var(--apba-space-6);
+    margin-top: var(--apba-space-8);
+  }
+  @media (min-width: 480px)  { .journal-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .journal-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .journal-card {
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--apba-shadow-1);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .journal-card:hover { box-shadow: var(--apba-shadow-md); }
+  .journal-card-link { text-decoration: none; color: inherit; flex: 1; }
+  .journal-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+  .journal-card-body { padding: var(--apba-space-4); }
+  .journal-card-title { font-size: var(--apba-text-h4); margin-top: var(--apba-space-1); color: var(--apba-text-primary); }
+  .btn.btn--download {
+    display: block;
+    margin: 0 var(--apba-space-4) var(--apba-space-4);
+    padding: var(--apba-space-2) var(--apba-space-4);
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--apba-radius-md);
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    transition: background var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .btn.btn--download:hover { background: var(--apba-brand-primary-strong); color: var(--apba-text-on-brand); }
+</style>

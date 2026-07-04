@@ -1,0 +1,70 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+const prevUrl = currentPage > 1 ? `${baseUrl}${currentPage - 1 === 1 ? "" : `/${currentPage - 1}`}/` : null;
+const nextUrl = currentPage < totalPages ? `${baseUrl}/${currentPage + 1}/` : null;
+
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+---
+
+{totalPages > 1 && (
+  <nav aria-label="Paginación" class="pagination">
+    <ul>
+      <li>
+        {prevUrl
+          ? <a href={prevUrl} rel="prev" class="page-link" aria-label="Página anterior">←</a>
+          : <span class="page-link page-link--disabled" aria-disabled="true">←</span>
+        }
+      </li>
+      {pages.map((page) => (
+        <li>
+          {page === currentPage
+            ? <span class="page-link page-link--current" aria-current="page">{page}</span>
+            : <a href={`${baseUrl}/${page}/`} class="page-link">{page}</a>
+          }
+        </li>
+      ))}
+      <li>
+        {nextUrl
+          ? <a href={nextUrl} rel="next" class="page-link" aria-label="Página siguiente">→</a>
+          : <span class="page-link page-link--disabled" aria-disabled="true">→</span>
+        }
+      </li>
+    </ul>
+  </nav>
+)}
+
+<style>
+  .pagination ul {
+    display: flex;
+    gap: var(--apba-space-1);
+    list-style: none;
+    padding: 0;
+    margin: var(--apba-space-8) 0 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: var(--apba-space-2);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-md);
+    text-decoration: none;
+    color: var(--apba-text-primary);
+    font-weight: var(--apba-weight-medium);
+    transition: background var(--apba-motion-fast), border-color var(--apba-motion-fast);
+  }
+  a.page-link:hover { background: var(--apba-brand-tint); border-color: var(--apba-brand-primary); color: var(--apba-brand-primary); }
+  .page-link--current { background: var(--apba-brand-primary); color: var(--apba-text-on-brand); border-color: var(--apba-brand-primary); }
+  .page-link--disabled { color: var(--apba-text-tertiary); cursor: not-allowed; }
+</style>

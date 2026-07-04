@@ -1,0 +1,60 @@
+---
+import type { Course } from "@types/models";
+import Badge from "@components/atoms/Badge.astro";
+
+interface Props {
+  course: Course;
+  headingLevel?: 2 | 3 | 4;
+  class?: string;
+}
+
+const { course, headingLevel = 3, class: className = "" } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3" | "h4";
+---
+
+<article class:list={["course-card", className]}>
+  <div class="card-body">
+    <Heading class="card-title">
+      <a href={`/cursos/${course.slug}/`}>{course.title}</a>
+    </Heading>
+    <div class="card-meta">
+      {course.modality && <span class="meta-chip">{course.modality}</span>}
+      <span class="meta-chip">
+        {course.isFree ? "Gratuito" : course.price ?? "Consultar"}
+      </span>
+    </div>
+    {course.description && <p class="card-desc" set:html={course.description} />}
+    {course.startDate && (
+      <p class="card-date">
+        Inicio: <time datetime={course.startDate}>{course.startDate}</time>
+      </p>
+    )}
+  </div>
+</article>
+
+<style>
+  .course-card {
+    padding: var(--apba-space-4);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    background: var(--apba-surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+    transition: box-shadow var(--apba-motion-fast);
+  }
+  .course-card:hover { box-shadow: var(--apba-shadow-md); }
+  .card-title { font-size: var(--apba-text-body-lg); font-weight: var(--apba-weight-semibold); margin: 0; }
+  .card-title a { color: var(--apba-text-primary); text-decoration: none; }
+  .card-title a:hover { color: var(--apba-brand-primary); }
+  .card-meta { display: flex; gap: var(--apba-space-2); flex-wrap: wrap; }
+  .meta-chip {
+    padding: var(--apba-space-1) var(--apba-space-2);
+    background: var(--apba-surface-secondary);
+    border-radius: var(--apba-radius-sm);
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-secondary);
+  }
+  .card-desc { font-size: var(--apba-text-body-sm); color: var(--apba-text-secondary); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-date { font-size: var(--apba-text-body-sm); color: var(--apba-text-secondary); margin: 0; }
+</style>

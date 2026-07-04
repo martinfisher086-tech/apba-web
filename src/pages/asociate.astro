@@ -1,0 +1,303 @@
+---
+/**
+ * ASOCIATE — /asociate/
+ * Primary conversion page. Membership enrollment.
+ * Task 8: full UX/UI overhaul — layout, hierarchy, visual polish.
+ * Copy and field logic unchanged; no content modifications.
+ */
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+import { getPageBySlug } from "@lib/cms";
+
+const page = await getPageBySlug("asociate");
+
+const seo = {
+  title: "Asociate — APBA",
+  description: "Sumate a APBA y accedé a todos los beneficios de la Asociación de Psicólogas y Psicólogos de Buenos Aires: cursos, convenios, asesoramiento y más.",
+  noindex: false,
+};
+
+const benefits = [
+  "Cursos y jornadas con aranceles preferenciales",
+  "Convenios y descuentos con prestadores y servicios",
+  "Asesoramiento jurídico y profesional",
+  "Acceso a la Gaceta Psicológica y publicaciones",
+  "Representación gremial del sector",
+];
+---
+
+<BaseLayout {seo}>
+  <!-- Branded page hero consistent with other inner pages -->
+  <PageHero
+    title="Asociate a APBA"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Asociate" },
+    ]}
+  />
+
+  <!-- Lead strip — brand-tinted intro below the hero -->
+  <div class="asociate-lead-strip">
+    <div class="container">
+      <p class="asociate-lead">
+        Sumate a la Asociación de Psicólogas y Psicólogos de Buenos Aires y accedé
+        a formación, beneficios y representación profesional.
+      </p>
+    </div>
+  </div>
+
+  <div class="container asociate-layout">
+
+    {page?.body && <div class="page-body" set:html={page.body} />}
+
+    <div class="asociate-grid">
+
+      <!-- Benefits sidebar -->
+      <aside class="benefits-panel" aria-labelledby="benefits-heading">
+        <div class="benefits-panel-header">
+          <div class="benefits-panel-badge" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h2 id="benefits-heading">Beneficios para socias y socios</h2>
+        </div>
+        <ul class="benefit-points" role="list">
+          {benefits.map((b) => (
+            <li>
+              <span class="benefit-check" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              </span>
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="benefits-more">
+          <a href="/beneficios/" class="benefits-more-link">
+            Ver todos los beneficios
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="benefits-help">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>¿Tenés consultas? Escribinos a <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a></span>
+        </div>
+      </aside>
+
+      <!-- Membership form -->
+      <section class="form-card" aria-labelledby="form-heading">
+        <h2 id="form-heading">Solicitud de asociación</h2>
+        <p id="form-help" class="form-help">
+          Completá tus datos y nos comunicaremos a la brevedad.
+        </p>
+
+        <form
+          class="membership-form"
+          method="POST"
+          action="/api/asociate"
+          aria-describedby="form-help"
+          novalidate
+        >
+          <div class="field">
+            <label for="nombre">Nombre completo <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="nombre" name="nombre" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="email">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" required autocomplete="email" />
+          </div>
+
+          <div class="field">
+            <label for="matricula">N° de matrícula</label>
+            <input type="text" id="matricula" name="matricula" />
+          </div>
+
+          <!-- Honeypot — hidden from humans, traps bots -->
+          <div class="visually-hidden" aria-hidden="true">
+            <label for="website">Sitio web (no completar)</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="btn-submit">Enviar solicitud</button>
+          <p class="form-note">Los campos marcados con <span aria-hidden="true">*</span> son obligatorios.</p>
+        </form>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Lead strip — brand-tinted belt below the hero */
+  .asociate-lead-strip {
+    background: var(--apba-brand-tint);
+    border-bottom: 1px solid var(--apba-border);
+    padding-block: var(--apba-space-6);
+  }
+  .asociate-lead {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-brand-primary-strong);
+    line-height: var(--apba-leading-loose);
+    max-width: 72ch;
+    margin: 0;
+    font-weight: var(--apba-weight-medium);
+  }
+
+  /* Page content */
+  .asociate-layout { padding-block: var(--apba-space-10) var(--apba-space-16); }
+  .page-body { max-width: 72ch; margin-bottom: var(--apba-space-10); }
+
+  /* Two-column: benefits + form */
+  .asociate-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--apba-space-8);
+    align-items: start;
+  }
+  @media (min-width: 860px) {
+    .asociate-grid { grid-template-columns: 1fr 1.2fr; gap: var(--apba-space-12); }
+  }
+
+  /* Benefits panel */
+  .benefits-panel {
+    background: var(--apba-brand-tint);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-xl);
+    padding: var(--apba-space-6);
+  }
+  .benefits-panel-header {
+    display: flex;
+    align-items: center;
+    gap: var(--apba-space-3);
+    margin-bottom: var(--apba-space-5);
+  }
+  .benefits-panel-badge {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: var(--apba-brand-primary);
+    border-radius: var(--apba-radius-md);
+    color: var(--apba-text-on-brand);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .benefits-panel h2 {
+    font-size: var(--apba-text-h3);
+    margin: 0;
+    color: var(--apba-brand-primary-strong);
+    line-height: var(--apba-leading-tight);
+  }
+
+  .benefit-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-3);
+    margin-bottom: var(--apba-space-5);
+  }
+  .benefit-points li {
+    display: flex;
+    gap: var(--apba-space-3);
+    align-items: flex-start;
+    color: var(--apba-text-primary);
+    font-size: var(--apba-text-body-sm);
+    line-height: var(--apba-leading-relaxed);
+  }
+  .benefit-check {
+    width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px;
+    background: var(--apba-brand-primary);
+    border-radius: var(--apba-radius-full);
+    color: var(--apba-text-on-brand);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .benefits-more {
+    margin-bottom: var(--apba-space-5);
+    padding-bottom: var(--apba-space-5);
+    border-bottom: 1px solid var(--apba-border);
+  }
+  .benefits-more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-brand-primary);
+    text-decoration: none;
+    font-weight: var(--apba-weight-semibold);
+  }
+  .benefits-more-link:hover { text-decoration: underline; }
+
+  .benefits-help {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+  }
+  .benefits-help svg { flex-shrink: 0; color: var(--apba-brand-primary); margin-top: 2px; }
+  .benefits-help a { color: var(--apba-brand-primary); }
+
+  /* Form card */
+  .form-card {
+    background: var(--apba-surface-base);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-xl);
+    box-shadow: var(--apba-shadow-2);
+    padding: var(--apba-space-8);
+  }
+  .form-card h2 { font-size: var(--apba-text-h3); margin-bottom: var(--apba-space-2); color: var(--apba-brand-primary-strong); }
+  .form-help {
+    color: var(--apba-text-secondary);
+    font-size: var(--apba-text-body-sm);
+    margin-bottom: var(--apba-space-6);
+    line-height: var(--apba-leading-relaxed);
+  }
+
+  .membership-form { display: flex; flex-direction: column; gap: var(--apba-space-5); }
+  .field { display: flex; flex-direction: column; gap: var(--apba-space-2); }
+  .field label {
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-primary);
+  }
+  .req { color: var(--apba-brand-accent); }
+  .field input {
+    padding: var(--apba-space-3) var(--apba-space-4);
+    border: 1.5px solid var(--apba-border);
+    border-radius: var(--apba-radius-md);
+    font-size: var(--apba-text-body);
+    font-family: var(--apba-font-sans);
+    color: var(--apba-text-primary);
+    background: var(--apba-surface-base);
+    transition: border-color var(--apba-duration-fast) var(--apba-ease-out);
+    min-height: 48px;
+  }
+  .field input:hover { border-color: var(--apba-border-strong); }
+  .field input:focus-visible {
+    outline: 3px solid var(--apba-focus-ring);
+    outline-offset: 1px;
+    border-color: var(--apba-brand-primary);
+  }
+  .visually-hidden { position: absolute; left: -9999px; }
+
+  .btn-submit {
+    margin-top: var(--apba-space-2);
+    padding: var(--apba-space-4) var(--apba-space-8);
+    background: var(--apba-brand-accent);
+    color: var(--apba-text-on-brand);
+    border: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body);
+    font-family: var(--apba-font-sans);
+    cursor: pointer;
+    min-height: 52px;
+    letter-spacing: 0.02em;
+    transition: background var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .btn-submit:hover { background: #9c1248; }
+  .form-note { font-size: var(--apba-text-caption); color: var(--apba-text-tertiary); margin: 0; }
+</style>

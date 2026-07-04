@@ -1,0 +1,68 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+import { getPageBySlug } from "@lib/cms";
+
+const page = await getPageBySlug("institucional");
+
+const seo = {
+  title: "Institucional — APBA",
+  description: "Conocé la Asociación de Psicólogas y Psicólogos de Buenos Aires: historia, misión, Comisión Directiva, departamentos y más.",
+  noindex: false,
+};
+
+const sections = [
+  { href: "/institucional/que-es-apba/", label: "¿Qué es APBA?" },
+  { href: "/institucional/comision-directiva/", label: "Comisión Directiva" },
+  { href: "/institucional/departamentos/", label: "Departamentos" },
+  { href: "/beneficios/", label: "Representación gremial" },
+  { href: "/institucional/docencia-e-investigacion/", label: "Docencia e investigación" },
+  { href: "/institucional/publicaciones/", label: "Publicaciones" },
+];
+---
+
+<BaseLayout {seo}>
+  <PageHero
+    title="Institucional"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Institucional" },
+    ]}
+  />
+
+  <div class="container page-layout">
+    {page?.body
+      ? <div class="page-body" set:html={page.body} />
+      : <p class="lead">APBA es la asociación de psicólogas y psicólogos de la Ciudad Autónoma de Buenos Aires, fundada en 1962.</p>
+    }
+
+    <nav aria-label="Secciones institucionales" class="section-nav">
+      <ul>
+        {sections.map(({ href, label }) => (
+          <li>
+            <a href={href}>{label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .page-body { max-width: 72ch; margin-top: var(--apba-space-3); }
+  .lead { font-size: var(--apba-text-body-lg); color: var(--apba-text-secondary); max-width: 72ch; margin-top: var(--apba-space-3); }
+  .section-nav { margin-top: var(--apba-space-8); }
+  .section-nav ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--apba-space-2); }
+  .section-nav a {
+    display: block;
+    padding: var(--apba-space-3) var(--apba-space-4);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-md);
+    text-decoration: none;
+    color: var(--apba-brand-primary);
+    font-weight: var(--apba-weight-medium);
+    transition: background var(--apba-motion-fast);
+  }
+  .section-nav a:hover { background: var(--apba-brand-tint); }
+</style>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  size?: number;
+  label?: string;
+  class?: string;
+}
+
+const { size = 24, label = "Cargando…", class: className = "" } = Astro.props;
+---
+
+<span class:list={["spinner-wrap", className]} role="status" aria-label={label}>
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+    aria-hidden="true"
+    class="spinner"
+  >
+    <circle cx="12" cy="12" r="10" stroke-opacity="0.2" />
+    <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round" />
+  </svg>
+</span>
+
+<style>
+  .spinner-wrap { display: inline-flex; align-items: center; justify-content: center; }
+  .spinner { animation: spin 0.75s linear infinite; color: var(--apba-brand-primary); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+</style>

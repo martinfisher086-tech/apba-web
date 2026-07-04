@@ -1,0 +1,62 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((item, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: item.label,
+    ...(item.href && { item: `https://psicologos.org.ar${item.href}` }),
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+<nav aria-label="Ruta de navegación" class="breadcrumb">
+  <ol>
+    {items.map((item, i) => {
+      const isLast = i === items.length - 1;
+      return (
+        <li>
+          {isLast || !item.href
+            ? <span aria-current={isLast ? "page" : undefined}>{item.label}</span>
+            : <a href={item.href}>{item.label}</a>
+          }
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--apba-space-6);
+    gap: var(--apba-space-1);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-tertiary);
+  }
+  .breadcrumb li + li::before {
+    content: "/";
+    margin-right: var(--apba-space-1);
+    color: var(--apba-border);
+  }
+  .breadcrumb a { color: var(--apba-brand-primary); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb [aria-current="page"] { color: var(--apba-text-primary); }
+</style>

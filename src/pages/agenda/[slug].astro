@@ -1,0 +1,157 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getEvents } from "@lib/cms";
+import type { Event } from "@types/models";
+
+export async function getStaticPaths() {
+  const events = await getEvents({ upcoming: false });
+  return events.map((event) => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}
+
+interface Props { event: Event }
+const { event } = Astro.props;
+
+const isOnline = event.attendanceMode === "online";
+
+const seo = {
+  title: `${event.title} — Agenda APBA`,
+  description: event.seo?.description ?? event.description ?? "",
+  noindex: false,
+};
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: event.title,
+  description: event.description,
+  startDate: event.startDateTime,
+  endDate: event.endDateTime,
+  organizer: {
+    "@type": "Organization",
+    name: "APBA",
+    url: "https://psicologos.org.ar",
+  },
+  ...(event.location && event.location !== "online" && {
+    location: {
+      "@type": "Place",
+      address: event.location,
+    },
+  }),
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: isOnline
+    ? "https://schema.org/OnlineEventAttendanceMode"
+    : "https://schema.org/OfflineEventAttendanceMode",
+};
+---
+
+<BaseLayout {seo}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <div class="container page-layout">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/agenda/">Agenda</a></li>
+        <li aria-current="page">{event.title}</li>
+      </ol>
+    </nav>
+
+    <article class="event-detail">
+      <header class="event-header">
+        {event.type && (
+          <span class="event-type">{event.type}</span>
+        )}
+        <h1>{event.title}</h1>
+        {event.description && <p class="event-lead" set:html={event.description} />}
+      </header>
+
+      <div class="event-meta">
+        <div class="meta-item">
+          <span class="meta-label">Fecha</span>
+          <time datetime={event.startDateTime}>{event.startDateTime}</time>
+        </div>
+        {event.endDateTime && (
+          <div class="meta-item">
+            <span class="meta-label">Hasta</span>
+            <time datetime={event.endDateTime}>{event.endDateTime}</time>
+          </div>
+        )}
+        {event.location && event.location !== "online" && (
+          <div class="meta-item">
+            <span class="meta-label">Lugar</span>
+            <address>{event.location}</address>
+          </div>
+        )}
+        {isOnline && (
+          <div class="meta-item">
+            <span class="meta-label">Modalidad</span>
+            <span>Virtual / Online</span>
+          </div>
+        )}
+      </div>
+
+      <p class="placeholder-notice">Estamos actualizando el contenido de este evento. Para más información, escribinos a <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>.</p>
+
+      {event.registrationUrl && (
+        <a href={event.registrationUrl} class="btn-register" target="_blank" rel="noopener noreferrer">
+          Inscribirse al evento
+        </a>
+      )}
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .event-header { margin-bottom: var(--apba-space-6); }
+  .event-type {
+    display: inline-block;
+    padding: var(--apba-space-1) var(--apba-space-3);
+    background: var(--apba-accent-tint);
+    color: var(--apba-brand-accent);
+    border-radius: var(--apba-radius-full);
+    font-size: var(--apba-text-overline);
+    font-weight: var(--apba-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--apba-space-3);
+  }
+  .event-lead {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-secondary);
+    max-width: 72ch;
+    margin-top: var(--apba-space-3);
+  }
+  .event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--apba-space-6);
+    padding: var(--apba-space-4);
+    background: var(--apba-surface-secondary);
+    border-radius: var(--apba-radius-lg);
+    margin-bottom: var(--apba-space-8);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: var(--apba-space-1); }
+  .meta-item address { font-style: normal; }
+  .meta-label { font-size: var(--apba-text-caption); font-weight: var(--apba-weight-semibold); text-transform: uppercase; letter-spacing: 0.05em; color: var(--apba-text-tertiary); }
+  .btn-register {
+    display: inline-flex;
+    margin-top: var(--apba-space-8);
+    padding: var(--apba-space-3) var(--apba-space-8);
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    text-decoration: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    min-height: 44px;
+    align-items: center;
+  }
+  .placeholder-notice {
+    background: var(--apba-warning-surface);
+    color: var(--apba-warning);
+    padding: var(--apba-space-4);
+    border-radius: var(--apba-radius-md);
+  }
+</style>

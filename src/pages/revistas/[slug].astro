@@ -1,0 +1,98 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getJournalIssues, getJournalIssueBySlug } from "@lib/cms";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const issues = await getJournalIssues();
+  return issues.map((i) => ({ params: { slug: i.slug }, props: { slug: i.slug } }));
+};
+
+const { slug } = Astro.props as { slug: string };
+const issue = await getJournalIssueBySlug(slug);
+if (!issue) return Astro.redirect("/revistas/");
+
+const seo = {
+  title: `Gaceta Psicológica N° ${issue.number} — ${issue.title} — APBA`,
+  description: `Descargá el número ${issue.number} de la Gaceta Psicológica de APBA: ${issue.title}.`,
+  noindex: false,
+};
+
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "PublicationIssue",
+  issueNumber: issue.number,
+  name: `Gaceta Psicológica N° ${issue.number} — ${issue.title}`,
+  publisher: { "@type": "Organization", name: "APBA" },
+  datePublished: issue.publishDate,
+  associatedMedia: {
+    "@type": "MediaObject",
+    contentUrl: issue.pdfFile.url,
+    encodingFormat: "application/pdf",
+  },
+});
+---
+
+<BaseLayout {seo}>
+  <Fragment slot="structured-data">
+    <script type="application/ld+json" set:html={structuredData} />
+  </Fragment>
+
+  <div class="container issue-layout">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/revistas/">Gaceta Psicológica</a></li>
+        <li aria-current="page">N° {issue.number}</li>
+      </ol>
+    </nav>
+
+    <div class="issue-grid">
+      {issue.coverImage && (
+        <img
+          src={issue.coverImage.url}
+          alt={issue.coverImage.alt}
+          width="300"
+          height="420"
+          class="issue-cover"
+        />
+      )}
+      <div class="issue-meta">
+        <p class="overline">Número {issue.number} · Gaceta Psicológica</p>
+        <h1>{issue.title}</h1>
+        {issue.subtitle && <p class="body-lg">{issue.subtitle}</p>}
+        {issue.description && <div set:html={issue.description} />}
+
+        <a
+          href={issue.pdfFile.url}
+          download={issue.pdfFile.filename}
+          class="btn-download"
+          aria-label={`Descargar Gaceta N° ${issue.number} en PDF`}
+        >
+          Descargar Gaceta N° {issue.number} (PDF)
+          <span aria-hidden="true"> ↓</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .issue-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .issue-grid { display: grid; gap: var(--apba-space-8); margin-top: var(--apba-space-6); }
+  @media (min-width: 768px) { .issue-grid { grid-template-columns: 240px 1fr; } }
+  .issue-cover { border-radius: var(--apba-radius-lg); box-shadow: var(--apba-shadow-3); width: 100%; }
+  .issue-meta { display: flex; flex-direction: column; gap: var(--apba-space-4); }
+  .btn-download {
+    display: inline-flex; align-items: center; gap: var(--apba-space-2);
+    padding: var(--apba-space-3) var(--apba-space-6);
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    text-decoration: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    margin-top: var(--apba-space-4);
+    transition: background var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .btn-download:hover { background: var(--apba-brand-primary-strong); color: var(--apba-text-on-brand); }
+</style>

@@ -1,0 +1,57 @@
+---
+interface Props {
+  href: string;
+  label?: string;
+  fileType?: string;
+  fileSize?: string;
+  class?: string;
+}
+
+const {
+  href,
+  label = "Descargar",
+  fileType = "PDF",
+  fileSize,
+  class: className = "",
+} = Astro.props;
+---
+
+<a
+  href={href}
+  download
+  target="_blank"
+  rel="noopener noreferrer"
+  class:list={["download-btn", className]}
+  aria-label={`${label} (${fileType}${fileSize ? `, ${fileSize}` : ""})`}
+>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="7 10 12 15 17 10" />
+    <line x1="12" y1="15" x2="12" y2="3" />
+  </svg>
+  <span>{label}</span>
+  <span class="file-meta">
+    {fileType}{fileSize && ` · ${fileSize}`}
+  </span>
+</a>
+
+<style>
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    padding: var(--apba-space-2) var(--apba-space-4);
+    border: 1px solid var(--apba-brand-primary);
+    border-radius: var(--apba-radius-md);
+    color: var(--apba-brand-primary);
+    text-decoration: none;
+    font-weight: var(--apba-weight-medium);
+    font-size: var(--apba-text-body-sm);
+    transition: background var(--apba-motion-fast);
+    min-height: 44px;
+    align-self: flex-start;
+  }
+  .download-btn:hover { background: var(--apba-brand-tint); }
+  .download-btn:focus-visible { outline: 3px solid var(--apba-focus-ring); outline-offset: 2px; }
+  .file-meta { color: var(--apba-text-tertiary); font-size: var(--apba-text-caption); }
+</style>

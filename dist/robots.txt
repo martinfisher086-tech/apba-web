@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Internal / admin paths — should not be indexed
+Disallow: /buscar/
+Disallow: /api/
+
+Sitemap: https://psicologos.org.ar/sitemap-index.xml

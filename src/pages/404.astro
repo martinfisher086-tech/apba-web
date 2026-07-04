@@ -1,0 +1,30 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const seo = {
+  title: "Página no encontrada — APBA",
+  description: "La página que buscás no existe.",
+  noindex: true,
+};
+---
+
+<BaseLayout {seo}>
+  <div class="container page-layout">
+    <h1>Página no encontrada</h1>
+    <p>La página que buscás no existe o fue movida.</p>
+    <a href="/" class="btn-home">Volver al inicio</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-16); text-align: center; }
+  .btn-home {
+    display: inline-flex; margin-top: var(--apba-space-6);
+    padding: var(--apba-space-3) var(--apba-space-6);
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    text-decoration: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+  }
+</style>

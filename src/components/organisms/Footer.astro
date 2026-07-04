@@ -1,0 +1,190 @@
+---
+/**
+ * Footer organism.
+ * Two background tiers (deep-navy body + darker copyright bar) for visual hierarchy.
+ * Link columns mirror the consolidated nav (Institucional / Comunidad / Contacto).
+ * No "Powered by / Desarrollado por" credits — the legacy WordPress cruft is intentionally absent.
+ */
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer-inner">
+
+    <div class="footer-brand">
+      <a href="/" aria-label="APBA — Inicio">
+        <img
+          src="/images/downloaded/home--logo-footer.png"
+          alt="APBA"
+          width="100"
+          height="40"
+          loading="lazy"
+        />
+      </a>
+      <p class="footer-tagline">
+        Asociación de Psicólogas y Psicólogos de Buenos Aires
+      </p>
+      <ul class="social-links" role="list" aria-label="Redes sociales">
+        <li>
+          <a
+            href="https://www.facebook.com/APBAarg/"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="APBA en Facebook"
+          >
+            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+            <span class="sr-only">Facebook</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.instagram.com/apbaarg/"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="APBA en Instagram"
+          >
+            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            <span class="sr-only">Instagram</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <nav class="footer-cols" aria-label="Navegación del pie de página">
+      <div class="footer-col">
+        <h2 class="footer-col-title">Institucional</h2>
+        <ul role="list">
+          <li><a href="/institucional/">Institucional</a></li>
+          <li><a href="/normativa/">Normativa</a></li>
+          <li><a href="/asistencia/">Asistencia</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h2 class="footer-col-title">Comunidad</h2>
+        <ul role="list">
+          <li><a href="/cursos/">Cursos y Jornadas</a></li>
+          <li><a href="/revistas/">Gaceta Psicológica</a></li>
+          <li><a href="/agenda/">Agenda</a></li>
+          <li><a href="/newsletter/">Newsletter</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h2 class="footer-col-title">Contacto</h2>
+        <ul role="list">
+          <li><a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a></li>
+          <li><a href="/contacto/">Contacto</a></li>
+          <li><a href="/privacidad/">Política de privacidad</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+
+  <div class="footer-legal">
+    <div class="container">
+      <p>© {year} Asociación de Psicólogas y Psicólogos de Buenos Aires. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--apba-brand-primary-strong);
+    color: var(--apba-text-on-brand);
+    /* Brand accent edge separates the footer from the page above */
+    border-top: 4px solid var(--apba-brand-accent);
+  }
+
+  /* ── Footer body ─────────────────────────────────────────────────────────── */
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--apba-space-10);
+    padding-block: var(--apba-space-12) var(--apba-space-10);
+  }
+  @media (min-width: 900px) {
+    .footer-inner {
+      grid-template-columns: minmax(200px, 1fr) 2.4fr;
+      gap: var(--apba-space-16);
+      align-items: start;
+    }
+  }
+
+  /* ── Brand zone ──────────────────────────────────────────────────────────── */
+  .footer-brand img { height: 40px; width: auto; max-width: none; }
+  .footer-tagline {
+    font-size: var(--apba-text-body-sm);
+    color: rgba(255, 255, 255, 0.72);
+    margin-top: var(--apba-space-3);
+    max-width: 26ch;
+    line-height: var(--apba-leading-relaxed);
+  }
+  .footer-brand .social-links { margin-top: var(--apba-space-5); }
+
+  /* ── Link columns ────────────────────────────────────────────────────────── */
+  .footer-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--apba-space-8);
+  }
+  @media (min-width: 520px) {
+    .footer-cols { grid-template-columns: repeat(3, 1fr); gap: var(--apba-space-6); }
+  }
+  .footer-col-title {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    letter-spacing: var(--apba-tracking-wider);
+    text-transform: uppercase;
+    color: var(--apba-text-on-brand);
+    margin-bottom: var(--apba-space-4);
+  }
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-3);
+  }
+  .footer-col a {
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    font-size: var(--apba-text-body-sm);
+    transition: color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .footer-col a:hover {
+    color: var(--apba-text-on-brand);
+    text-decoration: underline;
+  }
+
+  /* ── Social icons ────────────────────────────────────────────────────────── */
+  .social-links { display: flex; gap: var(--apba-space-3); list-style: none; }
+  .social-links a {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: var(--apba-radius-full);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--apba-text-on-brand);
+    transition: background var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .social-links a:hover { background: rgba(255, 255, 255, 0.22); }
+
+  /* ── Bottom copyright tier — darker than the body for visible separation ──── */
+  .footer-legal {
+    background-color: var(--apba-brand-primary-strong);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.22));
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-block: var(--apba-space-4);
+  }
+  .footer-legal p {
+    font-size: var(--apba-text-caption);
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+</style>

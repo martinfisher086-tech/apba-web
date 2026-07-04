@@ -1,0 +1,624 @@
+---
+/**
+ * Home page — /
+ * Dual-audience entry point: ASOCIATE (member funnel) + ASISTENCIA (public).
+ * Static hero with brand gradient overlay + credibility strip.
+ */
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NewsCard from "@components/molecules/NewsCard.astro";
+import JournalIssueCard from "@components/molecules/JournalIssueCard.astro";
+import { getNewsArticles, getJournalIssues } from "@lib/cms";
+
+// Fetch one extra so we can filter out the ULAPSI article (broken image) without dropping to 2
+const allNews = await getNewsArticles({ limit: 4 });
+const news = allNews
+  .filter(a => a.slug !== 'x-congreso-latinoamericano-de-psicologia-ulapsi')
+  .slice(0, 3);
+const journalIssues = await getJournalIssues();
+
+const seo = {
+  title: "APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires",
+  description:
+    "Asociación de Psicólogas y Psicólogos de Buenos Aires. Información institucional, novedades, cursos, Gaceta Psicológica y beneficios para socios.",
+  noindex: false,
+};
+
+const structuredData = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Asociación de Psicólogas y Psicólogos de Buenos Aires",
+    alternateName: "APBA",
+    url: "https://psicologos.org.ar",
+    logo: "https://psicologos.org.ar/images/apba-logo.svg",
+    email: "apba@psicologos.org.ar",
+    sameAs: [
+      "https://www.facebook.com/APBAarg/",
+      "https://www.instagram.com/apbaarg/",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    url: "https://psicologos.org.ar",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://psicologos.org.ar/buscar/?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  },
+]);
+---
+
+<BaseLayout {seo}>
+  <Fragment slot="structured-data">
+    <script type="application/ld+json" set:html={structuredData} />
+  </Fragment>
+
+  <!-- Accessible page heading — the hero is image-only, so the H1 is visually hidden -->
+  <h1 class="sr-only">APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires</h1>
+
+  <!-- ── Hero — auto-crossfade banner slideshow (2 images, responsive) ── -->
+  <section class="hero-banner-section" aria-label="Destacados de APBA">
+    <div class="container">
+      <div class="hero-banner">
+        <!-- Bottom layer: stays visible; revealed when the top layer fades out -->
+        <img
+          class="hero-slide hero-slide--2"
+          src="/images/downloaded/hero/home--slide_presentacion_1024x300.jpg"
+          srcset="/images/downloaded/hero/home--slide_presentacion_1024x300-300x88.jpg 300w,
+                  /images/downloaded/hero/home--slide_presentacion_1024x300-768x225.jpg 768w,
+                  /images/downloaded/hero/home--slide_presentacion_1024x300.jpg 1024w"
+          sizes="(min-width: 1280px) 1216px, (min-width: 768px) calc(100vw - 3rem), calc(100vw - 2rem)"
+          width="1024"
+          height="300"
+          alt="Asociate y obtené nuestros beneficios — APBA"
+          decoding="async"
+        />
+        <!-- Top layer: shown first, fades out/in to crossfade -->
+        <img
+          class="hero-slide hero-slide--1"
+          src="/images/downloaded/hero/home--redesx1024x300.jpg"
+          srcset="/images/downloaded/hero/home--redesx1024x300-300x88.jpg 300w,
+                  /images/downloaded/hero/home--redesx1024x300-768x225.jpg 768w,
+                  /images/downloaded/hero/home--redesx1024x300.jpg 1024w"
+          sizes="(min-width: 1280px) 1216px, (min-width: 768px) calc(100vw - 3rem), calc(100vw - 2rem)"
+          width="1024"
+          height="300"
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── P1: Credibility strip — three institutional facts ── -->
+  <div class="credibility-strip" aria-label="Datos institucionales">
+    <div class="container credibility-inner">
+      <div class="credibility-item">
+        <svg class="credibility-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <div>
+          <strong>Desde 1962</strong>
+          <span>acompañando a la psicología porteña</span>
+        </div>
+      </div>
+      <div class="credibility-divider" aria-hidden="true"></div>
+      <div class="credibility-item">
+        <svg class="credibility-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <div>
+          <strong>Fondo Solidario Profesional / FEPRA</strong>
+          <span>respaldo solidario para todas las y los psicólogos socios</span>
+        </div>
+      </div>
+      <div class="credibility-divider" aria-hidden="true"></div>
+      <div class="credibility-item">
+        <svg class="credibility-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="6"></circle>
+          <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"></path>
+        </svg>
+        <div>
+          <strong>Especialidad acreditada</strong>
+          <span>por CONEAU</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Beneficios destacados — compact strip integrating Descuentos + Turismo content ── -->
+  <div class="benefits-strip" aria-label="Beneficios para socias y socios">
+    <div class="container">
+      <div class="benefits-strip-inner">
+        <a href="/beneficios/" class="benefit-chip">
+          <span class="benefit-chip-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </span>
+          <span class="benefit-chip-text">
+            <strong>Aranceles preferenciales</strong>
+            <span>Posgrados y especializaciones en universidades nacionales</span>
+          </span>
+        </a>
+        <a href="/beneficios/" class="benefit-chip">
+          <span class="benefit-chip-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </span>
+          <span class="benefit-chip-text">
+            <strong>Turismo para socios</strong>
+            <span>Descuentos en turismo y recreación — solicitá tu constancia</span>
+          </span>
+        </a>
+        <a href="/supervisiones/" class="benefit-chip">
+          <span class="benefit-chip-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </span>
+          <span class="benefit-chip-text">
+            <strong>Supervisiones</strong>
+            <span>Acompañamiento clínico con supervisores especializados</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Novedades section ── -->
+  <section class="section novedades-section" aria-labelledby="novedades-heading">
+    <div class="container">
+      <h2 id="novedades-heading">Novedades</h2>
+      <div class="news-grid">
+        {news.map((article) => (
+          <NewsCard article={article} headingLevel={3} />
+        ))}
+      </div>
+      <a href="/novedades/" class="btn btn--ghost">Ver todas las novedades</a>
+    </div>
+  </section>
+
+  <!-- ── Gaceta Psicológica ── -->
+  <section class="section gaceta-section" aria-labelledby="gaceta-heading">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="gaceta-heading">Gaceta Psicológica</h2>
+        <p class="section-lead">La revista de APBA. Publicaciones de investigación y análisis en psicología.</p>
+      </div>
+      <div class="gaceta-grid">
+        {journalIssues.map((issue) => (
+          <JournalIssueCard issue={issue} headingLevel={3} />
+        ))}
+      </div>
+      <a href="/revistas/" class="btn btn--ghost">Ver todos los números</a>
+    </div>
+  </section>
+
+  <!-- ── P2: CTA Bands — Asociate + Newsletter (redesigned for more action) ── -->
+  <div class="cta-bands">
+    <section class="cta-band cta-band--asociate" aria-labelledby="cta-asociate-heading">
+      <div class="cta-band-inner">
+        <div class="cta-band-tag" aria-hidden="true">Para profesionales</div>
+        <h2 id="cta-asociate-heading">Asociate a APBA</h2>
+        <p>Accedé a la red de psicólogos/as de Buenos Aires con cursos, convenios y representación gremial.</p>
+        <ul class="cta-benefit-list" aria-label="Beneficios de asociarse">
+          <li>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+            Cursos y jornadas con arancel preferencial
+          </li>
+          <li>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+            Fondo Solidario FEPRA y asesoramiento jurídico
+          </li>
+          <li>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+            Acceso a la Gaceta Psicológica y supervisiones
+          </li>
+        </ul>
+        <a href="/asociate/" class="cta-btn cta-btn--accent">ASOCIATE AHORA</a>
+      </div>
+    </section>
+    <section class="cta-band cta-band--newsletter" aria-labelledby="cta-newsletter-heading">
+      <div class="cta-band-inner">
+        <div class="cta-band-tag" aria-hidden="true">Comunidad APBA</div>
+        <h2 id="cta-newsletter-heading">Suscribite al newsletter</h2>
+        <p>Recibí en tu correo novedades institucionales, cursos, publicaciones y convocatorias de APBA.</p>
+        <form action="/newsletter/" method="get" class="newsletter-form" novalidate>
+          <label for="nl-email" class="sr-only">Tu dirección de email</label>
+          <div class="newsletter-row">
+            <input
+              id="nl-email"
+              type="email"
+              name="email"
+              placeholder="tu@email.com"
+              required
+              autocomplete="email"
+            />
+            <button type="submit">Suscribirme</button>
+          </div>
+          <p class="newsletter-microcopy">Sin spam. Podés darte de baja cuando quieras.</p>
+        </form>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Hero banner — auto-crossfade slideshow (2 images) ── */
+  .hero-banner-section {
+    padding-block: var(--apba-space-6);
+  }
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1024 / 300;
+    overflow: hidden;
+    border-radius: var(--apba-radius-lg);
+    box-shadow: var(--apba-shadow-2);
+    background: var(--apba-surface-sunken); /* shows while images load */
+  }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-slide--2 { z-index: 0; }
+  .hero-slide--1 {
+    z-index: 1;
+    will-change: opacity;
+    animation: heroCrossfade 16s var(--apba-ease-in-out) infinite;
+  }
+  /* 2-image crossfade — only the top layer animates; bottom stays visible.
+     Cycle 16s ⇒ ~6.5s hold per image, ~1.3s fade (within the 1.2–1.5s brief). */
+  @keyframes heroCrossfade {
+    0%, 40%   { opacity: 1; }
+    48%, 90%  { opacity: 0; }
+    98%, 100% { opacity: 1; }
+  }
+  /* Reduced motion — no crossfade; show the first image statically. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide--1 { animation: none; opacity: 1; }
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--apba-space-3) var(--apba-space-6);
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    text-decoration: none;
+    min-height: 44px;
+    transition:
+      background-color var(--apba-duration-fast) var(--apba-ease-out),
+      color var(--apba-duration-fast) var(--apba-ease-out),
+      border-color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--apba-brand-primary);
+    border: 2px solid var(--apba-brand-primary);
+    margin-top: var(--apba-space-6);
+  }
+  .btn--ghost:hover {
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+  }
+
+  /* ── Credibility strip ── */
+  .credibility-strip {
+    background: var(--apba-surface-raised);
+    border-bottom: 1px solid var(--apba-border);
+    padding-block: var(--apba-space-4);
+  }
+  .credibility-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-3);
+  }
+  .credibility-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--apba-space-3);
+  }
+  .credibility-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .credibility-item strong {
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+  }
+  .credibility-item span {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-secondary);
+  }
+  .credibility-icon {
+    flex-shrink: 0;
+    color: var(--apba-brand-primary);
+    margin-top: 2px;
+  }
+  .credibility-divider {
+    height: 1px;
+    background: var(--apba-border);
+  }
+  @media (min-width: 640px) {
+    .credibility-inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      gap: var(--apba-space-4);
+    }
+    .credibility-divider {
+      width: 1px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* ── Benefits strip — compact 4-chip row linking Descuentos + Turismo + more ── */
+  .benefits-strip {
+    background: var(--apba-surface-raised);
+    border-bottom: 1px solid var(--apba-border);
+    padding-block: var(--apba-space-5);
+  }
+  .benefits-strip-inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--apba-space-3);
+  }
+  /* 3 chips → 3-col on desktop; 2-col on mobile already gives 2+1 which is acceptable */
+  @media (min-width: 900px) {
+    .benefits-strip-inner { grid-template-columns: repeat(3, 1fr); }
+  }
+  .benefit-chip {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--apba-space-3);
+    padding: var(--apba-space-3) var(--apba-space-4);
+    background: var(--apba-surface-base);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    text-decoration: none;
+    transition:
+      border-color var(--apba-duration-fast) var(--apba-ease-out),
+      box-shadow var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .benefit-chip:hover {
+    border-color: var(--apba-brand-primary);
+    box-shadow: var(--apba-shadow-1);
+  }
+  .benefit-chip-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: var(--apba-radius-md);
+    background: var(--apba-brand-tint);
+    color: var(--apba-brand-primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .benefit-chip-text {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .benefit-chip-text strong {
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    line-height: var(--apba-leading-tight);
+  }
+  .benefit-chip-text span {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+  }
+
+  /* ── Sections ── */
+  .section { padding-block: var(--apba-space-12) var(--apba-space-16); }
+
+  /* ── News grid ── */
+  .novedades-section h2 { margin-bottom: var(--apba-space-6); }
+  .news-grid { display: grid; gap: var(--apba-space-6); }
+  @media (min-width: 768px)  { .news-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .news-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ── Gaceta section ── */
+  .gaceta-section { background: var(--apba-surface-raised); }
+  .section-header { margin-bottom: var(--apba-space-6); }
+  .section-lead { color: var(--apba-text-secondary); margin-top: var(--apba-space-2); max-width: 60ch; }
+  .gaceta-grid { display: grid; gap: var(--apba-space-4); }
+  @media (min-width: 640px)  { .gaceta-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .gaceta-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ── CTA Bands ── */
+  .cta-bands {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 768px) {
+    .cta-bands { flex-direction: row; }
+  }
+  .cta-band {
+    position: relative;
+    flex: 1;
+    min-height: 260px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--apba-space-12) var(--apba-space-6);
+  }
+  @media (min-width: 768px) {
+    .cta-band { min-height: 320px; padding: var(--apba-space-14) var(--apba-space-10); }
+  }
+  /* Solid brand gradients — no image dependency, always renders correctly */
+  .cta-band--asociate {
+    background: linear-gradient(135deg, #0b2647 0%, #0e3060 45%, #1651a0 100%);
+  }
+  .cta-band--newsletter {
+    background: linear-gradient(135deg, #0f3e7c 0%, #1651a0 55%, #2060bb 100%);
+  }
+  /* Decorative radial circles for depth */
+  .cta-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 85% 10%, rgba(255,255,255,0.08) 0%, transparent 42%),
+      radial-gradient(circle at 10% 88%, rgba(255,255,255,0.05) 0%, transparent 38%);
+    pointer-events: none;
+  }
+  .cta-band-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--apba-space-3);
+    /* Extra bottom clearance so the button doesn't crowd the band edge */
+    padding-bottom: var(--apba-space-6);
+  }
+  .cta-band-inner h2 {
+    color: var(--apba-text-on-brand);
+    font-size: var(--apba-text-h3);
+    letter-spacing: 0.01em;
+    margin: 0;
+  }
+  .cta-band-inner p {
+    color: rgba(255,255,255,0.88);
+    font-size: var(--apba-text-body);
+    line-height: var(--apba-leading-relaxed);
+    max-width: 38ch;
+    margin: 0;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Slightly smaller than original — was space-3 / space-8 */
+    padding: var(--apba-space-2) var(--apba-space-6);
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body);
+    text-decoration: none;
+    min-height: 40px;
+    margin-top: var(--apba-space-2);
+    transition: background-color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .cta-btn--accent {
+    background: var(--apba-brand-accent);
+    color: var(--apba-text-on-brand);
+  }
+  .cta-btn--accent:hover {
+    background: #9c1248;
+    color: var(--apba-text-on-brand);
+  }
+
+  /* ── CTA band tag label ── */
+  .cta-band-tag {
+    display: inline-block;
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--apba-tracking-wider);
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: var(--apba-radius-full);
+    padding: 2px var(--apba-space-3);
+  }
+  /* ── CTA asociate benefit list ── */
+  .cta-benefit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+    text-align: left;
+    width: 100%;
+    max-width: 32ch;
+  }
+  .cta-benefit-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: var(--apba-leading-snug);
+  }
+  .cta-benefit-list svg { flex-shrink: 0; color: #fff; opacity: 0.8; }
+
+  /* ── Newsletter form — solid white field + accent button, unified frame ── */
+  .newsletter-form { width: 100%; max-width: 440px; margin-top: var(--apba-space-3); }
+  .newsletter-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+    padding: var(--apba-space-2);
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: var(--apba-radius-lg);
+  }
+  @media (min-width: 480px) {
+    .newsletter-row { flex-direction: row; }
+  }
+  .newsletter-row input {
+    flex: 1;
+    padding: var(--apba-space-3) var(--apba-space-4);
+    border: 1.5px solid transparent;
+    border-radius: var(--apba-radius-md);
+    background: var(--apba-surface-base);
+    color: var(--apba-text-primary);
+    font-size: var(--apba-text-body);
+    font-family: var(--apba-font-sans);
+    min-height: 48px;
+  }
+  .newsletter-row input::placeholder { color: var(--apba-text-tertiary); }
+  .newsletter-row input:focus-visible {
+    outline: 3px solid var(--apba-focus-ring);
+    outline-offset: 2px;
+  }
+  .newsletter-row button {
+    padding: var(--apba-space-3) var(--apba-space-6);
+    background: var(--apba-brand-accent);
+    color: var(--apba-text-on-brand);
+    border: none;
+    border-radius: var(--apba-radius-md);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body);
+    font-family: var(--apba-font-sans);
+    min-height: 48px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .newsletter-row button:hover { background: #9c1248; }
+  .newsletter-microcopy {
+    margin-top: var(--apba-space-2);
+    font-size: var(--apba-text-caption);
+    color: rgba(255, 255, 255, 0.85);
+  }
+</style>

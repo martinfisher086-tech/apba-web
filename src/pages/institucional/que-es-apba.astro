@@ -1,0 +1,713 @@
+---
+/**
+ * ¿Qué es APBA? — /institucional/que-es-apba/
+ * Visual redesign: Editorial Institucional.
+ * All CMS body text (page.body) is untouched — only layout and CSS changed.
+ */
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+import ComingSoon from "@components/organisms/ComingSoon.astro";
+import { getPageBySlug } from "@lib/cms";
+
+const page = await getPageBySlug("que-es-apba");
+
+const seo = {
+  title: "¿Qué es APBA? — Institucional",
+  description: "Conocé la misión, historia y valores de la Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "¿Qué es APBA?",
+  url: "https://psicologos.org.ar/institucional/que-es-apba/",
+  about: {
+    "@type": "Organization",
+    name: "APBA",
+    url: "https://psicologos.org.ar",
+  },
+};
+
+// Pillar data drawn directly from phrases in page.body — no new text
+const pillars = [
+  {
+    icon: "shield",
+    title: "Defensa y promoción profesional",
+    detail: "A nivel nacional y municipal",
+  },
+  {
+    icon: "book",
+    title: "Formación e investigación",
+    detail: "Congreso Metropolitano desde 1981",
+  },
+  {
+    icon: "network",
+    title: "Integración en FEPRA",
+    detail: "Red federal de psicólogos/as",
+  },
+  {
+    icon: "graduation",
+    title: "Posgrado acreditado CONEAU",
+    detail: "3 especializaciones desde 1993",
+  },
+];
+
+// Key milestones extracted from page.body (numbers used verbatim)
+const stats = [
+  { number: "1962", label: "Fundación" },
+  { number: "1981", label: "Congreso Metropolitano" },
+  { number: "1993", label: "Especializaciones desde" },
+  { number: "3",    label: "Carreras CONEAU" },
+];
+---
+
+<BaseLayout {seo}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  {page?.body ? (
+    <Fragment>
+
+      <!-- ── 1. Page Hero ──────────────────────────────────────────────────── -->
+      <PageHero
+        title="¿Qué es APBA?"
+        breadcrumbs={[
+          { label: "Inicio", href: "/" },
+          { label: "Institucional", href: "/institucional/" },
+          { label: "¿Qué es APBA?" },
+        ]}
+      />
+
+      <!-- ── 2. Identity Band — founding year as hero element ─────────────── -->
+      <div class="qea-identity" aria-label="Fundación e identidad institucional">
+        <!-- Decorative grid texture overlay -->
+        <div class="qea-grid-overlay" aria-hidden="true"></div>
+        <!-- Decorative diagonal stripe -->
+        <div class="qea-stripe" aria-hidden="true"></div>
+
+        <div class="container qea-identity-inner">
+
+          <!-- Year block -->
+          <div class="qea-year-block">
+            <span class="qea-year" aria-label="Fundada en 1962">1962</span>
+            <span class="qea-year-label" aria-hidden="true">Año de fundación</span>
+          </div>
+
+          <!-- Vertical rule -->
+          <div class="qea-vdivider" aria-hidden="true"></div>
+
+          <!-- Identity info -->
+          <div class="qea-info-block">
+            <p class="qea-city">
+              <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              Buenos Aires, Argentina
+            </p>
+            <div class="qea-badges" role="list">
+              <span class="qea-badge" role="listitem">
+                <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                FEPRA
+              </span>
+              <span class="qea-badge" role="listitem">
+                <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="8" r="6"/>
+                  <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+                </svg>
+                CONEAU
+              </span>
+            </div>
+          </div>
+
+          <!-- Decorative monogram -->
+          <div class="qea-monogram" aria-hidden="true">APBA</div>
+
+        </div>
+
+        <!-- Bottom accent rule -->
+        <div class="qea-identity-rule" aria-hidden="true"></div>
+      </div>
+
+      <!-- ── 3. Stats strip — key numbers from page.body ──────────────────── -->
+      <div class="qea-stats" aria-label="Indicadores institucionales">
+        <div class="container qea-stats-inner">
+          {stats.map((s, i) => (
+            <Fragment>
+              <div class="qea-stat" style={`animation-delay: ${i * 80}ms`}>
+                <span class="qea-stat-number">{s.number}</span>
+                <span class="qea-stat-label">{s.label}</span>
+              </div>
+              {i < stats.length - 1 && (
+                <div class="qea-stat-sep" aria-hidden="true"></div>
+              )}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+
+      <!-- ── 4. Pillar cards — thematic structure of the body text ─────────── -->
+      <div class="qea-pillars-wrap">
+        <div class="container">
+          <p class="qea-pillars-overline">Áreas de trabajo</p>
+          <ul class="qea-pillars" role="list">
+            {pillars.map((p, i) => (
+              <li class="qea-pillar" style={`animation-delay: ${80 + i * 70}ms`}>
+                <div class="qea-pillar-top">
+                  <div class="qea-pillar-icon" aria-hidden="true">
+                    {p.icon === "shield" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      </svg>
+                    )}
+                    {p.icon === "book" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                      </svg>
+                    )}
+                    {p.icon === "network" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="5" r="3"/>
+                        <circle cx="5" cy="19" r="3"/>
+                        <circle cx="19" cy="19" r="3"/>
+                        <line x1="12" y1="8" x2="5" y2="16"/>
+                        <line x1="12" y1="8" x2="19" y2="16"/>
+                      </svg>
+                    )}
+                    {p.icon === "graduation" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                      </svg>
+                    )}
+                  </div>
+                  <span class="qea-pillar-num" aria-hidden="true">0{(i + 1).toString()}</span>
+                </div>
+                <div class="qea-pillar-body">
+                  <h2 class="qea-pillar-title">{p.title}</h2>
+                  <p class="qea-pillar-detail">{p.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── 5. Narrative — full CMS body text, styled ─────────────────────── -->
+      <div class="qea-narrative">
+        <div class="container">
+          <div class="qea-narrative-inner">
+
+            <!-- Section label -->
+            <div class="qea-section-label" aria-hidden="true">
+              <span class="qea-section-line"></span>
+              <span class="qea-section-text">Historia y misión</span>
+            </div>
+
+            <!-- Full original CMS body — untouched -->
+            <div class="page-body" set:html={page.body} />
+
+          </div>
+        </div>
+      </div>
+
+    </Fragment>
+  ) : (
+    <ComingSoon
+      title="¿Qué es APBA?"
+      breadcrumbs={[
+        { label: "Inicio", href: "/" },
+        { label: "Institucional", href: "/institucional/" },
+        { label: "¿Qué es APBA?" },
+      ]}
+      lead="Estamos actualizando la información institucional sobre APBA, su misión, historia y valores."
+    />
+  )}
+</BaseLayout>
+
+<style>
+  /* ══════════════════════════════════════════════════════════════════════════
+     IDENTITY BAND
+     ══════════════════════════════════════════════════════════════════════════ */
+
+  .qea-identity {
+    position: relative;
+    overflow: hidden;
+    background: #071929;
+    /* Layered gradient — depth in the dark field */
+    background-image:
+      radial-gradient(ellipse at 70% 50%, rgba(22, 81, 158, 0.35) 0%, transparent 65%),
+      radial-gradient(ellipse at 10% 80%, rgba(14, 47, 92, 0.5) 0%, transparent 50%),
+      linear-gradient(160deg, #071929 0%, #0e2d52 50%, #071929 100%);
+    padding-block: var(--apba-space-12) var(--apba-space-16);
+  }
+
+  /* Grid texture — faint ruled lines evoke academic/archival documents */
+  .qea-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  /* Diagonal stripe — right-side decorative accent */
+  .qea-stripe {
+    position: absolute;
+    top: 0; right: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(105deg, transparent 40%, rgba(22, 81, 158, 0.12) 100%);
+    pointer-events: none;
+  }
+
+  .qea-identity-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--apba-space-10);
+    flex-wrap: wrap;
+  }
+
+  /* Year — the centerpiece of the identity band */
+  .qea-year-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+    flex-shrink: 0;
+  }
+
+  .qea-year {
+    display: block;
+    font-family: var(--apba-font-display);
+    font-size: clamp(5rem, 12vw, 9rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    /* layered shadow for depth and dimensionality */
+    text-shadow:
+      0 2px 0 rgba(22, 81, 158, 0.6),
+      0 4px 20px rgba(0, 0, 0, 0.4),
+      0 0 60px rgba(22, 81, 158, 0.25);
+    animation: qeaYearReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes qeaYearReveal {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .qea-year-label {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    letter-spacing: var(--apba-tracking-wider);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    padding-left: 2px;
+    animation: qeaFadeUp 0.6s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Vertical divider */
+  .qea-vdivider {
+    width: 1px;
+    height: 100px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 25%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 100%
+    );
+    flex-shrink: 0;
+  }
+
+  /* Info block: city + badges */
+  .qea-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-4);
+    animation: qeaFadeUp 0.6s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .qea-city {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-medium);
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    max-width: none;
+    margin: 0;
+  }
+
+  .qea-badges {
+    display: flex;
+    gap: var(--apba-space-2);
+    flex-wrap: wrap;
+  }
+
+  .qea-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-1);
+    padding: 5px var(--apba-space-3);
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: var(--apba-radius-full);
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    letter-spacing: var(--apba-tracking-wide);
+    color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    transition: background var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .qea-badge:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  /* Decorative monogram — pushed to far right, ghosted */
+  .qea-monogram {
+    margin-left: auto;
+    font-family: var(--apba-font-display);
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    animation: qeaFadeUp 1s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Accent rule at the bottom of the identity band */
+  .qea-identity-rule {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(22, 81, 158, 0.8) 20%,
+      rgba(22, 160, 216, 0.9) 50%,
+      rgba(22, 81, 158, 0.8) 80%,
+      transparent 100%
+    );
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     STATS STRIP
+     ══════════════════════════════════════════════════════════════════════════ */
+
+  .qea-stats {
+    background: var(--apba-surface-raised);
+    border-bottom: 1px solid var(--apba-border);
+    padding-block: var(--apba-space-8);
+  }
+
+  .qea-stats-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .qea-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--apba-space-1);
+    padding: var(--apba-space-2) var(--apba-space-8);
+    animation: qeaFadeUp 0.5s var(--apba-ease-out) both;
+  }
+
+  .qea-stat-number {
+    font-family: var(--apba-font-display);
+    font-size: var(--apba-text-h2);
+    font-weight: 700;
+    color: var(--apba-brand-primary);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .qea-stat-label {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-semibold);
+    letter-spacing: var(--apba-tracking-wide);
+    text-transform: uppercase;
+    color: var(--apba-text-secondary);
+    white-space: nowrap;
+  }
+
+  /* Thin vertical separators between stats */
+  .qea-stat-sep {
+    width: 1px;
+    height: 36px;
+    background: var(--apba-border-strong);
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PILLAR CARDS
+     ══════════════════════════════════════════════════════════════════════════ */
+
+  .qea-pillars-wrap {
+    padding-block: var(--apba-space-10) var(--apba-space-8);
+    background: var(--apba-surface-base);
+    border-bottom: 1px solid var(--apba-border);
+  }
+
+  /* Section overline */
+  .qea-pillars-overline {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    letter-spacing: var(--apba-tracking-wider);
+    text-transform: uppercase;
+    color: var(--apba-brand-primary);
+    margin: 0 0 var(--apba-space-5);
+    padding-left: 2px;
+    max-width: none;
+  }
+
+  .qea-pillars {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--apba-space-3);
+  }
+
+  @media (min-width: 560px) {
+    .qea-pillars { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .qea-pillars { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .qea-pillar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-4);
+    padding: var(--apba-space-5);
+    border: 1px solid var(--apba-border);
+    border-top: 3px solid var(--apba-brand-primary);
+    border-radius: 0 0 var(--apba-radius-lg) var(--apba-radius-lg);
+    background: var(--apba-surface);
+    box-shadow: var(--apba-shadow-1);
+    transition:
+      transform var(--apba-duration-normal) var(--apba-ease-out),
+      box-shadow var(--apba-duration-normal) var(--apba-ease-out),
+      border-top-color var(--apba-duration-normal) var(--apba-ease-out);
+    animation: qeaFadeUp 0.5s var(--apba-ease-out) both;
+  }
+
+  .qea-pillar:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--apba-shadow-3);
+    border-top-color: var(--apba-brand-accent-alt);
+  }
+
+  .qea-pillar-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .qea-pillar-icon {
+    width: 44px; height: 44px;
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-md);
+    color: var(--apba-brand-primary);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .qea-pillar:hover .qea-pillar-icon {
+    background: rgba(22, 160, 216, 0.12);
+    color: var(--apba-brand-accent-alt);
+  }
+
+  /* Card index number — decorative, top-right */
+  .qea-pillar-num {
+    font-family: var(--apba-font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--apba-surface-sunken);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    user-select: none;
+  }
+
+  .qea-pillar-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-1);
+    flex: 1;
+  }
+
+  .qea-pillar-title {
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    line-height: var(--apba-leading-snug);
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  .qea-pillar-detail {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+    max-width: none;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     NARRATIVE — CMS body text
+     ══════════════════════════════════════════════════════════════════════════ */
+
+  .qea-narrative {
+    padding-block: var(--apba-space-12) var(--apba-space-20);
+    background: var(--apba-surface-base);
+  }
+
+  .qea-narrative-inner {
+    max-width: 72ch;
+  }
+
+  /* Section label: thin line + small uppercase text */
+  .qea-section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--apba-space-3);
+    margin-bottom: var(--apba-space-8);
+  }
+
+  .qea-section-line {
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--apba-brand-primary);
+    flex-shrink: 0;
+  }
+
+  .qea-section-text {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    letter-spacing: var(--apba-tracking-wider);
+    text-transform: uppercase;
+    color: var(--apba-brand-primary);
+  }
+
+  /* page-body: flex column gives consistent gap between injected paragraphs */
+  .page-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-5);
+  }
+
+  /* Left accent bar on the narrative block */
+  @media (min-width: 768px) {
+    .qea-narrative-inner {
+      padding-left: var(--apba-space-8);
+      border-left: 3px solid var(--apba-brand-tint);
+    }
+    .qea-section-label {
+      margin-left: calc(-1 * var(--apba-space-8) - 3px);
+    }
+    /* Move accent bar left edge to align with border */
+    .qea-section-line {
+      width: calc(var(--apba-space-8) + 3px + var(--apba-space-3));
+    }
+  }
+
+  /* ── Injected paragraphs — :global() needed for set:html content ── */
+
+  /* First paragraph: lead treatment */
+  :global(.qea-narrative .page-body p:first-child) {
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-medium);
+    color: var(--apba-brand-primary-strong);
+    line-height: var(--apba-leading-loose);
+    padding: var(--apba-space-5) var(--apba-space-6);
+    background: var(--apba-brand-tint);
+    border-radius: 0 var(--apba-radius-lg) var(--apba-radius-lg) 0;
+    border-left: 4px solid var(--apba-brand-primary);
+    max-width: 72ch;
+  }
+
+  /* All body paragraphs */
+  :global(.qea-narrative .page-body p) {
+    color: var(--apba-text-primary);
+    line-height: var(--apba-leading-loose);
+    max-width: 72ch;
+    font-size: var(--apba-text-body);
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     SHARED ANIMATION
+     ══════════════════════════════════════════════════════════════════════════ */
+
+  @keyframes qeaFadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     RESPONSIVE ADJUSTMENTS
+     ══════════════════════════════════════════════════════════════════════════ */
+
+  @media (max-width: 640px) {
+    /* Stack identity band vertically, center everything */
+    .qea-identity-inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--apba-space-6);
+    }
+    .qea-vdivider { display: none; }
+    .qea-info-block { align-items: center; }
+    .qea-badges { justify-content: center; }
+    .qea-monogram { display: none; }
+
+    /* Stats: 2x2 on small screens */
+    .qea-stats-inner {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--apba-space-4);
+    }
+    .qea-stat-sep { display: none; }
+    .qea-stat {
+      padding: var(--apba-space-2) var(--apba-space-4);
+      border: 1px solid var(--apba-border);
+      border-radius: var(--apba-radius-lg);
+      background: var(--apba-surface-base);
+    }
+  }
+
+  @media (max-width: 479px) {
+    .qea-stats-inner { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .qea-year, .qea-year-label, .qea-info-block,
+    .qea-monogram, .qea-stat, .qea-pillar { animation: none; }
+    .qea-pillar:hover { transform: none; }
+  }
+</style>

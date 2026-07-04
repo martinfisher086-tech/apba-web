@@ -1,0 +1,44 @@
+{
+  "name": "apba-web",
+  "description": "psicologos.org.ar — APBA website rebuild",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "eslint src --ext .ts,.astro",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:a11y": "playwright test tests/a11y",
+    "test:redirects": "node scripts/verify-redirects.mjs",
+    "test:routes": "node scripts/verify-routes.mjs",
+    "ci:lighthouse": "lhci autorun"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/sitemap": "^3.0.0",
+    "astro": "^4.0.0",
+    "lightningcss": "^1.32.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.0",
+    "@lhci/cli": "^0.14.0",
+    "@playwright/test": "^1.44.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "axe-core": "^4.9.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-astro": "^1.0.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-astro": "^0.14.0",
+    "typescript": "^5.4.0"
+  }
+}

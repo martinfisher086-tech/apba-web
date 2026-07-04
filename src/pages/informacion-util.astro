@@ -1,0 +1,239 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+
+const seo = {
+  title: "Información útil — APBA",
+  description: "Trámites, normativa y recursos de interés para el ejercicio profesional de la psicología en Buenos Aires: habilitaciones, matriculaciones e inscripción de prestadores.",
+  noindex: false,
+};
+
+const recursos = [
+  {
+    titulo: "Habilitación de un consultorio de salud mental",
+    descripcion: "En el siguiente enlace encontrás la información detallada para habilitar consultorios de salud mental en el ámbito de la Ciudad Autónoma de Buenos Aires (CABA).",
+    url: "https://www.argentina.gob.ar/habilitacion-de-un-consultorio-de-salud-mental",
+    urlLabel: "Ver información en Argentina.gob.ar",
+  },
+  {
+    titulo: "Matriculaciones y rematriculaciones",
+    descripcion: "En el siguiente enlace encontrás las instrucciones para solicitar la credencial de la matrícula profesional.",
+    url: "https://www.argentina.gob.ar/matriculaciones-y-rematriculaciones",
+    urlLabel: "Ver instrucciones en Argentina.gob.ar",
+  },
+];
+---
+
+<BaseLayout {seo}>
+  <PageHero
+    title="Información útil"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Información útil" },
+    ]}
+  />
+
+  <div class="container page-layout">
+
+    <p class="page-intro">
+      Reunimos aquí los trámites, recursos y normativa más frecuentes para el ejercicio profesional
+      de la psicología en Buenos Aires.
+    </p>
+
+    <div class="resources-grid">
+      {recursos.map((r) => (
+        <article class="resource-card">
+          <div class="resource-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="resource-body">
+            <h2 class="resource-title">{r.titulo}</h2>
+            <p class="resource-desc">{r.descripcion}</p>
+            <a href={r.url} target="_blank" rel="noopener noreferrer" class="resource-link">
+              {r.urlLabel}
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+
+      <!-- Inscripción de Profesionales — detailed, no single URL -->
+      <article class="resource-card resource-card--detailed">
+        <div class="resource-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="resource-body">
+          <h2 class="resource-title">Inscripción de Profesionales en el Registro de Prestadores</h2>
+          <div class="resource-detail-grid">
+            <div class="detail-item">
+              <h3 class="detail-label">Atención presencial</h3>
+              <p>Lunes a viernes de 10:00 a 16:00 h</p>
+              <p class="detail-address">Av. Pte. Roque Sáenz Peña 530 — Ciudad Autónoma de Buenos Aires (C1035AAN)</p>
+            </div>
+            <div class="detail-item">
+              <h3 class="detail-label">Atención telefónica</h3>
+              <p>(011) 4344-2800 — int. 2864 y 2933</p>
+              <p>Lunes a viernes de 10:00 a 16:00 h</p>
+            </div>
+            <div class="detail-item detail-item--full">
+              <h3 class="detail-label">Documentación por correo postal</h3>
+              <p>También podés remitir toda la documentación requerida vía correo postal a la dirección indicada arriba.</p>
+              <p class="detail-note">Todos los trámites son gratuitos. Toda reinscripción se realiza desde el día de su vencimiento en adelante.</p>
+            </div>
+          </div>
+          <a
+            href="https://www.argentina.gob.ar/sssalud/prestadores-profesionales/inscripcion"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="resource-link"
+          >
+            Formulario y requisitos completos en Argentina.gob.ar
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <div class="contact-cta">
+      <p>
+        ¿Tenés dudas sobre un trámite? Consultanos en
+        <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>
+      </p>
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .page-layout { padding-block: var(--apba-space-10) var(--apba-space-16); }
+
+  .page-intro {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-loose);
+    max-width: 72ch;
+    margin-bottom: var(--apba-space-10);
+  }
+
+  .resources-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-5);
+    margin-bottom: var(--apba-space-10);
+  }
+
+  .resource-card {
+    display: flex;
+    gap: var(--apba-space-4);
+    align-items: flex-start;
+    padding: var(--apba-space-6);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-xl);
+    background: var(--apba-surface);
+    box-shadow: var(--apba-shadow-1);
+  }
+  .resource-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--apba-radius-md);
+    background: var(--apba-brand-tint);
+    color: var(--apba-brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .resource-body { flex: 1; }
+  .resource-title {
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary-strong);
+    margin: 0 0 var(--apba-space-2);
+    line-height: var(--apba-leading-tight);
+  }
+  .resource-desc {
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0 0 var(--apba-space-4);
+    font-size: var(--apba-text-body-sm);
+  }
+  .resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary);
+    text-decoration: none;
+    padding: var(--apba-space-2) var(--apba-space-4);
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-md);
+    transition: background-color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .resource-link:hover { background: var(--apba-border); }
+
+  /* Detailed card (Inscripción) */
+  .resource-detail-grid {
+    display: grid;
+    gap: var(--apba-space-4);
+    margin-bottom: var(--apba-space-4);
+  }
+  @media (min-width: 640px) {
+    .resource-detail-grid { grid-template-columns: repeat(2, 1fr); }
+    .detail-item--full { grid-column: 1 / -1; }
+  }
+  .detail-item {
+    padding: var(--apba-space-4);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-md);
+  }
+  .detail-label {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--apba-tracking-wide);
+    color: var(--apba-brand-primary);
+    margin: 0 0 var(--apba-space-2);
+  }
+  .detail-item p {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0 0 var(--apba-space-1);
+  }
+  .detail-item p:last-child { margin-bottom: 0; }
+  .detail-address { font-style: italic; }
+  .detail-note {
+    color: var(--apba-text-tertiary) !important;
+    font-size: var(--apba-text-caption) !important;
+  }
+
+  /* Contact CTA */
+  .contact-cta {
+    padding: var(--apba-space-5) var(--apba-space-6);
+    background: var(--apba-surface-raised);
+    border-radius: var(--apba-radius-lg);
+    border-left: 4px solid var(--apba-brand-primary);
+  }
+  .contact-cta p { color: var(--apba-text-secondary); margin: 0; }
+  .contact-cta a { color: var(--apba-brand-primary); font-weight: var(--apba-weight-semibold); }
+</style>
