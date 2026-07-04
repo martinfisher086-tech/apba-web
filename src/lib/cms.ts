@@ -63,10 +63,10 @@ interface _RawNewsFeed {
   items: _RawNewsItem[];
 }
 
-// Load at build time — path is relative to this file (apba-web/src/lib/ → ../../../ = APBA root)
+// Load at build time — path is relative to this file (src/lib/ → ../../ = project root)
 const __libDir = dirname(fileURLToPath(import.meta.url));
 const _rawNews: _RawNewsFeed = JSON.parse(
-  readFileSync(resolve(__libDir, "../../../extraction/news-clean.json"), "utf-8")
+  readFileSync(resolve(__libDir, "../../extraction/news-clean.json"), "utf-8")
 ) as _RawNewsFeed;
 
 // ─── RAW JSON TYPES (pages-clean.json) ──────────────────────────────────────
@@ -88,7 +88,7 @@ interface _RawPagesFeed {
 }
 
 const _rawPages: _RawPagesFeed = JSON.parse(
-  readFileSync(resolve(__libDir, "../../../extraction/pages-clean.json"), "utf-8")
+  readFileSync(resolve(__libDir, "../../extraction/pages-clean.json"), "utf-8")
 ) as _RawPagesFeed;
 
 function _mapPage(item: _RawPage): Page {
