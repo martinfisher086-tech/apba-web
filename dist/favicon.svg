@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="APBA">
-  <title>APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires</title>
-  <rect width="64" height="64" rx="13" fill="#16519E"/>
-  <g fill="#FFFFFF" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif" font-weight="700" text-anchor="middle" letter-spacing="-1">
-    <text x="32" y="30" font-size="22">AP</text>
-    <text x="32" y="50" font-size="22">BA</text>
-  </g>
-  <rect x="22" y="53.5" width="20" height="3.5" rx="1.75" fill="#C2185B"/>
-</svg>
