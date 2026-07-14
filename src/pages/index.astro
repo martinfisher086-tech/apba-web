@@ -35,6 +35,7 @@ const structuredData = JSON.stringify([
     sameAs: [
       "https://www.facebook.com/APBAarg/",
       "https://www.instagram.com/apbaarg/",
+      "https://www.youtube.com/@apbaarg9912",
     ],
   },
   {
@@ -154,19 +155,6 @@ const structuredData = JSON.stringify([
             <span>Posgrados y especializaciones en universidades nacionales</span>
           </span>
         </a>
-        <a href="/beneficios/" class="benefit-chip">
-          <span class="benefit-chip-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-          </span>
-          <span class="benefit-chip-text">
-            <strong>Turismo para socios</strong>
-            <span>Descuentos en turismo y recreación — solicitá tu constancia</span>
-          </span>
-        </a>
         <a href="/supervisiones/" class="benefit-chip">
           <span class="benefit-chip-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -185,16 +173,16 @@ const structuredData = JSON.stringify([
     </div>
   </div>
 
-  <!-- ── Novedades section ── -->
-  <section class="section novedades-section" aria-labelledby="novedades-heading">
+  <!-- ── Actividades section ── -->
+  <section class="section actividades-section" aria-labelledby="actividades-heading">
     <div class="container">
-      <h2 id="novedades-heading">Novedades</h2>
+      <h2 id="actividades-heading">Actividades</h2>
       <div class="news-grid">
         {news.map((article) => (
           <NewsCard article={article} headingLevel={3} />
         ))}
       </div>
-      <a href="/novedades/" class="btn btn--ghost">Ver todas las novedades</a>
+      <a href="/actividades/" class="btn btn--ghost">Ver todas las actividades</a>
     </div>
   </section>
 
@@ -392,9 +380,8 @@ const structuredData = JSON.stringify([
     grid-template-columns: repeat(2, 1fr);
     gap: var(--apba-space-3);
   }
-  /* 3 chips → 3-col on desktop; 2-col on mobile already gives 2+1 which is acceptable */
-  @media (min-width: 900px) {
-    .benefits-strip-inner { grid-template-columns: repeat(3, 1fr); }
+  @media (min-width: 640px) {
+    .benefits-strip-inner { grid-template-columns: repeat(2, 1fr); }
   }
   .benefit-chip {
     display: flex;
@@ -439,7 +426,7 @@ const structuredData = JSON.stringify([
   .section { padding-block: var(--apba-space-12) var(--apba-space-16); }
 
   /* ── News grid ── */
-  .novedades-section h2 { margin-bottom: var(--apba-space-6); }
+  .actividades-section h2 { margin-bottom: var(--apba-space-6); }
   .news-grid { display: grid; gap: var(--apba-space-6); }
   @media (min-width: 768px)  { .news-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 1024px) { .news-grid { grid-template-columns: repeat(3, 1fr); } }

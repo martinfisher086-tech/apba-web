@@ -1,23 +1,22 @@
 ---
 /**
- * Beneficios — /beneficios/
- * Unified hub for all member benefits: aranceles, turismo, supervisiones,
+ * Prestaciones — /beneficios/
+ * Unified hub for all member prestaciones: aranceles, supervisiones,
  * fondo solidario FEPRA, and representación gremial.
- * Tasks 6 & 7: consolidated from Descuentos, Turismo, and standalone cards.
  */
 import BaseLayout from "@layouts/BaseLayout.astro";
 import PageHero from "@components/organisms/PageHero.astro";
 
 const seo = {
-  title: "Beneficios para socios — APBA",
-  description: "Descubrí todos los beneficios exclusivos para socias y socios de APBA: aranceles preferenciales, turismo, supervisiones, Fondo Solidario FEPRA y representación gremial.",
+  title: "Prestaciones — APBA",
+  description: "Descubrí todas las prestaciones exclusivas para socias y socios de APBA: aranceles preferenciales, supervisiones, Fondo Solidario FEPRA y representación gremial.",
   noindex: false,
 };
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Beneficios para socios — APBA",
+  name: "Prestaciones — APBA",
   url: "https://psicologos.org.ar/beneficios/",
   description: seo.description,
 };
@@ -30,15 +29,6 @@ const benefitItems = [
     title: "Aranceles preferenciales",
     description: "Accedé a posgrados y especializaciones en psicología con aranceles reducidos, exclusivos para socias y socios de APBA.",
     detail: "Convenios vigentes con universidades e instituciones de formación en salud mental y áreas afines.",
-    href: null as string | null,
-    hrefLabel: null as string | null,
-  },
-  {
-    id: "turismo",
-    icon: "globe",
-    title: "Turismo para socios",
-    description: "Beneficios y descuentos en turismo y recreación para las socias y socios de APBA, accesibles presentando constancia de socio vigente.",
-    detail: "Consultá la disponibilidad de beneficios turísticos escribiendo a la Secretaría Administrativa.",
     href: null as string | null,
     hrefLabel: null as string | null,
   },
@@ -76,18 +66,18 @@ const benefitItems = [
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
   <PageHero
-    title="Beneficios"
+    title="Prestaciones"
     breadcrumbs={[
       { label: "Inicio", href: "/" },
-      { label: "Beneficios" },
+      { label: "Prestaciones" },
     ]}
   />
 
   <div class="container page-layout">
 
     <p class="section-lead">
-      Como socia o socio de APBA accedés a un conjunto integral de beneficios profesionales:
-      formación con descuento, turismo, supervisión clínica, cobertura solidaria y representación gremial.
+      Como socia o socio de APBA accedés a un conjunto integral de prestaciones profesionales:
+      formación con descuento, supervisión clínica, cobertura solidaria y representación gremial.
     </p>
 
     <ul class="benefit-unified-grid" role="list">

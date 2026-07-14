@@ -1,0 +1,181 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NewsCard from "@components/molecules/NewsCard.astro";
+import { getNewsArticles } from "@lib/cms";
+
+const allNews = await getNewsArticles();
+const news = allNews.filter(a => a.slug !== 'x-congreso-latinoamericano-de-psicologia-ulapsi');
+
+const seo = {
+  title: "Actividades — APBA",
+  description: "Charlas, cursos y novedades de especialidades de la Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+
+const PAGE_SIZE = 12;
+---
+
+<BaseLayout {seo}>
+  <div class="container actividades-layout">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li aria-current="page">Actividades</li>
+      </ol>
+    </nav>
+    <h1>Actividades</h1>
+
+    <div class="news-grid" id="actividades-grid">
+      {news.map((article, i) => (
+        <div class:list={["news-item", { "news-item--featured": i === 0 }]} data-index={i}>
+          <NewsCard article={article} headingLevel={2} />
+        </div>
+      ))}
+    </div>
+
+    <nav aria-label="Paginación de actividades" id="actividades-pagination" class="pagination" hidden></nav>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ PAGE_SIZE }}>
+  (function () {
+    const grid = document.getElementById("actividades-pagination");
+    if (!grid) return;
+
+    const paginationNav = grid;
+    const items = Array.from(document.querySelectorAll("#actividades-grid .news-item"));
+    const total = items.length;
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+
+    if (totalPages <= 1) return;
+
+    paginationNav.hidden = false;
+    let current = 1;
+
+    function showPage(page) {
+      current = page;
+      items.forEach(function (item, idx) {
+        const start = (page - 1) * PAGE_SIZE;
+        const end = page * PAGE_SIZE;
+        item.hidden = !(idx >= start && idx < end);
+      });
+      renderLinks(page);
+      const firstVisible = items[(page - 1) * PAGE_SIZE];
+      if (firstVisible) firstVisible.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderLinks(activePage) {
+      const pages = Array.from({ length: totalPages }, function (_, i) { return i + 1; });
+
+      let html = "<ul>";
+      if (activePage > 1) {
+        html += '<li><button class="page-link" data-page="' + (activePage - 1) + '" aria-label="Página anterior">←</button></li>';
+      } else {
+        html += '<li><span class="page-link page-link--disabled" aria-disabled="true">←</span></li>';
+      }
+      pages.forEach(function (p) {
+        if (p === activePage) {
+          html += '<li><span class="page-link page-link--current" aria-current="page">' + p + '</span></li>';
+        } else {
+          html += '<li><button class="page-link" data-page="' + p + '">' + p + '</button></li>';
+        }
+      });
+      if (activePage < totalPages) {
+        html += '<li><button class="page-link" data-page="' + (activePage + 1) + '" aria-label="Página siguiente">→</button></li>';
+      } else {
+        html += '<li><span class="page-link page-link--disabled" aria-disabled="true">→</span></li>';
+      }
+      html += "</ul>";
+
+      paginationNav.innerHTML = html;
+
+      paginationNav.querySelectorAll("button[data-page]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          showPage(parseInt(btn.getAttribute("data-page"), 10));
+        });
+      });
+    }
+
+    showPage(1);
+  })();
+</script>
+
+<style>
+  .actividades-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  h1 { margin-bottom: var(--apba-space-6); }
+
+  .news-grid {
+    display: grid;
+    gap: var(--apba-space-6);
+  }
+  @media (min-width: 768px)  { .news-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .news-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  @media (min-width: 1024px) {
+    .news-item--featured { grid-column: span 2; }
+  }
+
+  .pagination {
+    margin-top: var(--apba-space-10);
+    padding-top: var(--apba-space-8);
+    border-top: 1px solid var(--apba-border);
+  }
+  :global(#actividades-pagination ul) {
+    display: flex;
+    flex-direction: row;
+    gap: var(--apba-space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  :global(#actividades-pagination li) {
+    display: flex;
+  }
+  :global(.page-link) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: var(--apba-space-2) var(--apba-space-3);
+    border: 1.5px solid var(--apba-border);
+    border-radius: var(--apba-radius-md);
+    text-decoration: none;
+    color: var(--apba-text-primary);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body-sm);
+    background: var(--apba-surface);
+    line-height: 1;
+    transition:
+      background var(--apba-duration-fast) var(--apba-ease-out),
+      border-color var(--apba-duration-fast) var(--apba-ease-out),
+      color var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  :global(button.page-link) {
+    cursor: pointer;
+    font-family: var(--apba-font-sans);
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+  }
+  :global(button.page-link:hover) {
+    background: var(--apba-brand-tint);
+    border-color: var(--apba-brand-primary);
+    color: var(--apba-brand-primary);
+  }
+  :global(.page-link--current) {
+    background: var(--apba-brand-primary);
+    color: var(--apba-text-on-brand);
+    border-color: var(--apba-brand-primary);
+    cursor: default;
+    box-shadow: 0 2px 6px rgba(22, 81, 158, 0.30);
+  }
+  :global(.page-link--disabled) {
+    color: var(--apba-text-tertiary);
+    border-color: var(--apba-border);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+</style>

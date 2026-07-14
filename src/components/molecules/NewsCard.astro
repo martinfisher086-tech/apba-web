@@ -33,7 +33,7 @@ const hasRealImage = heroImgSrc !== null;
 ---
 
 <article class:list={["news-card", className]}>
-  <a href={`/novedades/${article.slug}/`} class:list={["card-image", { "card-image--placeholder": !hasRealImage }]} tabindex="-1" aria-hidden="true">
+  <a href={`/actividades/${article.slug}/`} class:list={["card-image", { "card-image--placeholder": !hasRealImage }]} tabindex="-1" aria-hidden="true">
     {hasRealImage
       ? (
         <img
@@ -58,7 +58,7 @@ const hasRealImage = heroImgSrc !== null;
       <Badge variant="primary" class="card-category">{article.category}</Badge>
     )}
     <Heading class="card-title">
-      <a href={`/novedades/${article.slug}/`}>{article.title}</a>
+      <a href={`/actividades/${article.slug}/`}>{article.title}</a>
     </Heading>
     {article.excerpt && <p class="card-excerpt">{article.excerpt}</p>}
     {dateFormatted && (

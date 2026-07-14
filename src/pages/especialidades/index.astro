@@ -1,0 +1,23 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ComingSoon from "@components/organisms/ComingSoon.astro";
+
+const seo = {
+  title: "Especialidades — APBA",
+  description: "Especialidades psicológicas acreditadas y reconocidas por la Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  noindex: false,
+};
+---
+
+<BaseLayout {seo}>
+  <ComingSoon
+    title="Especialidades"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Institucional", href: "/institucional/" },
+      { label: "Especialidades" },
+    ]}
+    lead="Estamos preparando el contenido sobre especialidades psicológicas acreditadas."
+    note="Pronto encontrarás aquí información sobre especialidades reconocidas por APBA. Mientras tanto, escribinos y te respondemos."
+  />
+</BaseLayout>

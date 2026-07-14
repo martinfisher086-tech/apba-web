@@ -1,0 +1,338 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NewsCard from "@components/molecules/NewsCard.astro";
+import { getNewsArticles, getNewsArticleBySlug } from "@lib/cms";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const articles = await getNewsArticles();
+  return articles.map((a) => ({ params: { slug: a.slug } }));
+};
+
+const { slug } = Astro.params;
+const article = await getNewsArticleBySlug(slug);
+if (!article) return Astro.redirect("/404");
+
+const seo = article.seo ?? {
+  title: `${article.title} — APBA`,
+  description: article.excerpt,
+  noindex: false,
+};
+
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  headline: article.title,
+  datePublished: article.publishDate,
+  dateModified: article.modifiedDate ?? article.publishDate,
+  author: { "@type": "Organization", name: article.author ?? "APBA" },
+  publisher: {
+    "@type": "Organization",
+    name: "APBA",
+    logo: { "@type": "ImageObject", url: "https://psicologos.org.ar/images/apba-logo.svg" },
+  },
+  image: article.heroImage?.url,
+  url: `https://psicologos.org.ar/actividades/${article.slug}/`,
+});
+
+const heroImgSrc = (() => {
+  if (!article.heroImage) return null;
+  const raw = article.heroImage as Record<string, unknown>;
+  if (raw["status"] === "pending_download" || typeof raw["url"] !== "string" || !raw["url"]) {
+    return null;
+  }
+  return article.heroImage.url;
+})();
+
+const allRecent = await getNewsArticles({ limit: 8 });
+const sidebarArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0, 5);
+const relatedArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0, 3);
+---
+
+<BaseLayout {seo}>
+  <Fragment slot="structured-data">
+    <script type="application/ld+json" set:html={structuredData} />
+  </Fragment>
+
+  <div class="article-page container">
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/actividades/">Actividades</a></li>
+        <li aria-current="page">{article.title}</li>
+      </ol>
+    </nav>
+
+    <div class="article-layout">
+      <!-- ── Main content ── -->
+      <article class="article-main">
+        {heroImgSrc ? (
+          <img
+            src={heroImgSrc}
+            alt={article.heroImage?.alt ?? ""}
+            width="1200"
+            height="630"
+            class="hero-image"
+          />
+        ) : (
+          <div class="hero-image-placeholder" aria-hidden="true">
+            <img src="/images/apba-logo.svg" alt="" width="64" height="64" class="placeholder-brand-logo" />
+            {article.category && <span class="placeholder-label">{article.category}</span>}
+          </div>
+        )}
+
+        <header class="article-header">
+          {article.category && <p class="overline">{article.category}</p>}
+          <h1>{article.title}</h1>
+          {article.publishDate && (
+            <p class="caption article-date">
+              <time datetime={article.publishDate}>
+                {new Date(article.publishDate).toLocaleDateString("es-AR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+            </p>
+          )}
+        </header>
+
+        <div class="article-body prose" set:html={article.body} />
+      </article>
+
+      <!-- ── Sidebar ── -->
+      <aside class="article-sidebar" aria-label="Contenido relacionado">
+        <div class="widget widget--agenda">
+          <a href="/agenda/" class="widget-agenda-link" aria-label="Ver la agenda de APBA">
+            <div class="widget-agenda-bg" aria-hidden="true"></div>
+            <div class="widget-agenda-content">
+              <img src="/images/apba-logo-white.svg" alt="" class="widget-agenda-logo" width="80" height="40" />
+              <span class="widget-agenda-label">Ver agenda</span>
+            </div>
+          </a>
+        </div>
+
+        {sidebarArticles.length > 0 && (
+          <div class="widget widget--news">
+            <h2 class="widget-title">Últimas actividades</h2>
+            <ul class="widget-news-list" role="list">
+              {sidebarArticles.map((a) => (
+                <li class="widget-news-item">
+                  <a href={`/actividades/${a.slug}/`}>{a.title}</a>
+                  {a.publishDate && (
+                    <time class="widget-news-date" datetime={a.publishDate}>
+                      {new Date(a.publishDate).toLocaleDateString("es-AR", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </time>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <a href="/actividades/" class="widget-more-link">Ver todas →</a>
+          </div>
+        )}
+      </aside>
+    </div>
+  </div>
+
+  {relatedArticles.length > 0 && (
+    <section class="related-section" aria-labelledby="related-heading">
+      <div class="container">
+        <h2 id="related-heading">También te puede interesar</h2>
+        <div class="related-grid">
+          {relatedArticles.map((a) => (
+            <NewsCard article={a} headingLevel={3} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .article-page { padding-block: var(--apba-space-8) var(--apba-space-12); }
+
+  .article-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--apba-space-8);
+    margin-top: var(--apba-space-2);
+  }
+  @media (min-width: 1024px) {
+    .article-layout {
+      grid-template-columns: 1fr 280px;
+      align-items: start;
+    }
+  }
+
+  .article-main { max-width: var(--apba-reading-width); }
+  .hero-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: var(--apba-radius-lg);
+    margin-bottom: var(--apba-space-6);
+  }
+  .hero-image-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: var(--apba-radius-lg);
+    margin-bottom: var(--apba-space-6);
+    background: var(--apba-surface-raised);
+    border: 1px solid var(--apba-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--apba-space-3);
+  }
+  .placeholder-brand-logo {
+    width: 64px;
+    height: 64px;
+    opacity: 0.2;
+    object-fit: contain;
+    filter: invert(29%) sepia(67%) saturate(608%) hue-rotate(194deg) brightness(82%) contrast(95%);
+  }
+  .placeholder-label {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--apba-tracking-wider);
+    color: var(--apba-text-tertiary);
+  }
+  .article-header { margin-bottom: var(--apba-space-6); }
+  .article-header h1 { margin-top: var(--apba-space-2); }
+  .article-date { margin-top: var(--apba-space-2); }
+  .prose :global(p) { margin-bottom: var(--apba-space-4); line-height: var(--apba-leading-loose); }
+  .prose :global(h2) { margin-top: var(--apba-space-8); margin-bottom: var(--apba-space-4); }
+  .prose :global(h3) { margin-top: var(--apba-space-6); margin-bottom: var(--apba-space-3); }
+  .prose :global(ul), .prose :global(ol) { margin-bottom: var(--apba-space-4); padding-left: var(--apba-space-6); }
+  .prose :global(li) { margin-bottom: var(--apba-space-2); line-height: var(--apba-leading-relaxed); }
+
+  .article-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-4);
+  }
+  @media (max-width: 1023px) {
+    .article-sidebar { order: 2; }
+    .article-main { order: 1; }
+  }
+
+  .widget--agenda {
+    border-radius: var(--apba-radius-lg);
+    overflow: hidden;
+    min-height: 160px;
+  }
+  .widget-agenda-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 160px;
+    text-decoration: none;
+  }
+  .widget-agenda-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(14,47,92,0.75), rgba(14,47,92,0.75)),
+      url('/images/downloaded/institucional--agenda.png');
+    background-size: cover;
+    background-position: center;
+  }
+  .widget-agenda-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--apba-space-3);
+  }
+  .widget-agenda-logo {
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+  }
+  .widget-agenda-label {
+    color: var(--apba-text-on-brand);
+    font-weight: var(--apba-weight-semibold);
+    font-size: var(--apba-text-body-sm);
+    background: var(--apba-brand-accent);
+    padding: var(--apba-space-2) var(--apba-space-4);
+    border-radius: var(--apba-radius-md);
+    transition: background var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .widget-agenda-link:hover .widget-agenda-label {
+    background: #9c1248;
+  }
+
+  .widget--news {
+    padding: var(--apba-space-4);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    background: var(--apba-surface);
+  }
+  .widget-title {
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-text-primary);
+    margin: 0 0 var(--apba-space-3);
+    padding-bottom: var(--apba-space-3);
+    border-bottom: 1px solid var(--apba-border);
+  }
+  .widget-news-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-3);
+  }
+  .widget-news-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: var(--apba-space-3);
+    border-bottom: 1px solid var(--apba-border);
+  }
+  .widget-news-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .widget-news-item a {
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-medium);
+    color: var(--apba-text-primary);
+    text-decoration: none;
+    line-height: var(--apba-leading-snug);
+  }
+  .widget-news-item a:hover { color: var(--apba-brand-primary); }
+  .widget-news-date {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-tertiary);
+  }
+  .widget-more-link {
+    display: inline-block;
+    margin-top: var(--apba-space-3);
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-medium);
+    color: var(--apba-brand-primary);
+    text-decoration: none;
+  }
+  .widget-more-link:hover { text-decoration: underline; }
+
+  .related-section {
+    background: var(--apba-surface-raised);
+    padding-block: var(--apba-space-10) var(--apba-space-12);
+    border-top: 1px solid var(--apba-border);
+  }
+  .related-section h2 {
+    margin-bottom: var(--apba-space-6);
+  }
+  .related-grid {
+    display: grid;
+    gap: var(--apba-space-6);
+  }
+  @media (min-width: 640px)  { .related-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .related-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>
