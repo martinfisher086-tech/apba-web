@@ -1,0 +1,275 @@
+---
+/**
+ * YoutubeLatestVideos — fetches the APBA channel RSS at build time and renders
+ * the latest 4 videos as thumbnail cards. If the feed is unavailable the
+ * entire section is silently omitted; the build never fails because of it.
+ *
+ * YouTube RSS (no API key): https://www.youtube.com/feeds/videos.xml?channel_id=CHANNEL_ID
+ * Atom namespaces used: yt:videoId, media:title, media:thumbnail, published
+ */
+
+const CHANNEL_ID  = "UC6sAKrQFAkMJoolPP7K0cDA";
+const CHANNEL_URL = "https://www.youtube.com/@apbaarg9912";
+const RSS_URL     = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+
+interface YTVideo {
+  id:        string;
+  title:     string;
+  url:       string;
+  thumbnail: string;
+  published: string;
+}
+
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&amp;/g,  "&")
+    .replace(/&lt;/g,   "<")
+    .replace(/&gt;/g,   ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g,  "'");
+}
+
+function parseEntries(xml: string): YTVideo[] {
+  const entries = xml.match(/<entry>([\s\S]*?)<\/entry>/g) ?? [];
+  const results: YTVideo[] = [];
+
+  for (const entry of entries.slice(0, 4)) {
+    const id = /<yt:videoId>([^<]+)<\/yt:videoId>/.exec(entry)?.[1];
+    if (!id) continue;
+
+    const rawTitle =
+      /<media:title>([^<]*)<\/media:title>/.exec(entry)?.[1] ??
+      /<title>([^<]*)<\/title>/.exec(entry)?.[1] ??
+      "";
+
+    const thumbnail =
+      /<media:thumbnail url="([^"]+)"/.exec(entry)?.[1] ??
+      `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+    const published =
+      /<published>([^<]+)<\/published>/.exec(entry)?.[1] ?? "";
+
+    results.push({
+      id,
+      title:     decodeEntities(rawTitle),
+      url:       `https://www.youtube.com/watch?v=${id}`,
+      thumbnail,
+      published,
+    });
+  }
+  return results;
+}
+
+let videos: YTVideo[] = [];
+
+try {
+  const res = await fetch(RSS_URL, { signal: AbortSignal.timeout(8_000) });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  videos = parseEntries(await res.text());
+} catch (err) {
+  // Non-fatal: skip the widget rather than breaking the build.
+  console.warn(
+    `[YoutubeLatestVideos] RSS fetch failed — widget omitted this build.\n  ${err}`
+  );
+}
+---
+
+{videos.length > 0 && (
+  <section class="yt-section" aria-labelledby="yt-heading">
+    <div class="container">
+
+      <div class="yt-header">
+        <div class="yt-header-left">
+          <svg class="yt-icon" aria-hidden="true" focusable="false" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon fill="#fff" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+          </svg>
+          <h2 id="yt-heading">Últimos videos</h2>
+        </div>
+        <a
+          href={CHANNEL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="yt-channel-link"
+          aria-label="Ver el canal completo de APBA en YouTube"
+        >
+          Ver canal completo
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="yt-grid">
+        {videos.map((v) => (
+          <a
+            href={v.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="yt-card"
+          >
+            <div class="yt-thumb">
+              <img
+                src={v.thumbnail}
+                alt={v.title}
+                loading="lazy"
+                decoding="async"
+                width="480"
+                height="360"
+              />
+              <div class="yt-play" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.55)"/>
+                  <polygon points="19,14 37,24 19,34" fill="white"/>
+                </svg>
+              </div>
+            </div>
+            <div class="yt-card-body">
+              <p class="yt-card-title">{v.title}</p>
+              {v.published && (
+                <time class="yt-card-date" datetime={v.published}>
+                  {new Date(v.published).toLocaleDateString("es-AR", {
+                    year:  "numeric",
+                    month: "long",
+                    day:   "numeric",
+                  })}
+                </time>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+
+    </div>
+  </section>
+)}
+
+<style>
+  .yt-section {
+    background: var(--apba-surface-raised);
+    border-top: 1px solid var(--apba-border);
+    padding-block: var(--apba-space-10) var(--apba-space-12);
+  }
+
+  /* ── Header row ── */
+  .yt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--apba-space-3);
+    margin-bottom: var(--apba-space-6);
+  }
+  .yt-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--apba-space-3);
+  }
+  .yt-icon { color: #ff0000; flex-shrink: 0; }
+  .yt-header h2 {
+    font-size: var(--apba-text-h3);
+    margin: 0;
+    color: var(--apba-text-primary);
+  }
+  .yt-channel-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--apba-space-2);
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .yt-channel-link:hover { text-decoration: underline; }
+
+  /* ── Video grid ── */
+  .yt-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--apba-space-4);
+  }
+  @media (min-width: 540px) {
+    .yt-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .yt-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ── Video card ── */
+  .yt-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    overflow: hidden;
+    background: var(--apba-surface-base);
+    text-decoration: none;
+    transition:
+      box-shadow var(--apba-duration-normal) var(--apba-ease-out),
+      transform  var(--apba-duration-normal) var(--apba-ease-out);
+  }
+  .yt-card:hover {
+    box-shadow: var(--apba-shadow-md);
+    transform: translateY(-2px);
+  }
+  .yt-card:focus-visible {
+    outline: 3px solid var(--apba-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Thumbnail ── */
+  .yt-thumb {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--apba-surface-sunken);
+  }
+  .yt-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--apba-duration-normal) var(--apba-ease-out);
+  }
+  .yt-card:hover .yt-thumb img { transform: scale(1.04); }
+
+  /* Play overlay — always visible, brightens on hover */
+  .yt-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.82;
+    transition: opacity var(--apba-duration-fast) var(--apba-ease-out);
+  }
+  .yt-card:hover .yt-play { opacity: 1; }
+
+  /* ── Card body ── */
+  .yt-card-body {
+    padding: var(--apba-space-3) var(--apba-space-4) var(--apba-space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-2);
+    flex: 1;
+  }
+  .yt-card-title {
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-text-primary);
+    line-height: var(--apba-leading-snug);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .yt-card:hover .yt-card-title { color: var(--apba-brand-primary); }
+  .yt-card-date {
+    font-size: var(--apba-text-caption);
+    color: var(--apba-text-tertiary);
+    margin-top: auto;
+  }
+</style>

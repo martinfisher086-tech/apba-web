@@ -8,6 +8,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import NewsCard from "@components/molecules/NewsCard.astro";
 import JournalIssueCard from "@components/molecules/JournalIssueCard.astro";
 import { getNewsArticles, getJournalIssues } from "@lib/cms";
+import YoutubeLatestVideos from "@components/organisms/YoutubeLatestVideos.astro";
 
 // Fetch one extra so we can filter out the ULAPSI article (broken image) without dropping to 2
 const allNews = await getNewsArticles({ limit: 4 });
@@ -185,6 +186,9 @@ const structuredData = JSON.stringify([
       <a href="/actividades/" class="btn btn--ghost">Ver todas las actividades</a>
     </div>
   </section>
+
+  <!-- ── YouTube: Últimos videos ── -->
+  <YoutubeLatestVideos />
 
   <!-- ── Gaceta Psicológica ── -->
   <section class="section gaceta-section" aria-labelledby="gaceta-heading">
