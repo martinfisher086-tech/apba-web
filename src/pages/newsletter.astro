@@ -19,7 +19,7 @@ const seo = {
     <h1>Suscribite al newsletter</h1>
     <p class="lead">Recibí las novedades, convocatorias y publicaciones de APBA directamente en tu correo.</p>
 
-    <form class="newsletter-form" method="POST" action="/api/newsletter" novalidate>
+    <form class="newsletter-form" method="POST" action="/api/forms?type=newsletter" novalidate>
       <div class="field">
         <label for="nombre">Nombre</label>
         <input type="text" id="nombre" name="nombre" required autocomplete="given-name" />

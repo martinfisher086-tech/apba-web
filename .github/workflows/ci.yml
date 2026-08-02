@@ -65,6 +65,8 @@ jobs:
         run: node scripts/verify-routes.mjs
       - name: Check internal links and public files
         run: npm run test:links
+      - name: Check form handlers
+        run: npm run test:forms
 
   # ── Redirect map check ──────────────────────────────────────────────────────
   redirects:

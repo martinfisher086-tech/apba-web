@@ -1,0 +1,42 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+
+const seo = {
+  title: "Mensaje enviado — APBA",
+  description: "Confirmación de recepción del formulario de APBA.",
+  noindex: true,
+};
+---
+
+<BaseLayout {seo}>
+  <PageHero
+    title="Mensaje enviado"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Mensaje enviado" },
+    ]}
+  />
+  <div class="container confirmation">
+    <p class="lead">Recibimos tu información correctamente.</p>
+    <p>Nos comunicaremos a la brevedad.</p>
+    <a class="back-link" href="/">Volver al inicio</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .confirmation {
+    padding-block: var(--apba-space-8) var(--apba-space-16);
+  }
+  .lead {
+    color: var(--apba-text-primary);
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-semibold);
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: var(--apba-space-6);
+    color: var(--apba-brand-primary);
+    font-weight: var(--apba-weight-semibold);
+  }
+</style>
