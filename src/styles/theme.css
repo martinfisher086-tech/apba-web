@@ -29,9 +29,14 @@
   font-weight: 100 900;
   font-display: swap;
   src: url("/fonts/inter-variable-latin-ext.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, /* Basic Latin + Latin Ext A/B (covers á é í ó ú ü ñ ¿ ¡ « ») */
-                 U+2013-2014, /* en dash, em dash */
-                 U+201C-201D, U+00AB, U+00BB; /* "curly quotes" and guillemets */
+  unicode-range:
+    U+0000-00FF,
+    U+0100-017F,
+    U+0180-024F,
+    /* Basic Latin + Latin Ext A/B (covers á é í ó ú ü ñ ¿ ¡ « ») */ U+2013-2014,
+    /* en dash, em dash */ U+201C-201D,
+    U+00AB,
+    U+00BB; /* "curly quotes" and guillemets */
 }
 
 /* Fraunces — display/editorial serif (Option A, pending CP-5)
@@ -53,153 +58,156 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 :root {
   /* ── BRAND COLORS ─────────────────────────────────────────────────────── */
-  --apba-brand-primary:        #16519E;  /* provisional — CP-4 */
-  --apba-brand-primary-strong: #0E2F5C;
-  --apba-brand-accent:         #C2185B;  /* provisional — CP-4 */
-  --apba-brand-accent-alt:     #16A0D8;
+  --apba-brand-primary: #16519e; /* provisional — CP-4 */
+  --apba-brand-primary-strong: #0e2f5c;
+  --apba-brand-accent: #c2185b; /* provisional — CP-4 */
+  --apba-brand-accent-alt: #16a0d8;
 
   /* ── TEXT ─────────────────────────────────────────────────────────────── */
-  --apba-text-primary:   #14202E;
-  --apba-text-muted:     #5A6B7B;
-  --apba-text-on-brand:  #FFFFFF;
-  --apba-text-link:      #16519E;
-  --apba-text-link-visited: #7B3F9E;
+  --apba-text-primary: #14202e;
+  --apba-text-muted: #5a6b7b;
+  --apba-text-on-brand: #ffffff;
+  --apba-text-link: #16519e;
+  --apba-text-link-visited: #7b3f9e;
 
   /* ── SURFACES ─────────────────────────────────────────────────────────── */
-  --apba-surface-base:    #FFFFFF;
-  --apba-surface-raised:  #F4F7FB;
-  --apba-surface-sunken:  #E9EFF6;
-  --apba-surface-overlay: rgba(14, 32, 46, 0.60);
+  --apba-surface-base: #ffffff;
+  --apba-surface-raised: #f4f7fb;
+  --apba-surface-sunken: #e9eff6;
+  --apba-surface-overlay: rgba(14, 32, 46, 0.6);
 
   /* ── BORDERS ──────────────────────────────────────────────────────────── */
-  --apba-border:        #D4DEE9;
-  --apba-border-strong: #9EB4C8;
+  --apba-border: #d4dee9;
+  --apba-border-strong: #9eb4c8;
 
   /* ── FEEDBACK ─────────────────────────────────────────────────────────── */
-  --apba-success:         #1E7F4F;
-  --apba-success-surface: #E6F4EC;
-  --apba-warning:         #B26A00;
-  --apba-warning-surface: #FFF3E0;
-  --apba-error:           #B3261E;
-  --apba-error-surface:   #FCE8E6;
-  --apba-info:            #16519E;
-  --apba-info-surface:    #E8F0FA;
+  --apba-success: #1e7f4f;
+  --apba-success-surface: #e6f4ec;
+  --apba-warning: #b26a00;
+  --apba-warning-surface: #fff3e0;
+  --apba-error: #b3261e;
+  --apba-error-surface: #fce8e6;
+  --apba-info: #16519e;
+  --apba-info-surface: #e8f0fa;
 
   /* ── FOCUS ────────────────────────────────────────────────────────────── */
-  --apba-focus-ring: #16A0D8;
+  --apba-focus-ring: #16a0d8;
 
   /* ── TYPOGRAPHY ───────────────────────────────────────────────────────── */
-  --apba-font-sans:    "Inter Variable", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --apba-font-display: "Fraunces", "Source Serif 4", Georgia, "Times New Roman", serif; /* CP-5 */
-  --apba-font-mono:    "JetBrains Mono", "Fira Code", monospace;
+  --apba-font-sans:
+    "Inter Variable", "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --apba-font-display:
+    "Fraunces", "Source Serif 4", Georgia, "Times New Roman", serif; /* CP-5 */
+  --apba-font-mono: "JetBrains Mono", "Fira Code", monospace;
 
   /* type scale — refined ≈1.25 modular ladder; clear step between body-lg and h4 */
   --apba-text-display: clamp(2.5rem, 5vw + 1rem, 3.75rem); /* 40 → 60 */
-  --apba-text-h1:      2.5rem;    /* 40 */
-  --apba-text-h2:      1.875rem;  /* 30 */
-  --apba-text-h3:      1.5rem;    /* 24 */
-  --apba-text-h4:      1.25rem;   /* 20 — was 1.125rem, collided with body-lg */
-  --apba-text-body-lg: 1.125rem;  /* 18 */
-  --apba-text-body:    1rem;      /* 16 */
-  --apba-text-body-sm: 0.875rem;  /* 14 */
-  --apba-text-caption: 0.75rem;   /* 12 */
-  --apba-text-overline:0.75rem;   /* 12 */
+  --apba-text-h1: 2.5rem; /* 40 */
+  --apba-text-h2: 1.875rem; /* 30 */
+  --apba-text-h3: 1.5rem; /* 24 */
+  --apba-text-h4: 1.25rem; /* 20 — was 1.125rem, collided with body-lg */
+  --apba-text-body-lg: 1.125rem; /* 18 */
+  --apba-text-body: 1rem; /* 16 */
+  --apba-text-body-sm: 0.875rem; /* 14 */
+  --apba-text-caption: 0.75rem; /* 12 */
+  --apba-text-overline: 0.75rem; /* 12 */
 
   /* line heights */
-  --apba-leading-tight:   1.05;
-  --apba-leading-snug:    1.20;
-  --apba-leading-normal:  1.30;
+  --apba-leading-tight: 1.05;
+  --apba-leading-snug: 1.2;
+  --apba-leading-normal: 1.3;
   --apba-leading-relaxed: 1.5;
-  --apba-leading-loose:   1.6;
+  --apba-leading-loose: 1.6;
 
   /* letter spacing */
-  --apba-tracking-tight:  -0.02em;
+  --apba-tracking-tight: -0.02em;
   --apba-tracking-normal: 0em;
-  --apba-tracking-wide:   0.05em;
-  --apba-tracking-wider:  0.10em;
+  --apba-tracking-wide: 0.05em;
+  --apba-tracking-wider: 0.1em;
 
   /* font weights */
-  --apba-weight-regular:  400;
-  --apba-weight-medium:   500;
+  --apba-weight-regular: 400;
+  --apba-weight-medium: 500;
   --apba-weight-semibold: 600;
-  --apba-weight-bold:     700;
+  --apba-weight-bold: 700;
 
   /* ── SPACING ──────────────────────────────────────────────────────────── */
-  --apba-space-0:  0rem;
-  --apba-space-1:  0.25rem;   /* 4px */
-  --apba-space-2:  0.5rem;    /* 8px */
-  --apba-space-3:  0.75rem;   /* 12px */
-  --apba-space-4:  1rem;      /* 16px */
-  --apba-space-5:  1.25rem;   /* 20px */
-  --apba-space-6:  1.5rem;    /* 24px */
-  --apba-space-8:  2rem;      /* 32px */
-  --apba-space-10: 2.5rem;    /* 40px */
-  --apba-space-12: 3rem;      /* 48px */
-  --apba-space-16: 4rem;      /* 64px */
-  --apba-space-20: 5rem;      /* 80px */
-  --apba-space-24: 6rem;      /* 96px */
-  --apba-space-32: 8rem;      /* 128px */
+  --apba-space-0: 0rem;
+  --apba-space-1: 0.25rem; /* 4px */
+  --apba-space-2: 0.5rem; /* 8px */
+  --apba-space-3: 0.75rem; /* 12px */
+  --apba-space-4: 1rem; /* 16px */
+  --apba-space-5: 1.25rem; /* 20px */
+  --apba-space-6: 1.5rem; /* 24px */
+  --apba-space-8: 2rem; /* 32px */
+  --apba-space-10: 2.5rem; /* 40px */
+  --apba-space-12: 3rem; /* 48px */
+  --apba-space-16: 4rem; /* 64px */
+  --apba-space-20: 5rem; /* 80px */
+  --apba-space-24: 6rem; /* 96px */
+  --apba-space-32: 8rem; /* 128px */
 
   /* ── BORDER RADIUS ────────────────────────────────────────────────────── */
   --apba-radius-none: 0;
-  --apba-radius-sm:   4px;
-  --apba-radius-md:   6px;
-  --apba-radius-lg:   8px;
-  --apba-radius-xl:   12px;
+  --apba-radius-sm: 4px;
+  --apba-radius-md: 6px;
+  --apba-radius-lg: 8px;
+  --apba-radius-xl: 12px;
   --apba-radius-full: 9999px;
 
   /* ── SHADOWS ──────────────────────────────────────────────────────────── */
   --apba-shadow-0: none;
   --apba-shadow-1: 0 1px 2px 0 rgba(14, 47, 92, 0.06);
-  --apba-shadow-2: 0 4px 12px 0 rgba(14, 47, 92, 0.10);
+  --apba-shadow-2: 0 4px 12px 0 rgba(14, 47, 92, 0.1);
   --apba-shadow-3: 0 8px 24px 0 rgba(14, 47, 92, 0.14);
   --apba-shadow-4: 0 16px 48px 0 rgba(14, 47, 92, 0.18);
 
   /* ── MOTION ───────────────────────────────────────────────────────────── */
-  --apba-duration-fast:   120ms;
+  --apba-duration-fast: 120ms;
   --apba-duration-normal: 180ms;
-  --apba-duration-slow:   240ms;
-  --apba-ease-out:  cubic-bezier(0, 0, 0.2, 1);
+  --apba-duration-slow: 240ms;
+  --apba-ease-out: cubic-bezier(0, 0, 0.2, 1);
   --apba-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --apba-ease-in:   cubic-bezier(0.4, 0, 1, 1);
+  --apba-ease-in: cubic-bezier(0.4, 0, 1, 1);
 
   /* ── LAYOUT ───────────────────────────────────────────────────────────── */
-  --apba-container-max:  1280px;
-  --apba-reading-width:  72ch;
+  --apba-container-max: 1280px;
+  --apba-reading-width: 72ch;
 
   /* ── Z-INDEX ──────────────────────────────────────────────────────────── */
-  --apba-z-base:     0;
-  --apba-z-raised:   10;
+  --apba-z-base: 0;
+  --apba-z-raised: 10;
   --apba-z-dropdown: 100;
-  --apba-z-sticky:   200;
-  --apba-z-modal:    300;
-  --apba-z-toast:    400;
+  --apba-z-sticky: 200;
+  --apba-z-modal: 300;
+  --apba-z-toast: 400;
 
   /* ── ALIASES — component-compatibility layer ──────────────────────────── */
   /* Tints — transparent overlays of brand colors for hover surfaces */
-  --apba-brand-tint:         rgba(22, 81, 158, 0.08);
-  --apba-accent-tint:        rgba(194, 24, 91, 0.08);
+  --apba-brand-tint: rgba(22, 81, 158, 0.08);
+  --apba-accent-tint: rgba(194, 24, 91, 0.08);
 
   /* Brand aliases */
-  --apba-brand-primary-dark: #0E2F5C;   /* same as --apba-brand-primary-strong */
+  --apba-brand-primary-dark: #0e2f5c; /* same as --apba-brand-primary-strong */
 
   /* Text aliases */
-  --apba-text-secondary:     #5A6B7B;   /* same as --apba-text-muted */
-  --apba-text-tertiary:      #8A9CAE;   /* slightly lighter for truly tertiary text */
+  --apba-text-secondary: #5a6b7b; /* same as --apba-text-muted */
+  --apba-text-tertiary: #8a9cae; /* slightly lighter for truly tertiary text */
 
   /* Surface aliases */
-  --apba-surface:            #FFFFFF;   /* same as --apba-surface-base */
-  --apba-surface-secondary:  #F4F7FB;   /* same as --apba-surface-raised */
+  --apba-surface: #ffffff; /* same as --apba-surface-base */
+  --apba-surface-secondary: #f4f7fb; /* same as --apba-surface-raised */
 
   /* Shadow aliases */
-  --apba-shadow-sm:          0 1px 2px 0 rgba(14, 47, 92, 0.06);
-  --apba-shadow-md:          0 4px 12px 0 rgba(14, 47, 92, 0.10);
-  --apba-shadow-lg:          0 8px 24px 0 rgba(14, 47, 92, 0.14);
+  --apba-shadow-sm: 0 1px 2px 0 rgba(14, 47, 92, 0.06);
+  --apba-shadow-md: 0 4px 12px 0 rgba(14, 47, 92, 0.1);
+  --apba-shadow-lg: 0 8px 24px 0 rgba(14, 47, 92, 0.14);
 
   /* Motion aliases */
-  --apba-motion-fast:        120ms;
-  --apba-motion-normal:      180ms;
-  --apba-motion-slow:        240ms;
+  --apba-motion-fast: 120ms;
+  --apba-motion-normal: 180ms;
+  --apba-motion-slow: 240ms;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -223,11 +231,13 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --apba-duration-fast:   0ms;
+    --apba-duration-fast: 0ms;
     --apba-duration-normal: 0ms;
-    --apba-duration-slow:   0ms;
+    --apba-duration-slow: 0ms;
   }
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -238,7 +248,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    BASE RESET + DEFAULTS
    ═══════════════════════════════════════════════════════════════════════════ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -300,7 +312,9 @@ a:visited {
 }
 
 /* Images — block by default, never overflow */
-img, svg, video {
+img,
+svg,
+video {
   display: block;
   max-width: 100%;
   height: auto;
@@ -311,20 +325,41 @@ img, svg, video {
    (components use these via token vars, not these utility classes directly)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--apba-font-display); /* CP-5 determines if this is serif or sans */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(
+    --apba-font-display
+  ); /* CP-5 determines if this is serif or sans */
   font-weight: var(--apba-weight-bold);
   line-height: var(--apba-leading-snug);
   letter-spacing: var(--apba-tracking-tight);
   color: var(--apba-text-primary);
 }
 
-h1 { font-size: var(--apba-text-h1); }
-h2 { font-size: var(--apba-text-h2); }
-h3 { font-size: var(--apba-text-h3); line-height: var(--apba-leading-normal); letter-spacing: var(--apba-tracking-normal); }
-h4 { font-size: var(--apba-text-h4); font-weight: var(--apba-weight-semibold); line-height: var(--apba-leading-normal); }
+h1 {
+  font-size: var(--apba-text-h1);
+}
+h2 {
+  font-size: var(--apba-text-h2);
+}
+h3 {
+  font-size: var(--apba-text-h3);
+  line-height: var(--apba-leading-normal);
+  letter-spacing: var(--apba-tracking-normal);
+}
+h4 {
+  font-size: var(--apba-text-h4);
+  font-weight: var(--apba-weight-semibold);
+  line-height: var(--apba-leading-normal);
+}
 
-p { max-width: 75ch; } /* Prevent ultra-wide measure in full-bleed containers */
+p {
+  max-width: 75ch;
+} /* Prevent ultra-wide measure in full-bleed containers */
 
 /* Overline utility */
 .overline {
@@ -346,8 +381,16 @@ p { max-width: 75ch; } /* Prevent ultra-wide measure in full-bleed containers */
   padding-inline: var(--apba-space-4);
 }
 
-@media (min-width: 768px)  { .container { padding-inline: var(--apba-space-6); } }
-@media (min-width: 1024px) { .container { padding-inline: var(--apba-space-8); } }
+@media (min-width: 768px) {
+  .container {
+    padding-inline: var(--apba-space-6);
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    padding-inline: var(--apba-space-8);
+  }
+}
 
 /* Visually hidden (a11y — accessible to screen readers) */
 .sr-only {
@@ -367,9 +410,19 @@ p { max-width: 75ch; } /* Prevent ultra-wide measure in full-bleed containers */
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Text size utilities — used as raw classes in pages */
-.body-lg { font-size: var(--apba-text-body-lg); line-height: var(--apba-leading-loose); }
-.body-sm { font-size: var(--apba-text-body-sm); line-height: var(--apba-leading-relaxed); }
-.caption  { font-size: var(--apba-text-caption); line-height: var(--apba-leading-relaxed); color: var(--apba-text-muted); }
+.body-lg {
+  font-size: var(--apba-text-body-lg);
+  line-height: var(--apba-leading-loose);
+}
+.body-sm {
+  font-size: var(--apba-text-body-sm);
+  line-height: var(--apba-leading-relaxed);
+}
+.caption {
+  font-size: var(--apba-text-caption);
+  line-height: var(--apba-leading-relaxed);
+  color: var(--apba-text-muted);
+}
 
 /* Breadcrumb — global so inline HTML breadcrumbs in pages work
    without importing the Breadcrumb.astro molecule */
@@ -389,9 +442,16 @@ p { max-width: 75ch; } /* Prevent ultra-wide measure in full-bleed containers */
   margin-right: var(--apba-space-1);
   color: var(--apba-border);
 }
-.breadcrumb a { color: var(--apba-brand-primary); text-decoration: none; }
-.breadcrumb a:hover { text-decoration: underline; }
-.breadcrumb [aria-current="page"] { color: var(--apba-text-primary); }
+.breadcrumb a {
+  color: var(--apba-brand-primary);
+  text-decoration: none;
+}
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+.breadcrumb [aria-current="page"] {
+  color: var(--apba-text-primary);
+}
 
 /* Focus ring on brand-colored surfaces (header, footer, hero) uses white
    instead of the cyan focus-ring which fails on dark backgrounds */

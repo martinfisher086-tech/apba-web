@@ -7,7 +7,7 @@ https://www.argentina.gob.ar/habilitacion-de-un-consultorio-de-salud-mental
 
 Matriculaciones y rematriculaciones
 
-En el siguiente link podés encontrar las instrucciones para solicitar la credencial de la matrícula: 
+En el siguiente link podés encontrar las instrucciones para solicitar la credencial de la matrícula:
 
 https://www.argentina.gob.ar/matriculaciones-y-rematriculaciones
 
@@ -21,35 +21,31 @@ Atención Telefónica: (011) 4344-2800 (int. 2864 y 2933); de lunes a viernes de
 
 Todos los trámites son gratuitos.
 
-Toda reinscripción se realiza desde el día de su vencimiento en adelante. 
+Toda reinscripción se realiza desde el día de su vencimiento en adelante.
 
-En el siguiente link podrán descargar el formulario y requisitos y ampliar la información: 
+En el siguiente link podrán descargar el formulario y requisitos y ampliar la información:
 
 https://www.argentina.gob.ar/sssalud/prestadores-profesionales/inscripcion
 
--------------------------
+---
+
 DESCUENTOS
 Aranceles preferenciales para cursar carreras de especialización, posgrados, maestrías y doctorados en convenio con universidades nacionales de gestión pública y privada.
 
------------------
-
+---
 
 SUPERVISIONES
 SUPERVISORES Y SUPERVISORAS
 
 Lic. Alicia Marta Dellepiane. Lic. en Psicología (UBA). Práctica privada: Atención analítica con adultos, niños, adolescentes. Psicóloga del Cesac N ° 11. Hospital Ramos Mejía (1992 – 1997). Responsable del Gabinete Psicológico del Centro de Estudios Manuel Ugarte. Profesora en Ciencias de la Educación. Miembro de APBA. Miembro del Equipo de Asistencia Psicológica Convenio APBA- ATE -UTE. Miembro de la EOL y de la AMP. Autora y coautora de publicaciones y libros.
 
-
 Supervisión en: Niños, niñas, adolescentes, adultos, familia y parejas.
 
-Correo electrónico:  apba@psicologos.org.ar
+Correo electrónico: apba@psicologos.org.ar
 
 Teléfono: 1158661347.
 
-
-
 Lic. Silvia Quevedo. Lic. en Psicología y en Sociología. (UBA). Práctica institucional pública: atención clínica y dirección de cursos en Centro de Día Carlos Gardel (1994- 2018) y en Cesac 45. Supervisora de equipos de Cesacs CABA. Hospital Nacional Lic. Laura Bonaparte: Supervisora y docente en RISAM y equipos de profesionales. Autoría y Dirección de cursos. Práctica privada: Atención analítica con adultos, adolescentes, neurosis, clínica del acto y supervisiones de la práctica. APBA: Miembro de CD. Secretaria científica y Directora Depto. Consumos problemáticos. Delegada a comisión científica de FEPRA. Ex Docente Facultad Psicología UBA. Ex Miembro del Centro Descartes. APGCABA: Miembro de CD y Dirección de Cursos Consejera suplente en Consejo Consultivo Honorario en Salud Mental y Adicciones. Autora y coautora de libros y publicaciones.
-
 
 Supervisión en: Adultos, adolescentes, neurosis, consumos problemáticos, clínica del acto. Supervisión a equipos interdisciplinarios territoriales.
 
@@ -61,7 +57,6 @@ La modalidad de la supervisión se podrá realizar por vía online o presencial 
 
 Para acceder a las supervisiones se deberán contactar con la Secretaría Administrativa de APBA. Correo electrónico: apba@psicologos.org.ar Teléfono: 11 5778-0142/0185
 
-
 ÚLTIMAS NOTICIAS
 Especialidad Psicología Clínica Proceso de Certificación 1° Convocatoria – Inscripción 2026
 X Congreso Latinoamericano de Psicologia – ULAPSI
@@ -69,8 +64,7 @@ Curso intensivo: Actualización en psicología clínica
 Despedimos a Betty
 Especialidad en Psicología clínica
 
-
----------------
+---
 
 Fondo de Solidaridad Profesional-FEPRA
 ¿Qué es el Fondo de Solidaridad Profesional?
@@ -91,7 +85,7 @@ SUMA ASEGURADA RESPONSABILIDAD CIVIL EN CONSULTORIO: $3.000.000,-
 
 La cuota mensual es recaudada por la FePRA en una cuenta especial para ser aplicados exclusivamente al pago de los subsidios y los gastos administrativos del Fondo.
 
-¿Qué beneficios solidarios otorga? 
+¿Qué beneficios solidarios otorga?
 
 a) La contratación de un seguro por mala praxis en el ejercicio de tu profesión de psicólogo/a, cuyas especificaciones, condiciones y alcances están circunscritos por la póliza que la FEPRA contrate a tal efecto que contempla el asesoramiento jurídico y a la defensa técnica en juicio cuando el mismo fuese solicitado, por conflictos suscitados con motivo o en ocasión de responsabilidad profesional en el ejercicio de la psicología. Incluye responsabilidad civil comprensiva en consultorio.
 
@@ -105,21 +99,21 @@ e) Asistencia económica para situaciones imprevistas que generen dificultades i
 
 f) Cobertura de salud que contempla:
 
-   •  Indemnización por diagnóstico de enfermedades graves (Infarto, cáncer y ACV).
+• Indemnización por diagnóstico de enfermedades graves (Infarto, cáncer y ACV).
 
-   •  Indemnización por realización de intervenciones quirúrgicas de alta complejidad.
+• Indemnización por realización de intervenciones quirúrgicas de alta complejidad.
 
-   •  Indemnización por trasplantes/estudios de histocompatibilidad.
+• Indemnización por trasplantes/estudios de histocompatibilidad.
 
-   •  Renta diaria por internación hospitalaria en caso de accidente.
+• Renta diaria por internación hospitalaria en caso de accidente.
 
-¿Cómo se ingresa? 
+¿Cómo se ingresa?
 
 Puede:
 
 Tramitarlo de forma presencial en nuestra sede de APBA.
 Enviar correo electrónico a la Federación (info@fepra.org.ar) adjuntando los requisitos que se detallan a continuación.
-Requisitos de adhesión: Ficha de Adhesión firmada y escaneada (se encuentra al final), Certificado de Ética Profesional emitido por el Colegio/Asociación (escaneado o en pdf), copia del DNI 1ra. y 2da hoja, copia de la matrícula profesional o de socio según corresponda. En el caso que el adherente este comprendido por edad (mayor de 65 años), deberá  enviar por correo postal a Azcuénaga 767 – 3º oficinas 32 y 33, Ciudad Autónoma de Buenos Aires – Código postal (1029) (en papel con su firma) la Declaración Jurada de Salud de Federación Patronal Seguros S.A. (Form. 1369). También se debe adjuntar copia del pago del primer mes $215 (de enero a diciembre 2019: valor cuota $215 por mes). El mismo puede hacerse depositando en cualquiera de las dos cuentas que se detallan a continuación:
+Requisitos de adhesión: Ficha de Adhesión firmada y escaneada (se encuentra al final), Certificado de Ética Profesional emitido por el Colegio/Asociación (escaneado o en pdf), copia del DNI 1ra. y 2da hoja, copia de la matrícula profesional o de socio según corresponda. En el caso que el adherente este comprendido por edad (mayor de 65 años), deberá enviar por correo postal a Azcuénaga 767 – 3º oficinas 32 y 33, Ciudad Autónoma de Buenos Aires – Código postal (1029) (en papel con su firma) la Declaración Jurada de Salud de Federación Patronal Seguros S.A. (Form. 1369). También se debe adjuntar copia del pago del primer mes $215 (de enero a diciembre 2019: valor cuota $215 por mes). El mismo puede hacerse depositando en cualquiera de las dos cuentas que se detallan a continuación:
 
 Banco Credicoop, Nro. Cuenta corriente 026-045412/8
 
@@ -145,59 +139,53 @@ Actualización de Datos Personales
 
 Declaración Jurada de Salud
 
-
-------------
+---
 
 TURISMO
 
 Solicitar constancia de socios a: sociosapba@psicologos.org.ar para poder acceder al descuento.
 
----------------------
+---
 
 REPRESENTACIÓN GREMIAL
 Al asociarse a APBA, las psicólogos y psicólogas cuentan con representación gremial en el ámbito de la Ciudad Autónoma de Buenos Aires y en la Federación de Psicólogos de la República Argentina (FEPRA).
 
--------------------------------------
-
+---
 
 ASISTENCIA
 
-HONORARIOS INSTITUCIONALES	SOCIOS/AS	NO SOCIOS/AS
-ADMISIÓN – SESIÓN INDIVIDUAL	$19.000	$24.700
-ADMISIÓN – SESIÓN PAREJA Y FAMILIAR-VINCULAR	$22.000	$28.600
-PSICODIAGNÓSTICO	$190.000	$270.000
-INFORME PERICIAL	$285.000	$350.000
-PRESTACIÓN DOMICILIARIA	100%	100%
-SUPERVISIONES	$28.000	$37.000
+HONORARIOS INSTITUCIONALES SOCIOS/AS NO SOCIOS/AS
+ADMISIÓN – SESIÓN INDIVIDUAL $19.000 $24.700
+ADMISIÓN – SESIÓN PAREJA Y FAMILIAR-VINCULAR $22.000 $28.600
+PSICODIAGNÓSTICO $190.000 $270.000
+INFORME PERICIAL $285.000 $350.000
+PRESTACIÓN DOMICILIARIA 100% 100%
+SUPERVISIONES $28.000 $37.000
 Para solicitar turno comuníquese por mail a apba@psicologos.org.ar
-
 
 APBA Asistencia está integrado por psicólogas y psicólogos de amplia experiencia en el ejercicio de su profesión que brindarán atención, asesoramiento y acompañamiento; diseñando un plan terapéutico singular para cada persona que lo requiera.
 
-
 Clínica de adultos y adultas, adolescentes, niños, niñas, pareja y familia.
 
+En la admisión se planteará el motivo de consulta para la posterior derivación. En el caso que el paciente lo requiera, puede solicitar que se lo derive sea a cualquier integrante de nuestra cartilla profesional. Caso contrario, se derivará a quien se considere más idóneo para ese caso particular.
 
+Cartilla profesional:
 
-En la admisión se planteará el motivo de consulta para la posterior derivación. En el caso que el paciente lo requiera, puede solicitar que se lo derive sea a cualquier integrante de nuestra cartilla profesional. Caso contrario, se derivará a quien se considere más idóneo para ese caso particular.  
-
-Cartilla profesional: 
-
-Ana María Plumari. Clínica de adultos, parejas 
+Ana María Plumari. Clínica de adultos, parejas
 
 Beatriz Haydeé Rodriguez. Clínicas de adultos, adolescentes, pareja, familia. Psicoterapia en Grupo. Supervisión Clínica.
 
-Graciela Mabel González. Clínica de adultos, niños, niñas y adolescentes. 
+Graciela Mabel González. Clínica de adultos, niños, niñas y adolescentes.
 
-Irene Loyácono. Clínica de adultos, familia. 
+Irene Loyácono. Clínica de adultos, familia.
 
-Luciano Dayan. Evaluación psicológica, psicodiagnóstico. Psicología del deporte. 
+Luciano Dayan. Evaluación psicológica, psicodiagnóstico. Psicología del deporte.
 
-Liliana Szapiro. Clínica de adultos y adolescentes. Trastornos de la alimentación. 
+Liliana Szapiro. Clínica de adultos y adolescentes. Trastornos de la alimentación.
 
-Stella Maris Carnevale. Clínica de adultos.  
+Stella Maris Carnevale. Clínica de adultos.
 
-Carlos Reinaldo Miranda. Clínica de adultos y adolescentes. 
+Carlos Reinaldo Miranda. Clínica de adultos y adolescentes.
 
 Stella Maris Scalise. Psicodiagnóstico. Orientación vocacional.
 
@@ -205,26 +193,20 @@ Felisa Senderovsky. Clínica de adultos, adolescentes, parejas. Orientación a p
 
 Alfonso Gutierrez Reto. Clínica de adultos.
 
-
 DISPOSITIVO DE ASISTENCIA PSICOLÓGICA PARA AFILIADOS/AS A SINDICATOS
-Prestación	Afiliados y familiares
-ADMISIÓN – SESIÓN INDIVIDUAL	$19.000
-ADMISIÓN – SESIÓN PAREJA Y FAMILIAR-VINCULAR	$22.000
-PSICODIAGNÓSTICO	$190.000
-SUPERVICIONES	$28.000
+Prestación Afiliados y familiares
+ADMISIÓN – SESIÓN INDIVIDUAL $19.000
+ADMISIÓN – SESIÓN PAREJA Y FAMILIAR-VINCULAR $22.000
+PSICODIAGNÓSTICO $190.000
+SUPERVICIONES $28.000
 
 La salud mental de las trabajadoras y trabajadores es un derecho. Promoverla y acompañarla es nuestro desafío.
 
-
 Por eso, tenemos convenios con distintos sindicatos para atenciones psicológicas de sus afiliados, afiliadas y grupo familiar.
-
 
 Para solicitar turno de admisión comunícate al 11 2584 4111 o por mail a saludmentalapba@gmail.com
 
-
-
 Cartilla de profesionales:
-
 
 Arriagada, Malena
 
@@ -280,4 +262,4 @@ Vicente, Silvina Marcela
 
 Vila, Paula
 
------------------
+---

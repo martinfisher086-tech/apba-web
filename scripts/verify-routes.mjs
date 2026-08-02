@@ -18,7 +18,9 @@ const DIST = distArg !== -1 ? args[distArg + 1] : resolve(ROOT, "dist");
 // ── Load IA tree ─────────────────────────────────────────────────────────────
 const iaPath = resolve(ROOT, "../extraction/ia-tree.json");
 if (!existsSync(iaPath)) {
-  console.warn(`⚠  ia-tree.json not found at ${iaPath} — skipping verification`);
+  console.warn(
+    `⚠  ia-tree.json not found at ${iaPath} — skipping verification`,
+  );
   process.exit(0);
 }
 
@@ -27,7 +29,11 @@ const iaTree = JSON.parse(readFileSync(iaPath, "utf-8"));
 // Collect all href values recursively
 function collectHrefs(nodes, acc = []) {
   for (const node of nodes ?? []) {
-    if (node.href && !node.href.startsWith("http") && !node.href.startsWith("mailto")) {
+    if (
+      node.href &&
+      !node.href.startsWith("http") &&
+      !node.href.startsWith("mailto")
+    ) {
       acc.push(node.href);
     }
     if (node.children) collectHrefs(node.children, acc);
@@ -39,7 +45,9 @@ const routes = [...new Set(collectHrefs(iaTree))];
 
 // ── Check dist ───────────────────────────────────────────────────────────────
 if (!existsSync(DIST)) {
-  console.error(`❌ dist/ directory not found at ${DIST}. Run \`npm run build\` first.`);
+  console.error(
+    `❌ dist/ directory not found at ${DIST}. Run \`npm run build\` first.`,
+  );
   process.exit(1);
 }
 

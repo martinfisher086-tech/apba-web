@@ -58,15 +58,38 @@ function buildIco(entries) {
   return Buffer.concat([header, dir, ...payloads]);
 }
 
-const [png16, png32, png48] = await Promise.all([render(16), render(32), render(48)]);
+const [png16, png32, png48] = await Promise.all([
+  render(16),
+  render(32),
+  render(48),
+]);
 
 writeFileSync(join(PUBLIC, "favicon.png"), png32);
-writeFileSync(join(PUBLIC, "favicon.ico"), buildIco([[16, png16], [32, png32], [48, png48]]));
-writeFileSync(join(PUBLIC, "apple-touch-icon.png"), await render(180, { flatten: true }));
+writeFileSync(
+  join(PUBLIC, "favicon.ico"),
+  buildIco([
+    [16, png16],
+    [32, png32],
+    [48, png48],
+  ]),
+);
+writeFileSync(
+  join(PUBLIC, "apple-touch-icon.png"),
+  await render(180, { flatten: true }),
+);
 
 mkdirSync(join(PUBLIC, "icons"), { recursive: true });
-writeFileSync(join(PUBLIC, "icons", "icon-192.png"), await render(192, { flatten: true }));
-writeFileSync(join(PUBLIC, "icons", "icon-512.png"), await render(512, { flatten: true }));
-writeFileSync(join(PUBLIC, "icons", "icon-maskable-512.png"), await render(512, { flatten: true }));
+writeFileSync(
+  join(PUBLIC, "icons", "icon-192.png"),
+  await render(192, { flatten: true }),
+);
+writeFileSync(
+  join(PUBLIC, "icons", "icon-512.png"),
+  await render(512, { flatten: true }),
+);
+writeFileSync(
+  join(PUBLIC, "icons", "icon-maskable-512.png"),
+  await render(512, { flatten: true }),
+);
 
 console.log("✓ Favicons generated from public/favicon.svg");
