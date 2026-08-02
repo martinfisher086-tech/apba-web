@@ -26,7 +26,7 @@ const isDecorative = !ariaLabel;
 <svg
   width={size}
   height={size}
-  aria-hidden={isDecorative ? "true" : undefined}
+  aria-hidden={ariaHidden ?? (isDecorative ? "true" : undefined)}
   aria-label={ariaLabel}
   role={ariaLabel ? "img" : undefined}
   focusable="false"

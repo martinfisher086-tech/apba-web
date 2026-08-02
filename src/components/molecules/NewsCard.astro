@@ -1,5 +1,5 @@
 ---
-import type { NewsArticle } from "@types/models";
+import type { NewsArticle } from "@models/models";
 import Badge from "@components/atoms/Badge.astro";
 
 interface Props {
@@ -20,14 +20,7 @@ const dateFormatted = article.publishDate
   : null;
 
 // Guard against raw stub objects ({status:"pending_download"}) that lack .url
-const heroImgSrc = (() => {
-  if (!article.heroImage) return null;
-  const raw = article.heroImage as Record<string, unknown>;
-  if (raw["status"] === "pending_download" || typeof raw["url"] !== "string" || !raw["url"]) {
-    return null; // treat as no image → branded placeholder
-  }
-  return article.heroImage.url;
-})();
+const heroImgSrc = article.heroImage?.url || null;
 
 const hasRealImage = heroImgSrc !== null;
 ---

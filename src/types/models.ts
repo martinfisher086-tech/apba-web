@@ -34,13 +34,13 @@ export interface FileAsset {
 // ─── Organization (singleton) ────────────────────────────────────────────────
 
 export interface Organization {
-  legalName: string;             // "Asociación de Psicólogas y Psicólogos de Buenos Aires"
-  shortName: string;             // "APBA"
+  legalName: string; // "Asociación de Psicólogas y Psicólogos de Buenos Aires"
+  shortName: string; // "APBA"
   email: string;
   addresses: Address[];
   social: { facebook?: string; instagram?: string };
   logo: ImageAsset;
-  mission?: string;              // richText as HTML string
+  mission?: string; // richText as HTML string
 }
 
 export interface Address {
@@ -55,8 +55,8 @@ export interface Address {
 export interface Page {
   slug: string;
   title: string;
-  body: string;                  // sanitized HTML
-  parent?: string;               // parent page slug
+  body: string; // sanitized HTML
+  parent?: string; // parent page slug
   menuOrder: number;
   status: "published" | "draft";
   legacyUrls: string[];
@@ -68,13 +68,13 @@ export interface Page {
 export interface NewsArticle {
   slug: string;
   title: string;
-  excerpt: string;               // plain text, ≤200 chars
-  body: string;                  // sanitized HTML
+  excerpt: string; // plain text, ≤200 chars
+  body: string; // sanitized HTML
   heroImage?: ImageAsset;
-  category: string;              // slug
-  tags: string[];                // slugs
-  author: string;                // display name only
-  publishDate: string;           // ISO 8601
+  category: string; // slug
+  tags: string[]; // slugs
+  author: string; // display name only
+  publishDate: string; // ISO 8601
   modifiedDate?: string;
   status: "published" | "draft" | "private";
   legacyUrls: string[];
@@ -84,15 +84,15 @@ export interface NewsArticle {
 // ─── JournalIssue (Gaceta Psicológica) ──────────────────────────────────────
 
 export interface JournalIssue {
-  slug: string;                  // e.g. "numero-6"
+  slug: string; // e.g. "numero-6"
   number: number;
-  title: string;                 // theme title e.g. "Consumos problemáticos"
+  title: string; // theme title e.g. "Consumos problemáticos"
   subtitle?: string;
   coverImage?: ImageAsset;
   pdfFile: FileAsset;
   publishDate?: string;
   articles?: JournalArticle[];
-  description?: string;          // richText
+  description?: string; // richText
   seo: SeoMeta;
 }
 
@@ -109,7 +109,7 @@ export type CourseStatus = "upcoming" | "ongoing" | "past";
 export interface Course {
   slug: string;
   title: string;
-  description: string;           // richText
+  description: string; // richText
   modality: CourseModality;
   startDate?: string;
   endDate?: string;
@@ -137,8 +137,8 @@ export interface Convocatoria {
 export interface CertificationProgram {
   slug: string;
   title: string;
-  description: string;           // richText
-  requirements: string[];        // verbatim list
+  description: string; // richText
+  requirements: string[]; // verbatim list
   convocatorias: Convocatoria[];
   documents: FileAsset[];
   fees?: string;
@@ -152,11 +152,11 @@ export type EventAttendanceMode = "offline" | "online" | "mixed";
 export interface Event {
   slug: string;
   title: string;
-  startDateTime: string;         // ISO 8601
+  startDateTime: string; // ISO 8601
   endDateTime?: string;
-  location: string;              // address string or "online"
+  location: string; // address string or "online"
   attendanceMode: EventAttendanceMode;
-  description: string;           // richText
+  description: string; // richText
   type: "curso" | "jornada" | "congreso" | "institucional" | "otro";
   registrationUrl?: string;
   relatedCourseSlug?: string;
@@ -168,10 +168,10 @@ export interface Event {
 export interface Benefit {
   slug: string;
   title: string;
-  description: string;           // richText
+  description: string; // richText
   category: string;
   provider?: string;
-  howToRedeem: string;           // richText
+  howToRedeem: string; // richText
   memberOnly: boolean;
 }
 
@@ -181,7 +181,7 @@ export interface Regulation {
   slug: string;
   title: string;
   category: string;
-  body?: string;                 // richText — verbatim
+  body?: string; // richText — verbatim
   document?: FileAsset;
   effectiveDate?: string;
   seo: SeoMeta;
@@ -192,22 +192,22 @@ export interface Regulation {
 export interface AssistanceService {
   slug: string;
   title: string;
-  description: string;           // richText
+  description: string; // richText
   audience: string;
-  howToAccess: string;           // richText
+  howToAccess: string; // richText
   contact: { email?: string; phone?: string; hours?: string };
-  referralInfo?: string;         // richText
+  referralInfo?: string; // richText
 }
 
 // ─── MembershipInfo (singleton) ─────────────────────────────────────────────
 
 export interface MembershipInfo {
-  whoCanJoin: string;            // richText
+  whoCanJoin: string; // richText
   requirements: string[];
-  benefitsSummary: string;       // richText
+  benefitsSummary: string; // richText
   fees: string;
-  process: string;               // richText
-  formId?: string;               // links to a form definition
+  process: string; // richText
+  formId?: string; // links to a form definition
 }
 
 // ─── Navigation ─────────────────────────────────────────────────────────────
@@ -224,7 +224,7 @@ export interface NavItem {
 // ─── Redirect ───────────────────────────────────────────────────────────────
 
 export interface Redirect {
-  from: string;   // legacy path e.g. "/asistencia-2/"
-  to: string;     // new path e.g. "/asistencia/"
+  from: string; // legacy path e.g. "/asistencia-2/"
+  to: string; // new path e.g. "/asistencia/"
   status: 301 | 302;
 }

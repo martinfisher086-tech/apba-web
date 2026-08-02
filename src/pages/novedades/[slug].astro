@@ -8,6 +8,5 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return articles.map((a) => ({ params: { slug: a.slug } }));
 };
 
-const { slug } = Astro.params;
-return Astro.redirect(`/actividades/${slug}/`, 301);
+return Astro.redirect(`/actividades/${Astro.params.slug}/`, 301);
 ---

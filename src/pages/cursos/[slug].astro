@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { getCourseBySlug, getCourses } from "@lib/cms";
-import type { Course } from "@types/models";
+import { getCourses } from "@lib/cms";
+import type { Course } from "@models/models";
 
 export async function getStaticPaths() {
   const courses = await getCourses();
@@ -34,7 +34,7 @@ const schema = {
 ---
 
 <BaseLayout {seo}>
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
   <div class="container page-layout">
     <nav aria-label="Ruta de navegación" class="breadcrumb">
       <ol>

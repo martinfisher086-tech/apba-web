@@ -15,7 +15,9 @@ const ROOT = resolve(__dirname, "..");
 // ── Load extraction redirect candidates ────────────────────────────────────
 const csvPath = resolve(ROOT, "../extraction/redirect-candidates.csv");
 if (!existsSync(csvPath)) {
-  console.warn(`⚠  redirect-candidates.csv not found at ${csvPath} — skipping verification`);
+  console.warn(
+    `⚠  redirect-candidates.csv not found at ${csvPath} — skipping verification`,
+  );
   process.exit(0);
 }
 
@@ -50,25 +52,33 @@ if (existsSync(netlifyRedirects)) {
   }
   console.log(`📄 Loaded ${declared.size} redirects from vercel.json`);
 } else {
-  console.warn("⚠  No redirect config found (public/_redirects or vercel.json). Skipping.");
+  console.warn(
+    "⚠  No redirect config found (public/_redirects or vercel.json). Skipping.",
+  );
   process.exit(0);
 }
 
 // ── Diff ────────────────────────────────────────────────────────────────────
 const missing = candidates.filter((c) => !declared.has(c.from));
-const extra = [...declared].filter((d) => !candidates.find((c) => c.from === d));
+const extra = [...declared].filter(
+  (d) => !candidates.find((c) => c.from === d),
+);
 
 if (missing.length === 0) {
   console.log(`✅ All ${candidates.length} redirect candidates are declared.`);
 } else {
-  console.error(`\n❌ ${missing.length} redirect(s) from extraction are NOT declared:\n`);
+  console.error(
+    `\n❌ ${missing.length} redirect(s) from extraction are NOT declared:\n`,
+  );
   for (const { from, to, status } of missing) {
     console.error(`   ${from}  →  ${to}  [${status}]`);
   }
 }
 
 if (extra.length > 0) {
-  console.warn(`\n⚠  ${extra.length} declared redirect(s) have no extraction candidate (may be intentional):`);
+  console.warn(
+    `\n⚠  ${extra.length} declared redirect(s) have no extraction candidate (may be intentional):`,
+  );
   for (const d of extra) console.warn(`   ${d}`);
 }
 

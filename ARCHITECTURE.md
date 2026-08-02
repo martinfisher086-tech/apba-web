@@ -119,13 +119,13 @@ so the data layer can be swapped without touching every page.
 
 Defined in `tsconfig.json` and `astro.config.mjs`:
 
-| Alias           | Resolves to          |
-|-----------------|----------------------|
-| `@components/*` | `src/components/*`   |
-| `@layouts/*`    | `src/layouts/*`      |
-| `@lib/*`        | `src/lib/*`          |
-| `@styles/*`     | `src/styles/*`       |
-| `@types/*`      | `src/types/*`        |
+| Alias           | Resolves to        |
+| --------------- | ------------------ |
+| `@components/*` | `src/components/*` |
+| `@layouts/*`    | `src/layouts/*`    |
+| `@lib/*`        | `src/lib/*`        |
+| `@styles/*`     | `src/styles/*`     |
+| `@types/*`      | `src/types/*`      |
 
 ---
 
@@ -137,6 +137,7 @@ Consumed as: `src/styles/theme.css` — every token exposed as a `--apba-*` CSS 
 **Rule:** No raw hex values or magic numbers in component `<style>` blocks. Always reference a `--apba-*` token.
 
 Key tokens:
+
 - `--apba-brand-primary`: `#16519E` (provisional, pending CP-4 official logo)
 - `--apba-brand-accent`: `#C2185B` (provisional)
 - `--apba-font-sans`: Inter Variable (self-hosted, `font-display: swap`)
@@ -150,13 +151,13 @@ WCAG 2.1 AA compliance: verified in `contrast-audit.md`. One exception: `--apba-
 
 ### Atomic design tiers
 
-| Tier       | Rule                                                            |
-|------------|-----------------------------------------------------------------|
-| Atom       | No imports from molecules/organisms. Pure presentational.      |
-| Molecule   | May import atoms. No page-level state.                         |
-| Organism   | May import atoms + molecules. May receive async data as props. |
-| Layout     | Shell only — no content, no business logic.                    |
-| Page       | Calls CMS, assembles organisms/molecules, emits structured data JSON-LD. |
+| Tier     | Rule                                                                     |
+| -------- | ------------------------------------------------------------------------ |
+| Atom     | No imports from molecules/organisms. Pure presentational.                |
+| Molecule | May import atoms. No page-level state.                                   |
+| Organism | May import atoms + molecules. May receive async data as props.           |
+| Layout   | Shell only — no content, no business logic.                              |
+| Page     | Calls CMS, assembles organisms/molecules, emits structured data JSON-LD. |
 
 ### Props interface
 
@@ -194,16 +195,16 @@ const seo = {
 
 Output inline via `<script type="application/ld+json" set:html={JSON.stringify(schema)} />` in the page frontmatter output, **not** inside BaseLayout. Each page type uses the correct Schema.org type:
 
-| Page              | Schema type                            |
-|-------------------|----------------------------------------|
-| Home              | Organization + WebSite                 |
-| Novedades detail  | NewsArticle                            |
-| Revistas detail   | PublicationIssue                       |
-| Cursos detail     | Course                                 |
-| Agenda detail     | Event                                  |
-| Asistencia        | ProfessionalService                    |
-| Institucional sub | AboutPage (que-es-apba)                |
-| All pages         | BreadcrumbList (via Breadcrumb molecule)|
+| Page              | Schema type                              |
+| ----------------- | ---------------------------------------- |
+| Home              | Organization + WebSite                   |
+| Novedades detail  | NewsArticle                              |
+| Revistas detail   | PublicationIssue                         |
+| Cursos detail     | Course                                   |
+| Agenda detail     | Event                                    |
+| Asistencia        | ProfessionalService                      |
+| Institucional sub | AboutPage (que-es-apba)                  |
+| All pages         | BreadcrumbList (via Breadcrumb molecule) |
 
 ### Locale
 
@@ -217,6 +218,7 @@ All legacy WordPress URLs must redirect to their new equivalents. Source of trut
 `../extraction/redirect-candidates.csv` (relative to this directory).
 
 Critical redirects:
+
 - `/{slug}/` → `/novedades/{slug}/` for all 39 posts
 - `/asistencia-2/` → `/asistencia/`
 - `/agenda-2/` → `/agenda/`
@@ -247,12 +249,12 @@ CI uses stub values for `SANITY_PROJECT_ID` so the build succeeds without a live
 
 ## 10. Open checkpoints (human action required)
 
-| CP  | Blocker                                   | Impact                                    |
-|-----|-------------------------------------------|-------------------------------------------|
-| CP-0 | WordPress admin / DB access              | Draft posts, CF7 forms, calendar data     |
-| CP-3 | Editorial content audit                  | All `[PLACEHOLDER]` notices in pages      |
-| CP-4 | Official logo SVG + confirmed brand hex  | `--apba-brand-primary` may change         |
-| CP-5 | Design system approval                   | Fraunces display font, token values       |
-| CP-6 | Stack/CMS choice (Sanity vs Strapi)      | Replace stubs in `src/lib/cms.ts`         |
+| CP   | Blocker                                 | Impact                                |
+| ---- | --------------------------------------- | ------------------------------------- |
+| CP-0 | WordPress admin / DB access             | Draft posts, CF7 forms, calendar data |
+| CP-3 | Editorial content audit                 | All `[PLACEHOLDER]` notices in pages  |
+| CP-4 | Official logo SVG + confirmed brand hex | `--apba-brand-primary` may change     |
+| CP-5 | Design system approval                  | Fraunces display font, token values   |
+| CP-6 | Stack/CMS choice (Sanity vs Strapi)     | Replace stubs in `src/lib/cms.ts`     |
 
 See `../blueprint/05-phase-5-quality-gates-checkpoints.md` for full DoD per checkpoint.

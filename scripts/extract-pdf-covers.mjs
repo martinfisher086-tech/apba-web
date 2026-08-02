@@ -133,10 +133,9 @@ for (const journal of journals) {
     await page.goto(journal.url, { waitUntil: "load", timeout: 60_000 });
 
     // Wait until pdfjs signals render complete (or error)
-    await page.waitForFunction(
-      () => window.__pdfDone || window.__pdfError,
-      { timeout: 30_000 }
-    );
+    await page.waitForFunction(() => window.__pdfDone || window.__pdfError, {
+      timeout: 30_000,
+    });
 
     const err = await page.evaluate(() => window.__pdfError);
     if (err) throw new Error(`pdfjs render: ${err}`);
