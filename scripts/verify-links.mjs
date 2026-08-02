@@ -11,14 +11,6 @@ const unavailable = new Set([
   "https://docs.google.com/forms/d/100XHJAE1KmGU1O8Jo5eHncv_fTuAWN-58IFRZME7iUg/edit",
   "https://docs.google.com/forms/d/e/1FAIpQLSfQVN1zsNYSXRKlW5jfY7acjWlUadX-lYJG36NAoXR9KnMqCw/viewform",
 ]);
-// The three legacy form endpoints are tracked separately until their email
-// delivery integration is ready for production.
-const deferredFormEndpoints = new Set([
-  "/api/asociate",
-  "/api/contacto",
-  "/api/newsletter",
-]);
-
 if (!existsSync(dist)) {
   console.error("❌ dist/ is missing. Run npm run build before test:links.");
   process.exit(1);
@@ -32,7 +24,8 @@ function walk(directory) {
 }
 
 function routeExists(pathname) {
-  if (deferredFormEndpoints.has(pathname)) return true;
+  if (pathname === "/api/forms")
+    return existsSync(resolve(root, "api/forms.js"));
   const decoded = decodeURIComponent(pathname).replace(/^\/+/, "");
   return (
     existsSync(resolve(dist, decoded)) ||
