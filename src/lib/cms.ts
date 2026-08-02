@@ -85,13 +85,22 @@ const _rawPages: _RawPagesFeed = JSON.parse(
 ) as _RawPagesFeed;
 
 function _mapPage(item: _RawPage): Page {
+  let body = item.body.replace(
+    "<p>Secretaria de Prensa: <strong>Paula Giménez</strong></p>",
+    "",
+  );
+
+  if (item.slug === "normativa") {
+    body = body.replaceAll(
+      "http://psicologos.org.ar/wp-content/uploads/2019/12/",
+      "/documents/normativa/",
+    );
+  }
+
   const page: Page = {
     slug: item.slug,
     title: item.title,
-    body: item.body.replace(
-      "<p>Secretaria de Prensa: <strong>Paula Giménez</strong></p>",
-      "",
-    ),
+    body,
     menuOrder: item.menuOrder,
     status: item.status as "published" | "draft",
     legacyUrls: [item.legacyUrl],
