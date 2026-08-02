@@ -7,7 +7,9 @@ interface Props {
 
 const { currentPage, totalPages, baseUrl } = Astro.props;
 
-const prevUrl = currentPage > 1 ? `${baseUrl}${currentPage - 1 === 1 ? "" : `/${currentPage - 1}`}/` : null;
+const previousPage = currentPage - 1;
+const prevPath = previousPage === 1 ? "" : `/${previousPage}`;
+const prevUrl = currentPage > 1 ? `${baseUrl}${prevPath}/` : null;
 const nextUrl = currentPage < totalPages ? `${baseUrl}/${currentPage + 1}/` : null;
 
 const pages = Array.from({ length: totalPages }, (_, i) => i + 1);

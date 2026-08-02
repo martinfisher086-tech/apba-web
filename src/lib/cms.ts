@@ -23,16 +23,9 @@ import type {
   Page,
   Organization,
   MembershipInfo,
-} from "@types/models";
+} from "@models/models";
 
 // ─── PLACEHOLDER HELPERS ─────────────────────────────────────────────────────
-
-const PLACEHOLDER_IMAGE = {
-  url: "/images/placeholder-1200x630.webp",
-  alt: "",
-  width: 1200,
-  height: 630,
-};
 
 // ─── RAW JSON TYPES (news-clean.json) ────────────────────────────────────────
 
@@ -66,7 +59,7 @@ interface _RawNewsFeed {
 // Load at build time — path is relative to this file (src/lib/ → ../../ = project root)
 const __libDir = dirname(fileURLToPath(import.meta.url));
 const _rawNews: _RawNewsFeed = JSON.parse(
-  readFileSync(resolve(__libDir, "../../extraction/news-clean.json"), "utf-8")
+  readFileSync(resolve(__libDir, "../../extraction/news-clean.json"), "utf-8"),
 ) as _RawNewsFeed;
 
 // ─── RAW JSON TYPES (pages-clean.json) ──────────────────────────────────────
@@ -88,15 +81,14 @@ interface _RawPagesFeed {
 }
 
 const _rawPages: _RawPagesFeed = JSON.parse(
-  readFileSync(resolve(__libDir, "../../extraction/pages-clean.json"), "utf-8")
+  readFileSync(resolve(__libDir, "../../extraction/pages-clean.json"), "utf-8"),
 ) as _RawPagesFeed;
 
 function _mapPage(item: _RawPage): Page {
-  return {
+  const page: Page = {
     slug: item.slug,
     title: item.title,
     body: item.body,
-    parent: item.parent ?? undefined,
     menuOrder: item.menuOrder,
     status: item.status as "published" | "draft",
     legacyUrls: [item.legacyUrl],
@@ -106,6 +98,8 @@ function _mapPage(item: _RawPage): Page {
       noindex: false,
     },
   };
+  if (item.parent) page.parent = item.parent;
+  return page;
 }
 
 function _mapNewsItem(item: _RawNewsItem): NewsArticle {
@@ -116,12 +110,11 @@ function _mapNewsItem(item: _RawNewsItem): NewsArticle {
   }
   // pending_download → leave heroImage undefined so components render their own branded placeholder
 
-  return {
+  const article: NewsArticle = {
     slug: item.slug,
     title: item.title,
     excerpt: item.excerpt,
     body: item.body,
-    heroImage,
     category: item.categories[0] ?? "novedades",
     tags: item.tags,
     author: "APBA",
@@ -135,6 +128,8 @@ function _mapNewsItem(item: _RawNewsItem): NewsArticle {
       noindex: false,
     },
   };
+  if (heroImage) article.heroImage = heroImage;
+  return article;
 }
 
 // ─── ORGANIZATION ────────────────────────────────────────────────────────────
@@ -145,7 +140,7 @@ export async function getOrganization(): Promise<Organization> {
     legalName: "Asociación de Psicólogas y Psicólogos de Buenos Aires",
     shortName: "APBA",
     email: "apba@psicologos.org.ar",
-    addresses: [{ city: "Buenos Aires", postalCode: undefined }],
+    addresses: [{ city: "Buenos Aires" }],
     social: {
       facebook: "https://www.facebook.com/APBAarg/",
       instagram: "https://www.instagram.com/apbaarg/",
@@ -154,7 +149,6 @@ export async function getOrganization(): Promise<Organization> {
       url: "/images/apba-logo.svg",
       alt: "APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires",
     },
-    mission: undefined,
   };
 }
 
@@ -179,7 +173,7 @@ export async function getNewsArticles(options?: {
 }
 
 export async function getNewsArticleBySlug(
-  slug: string
+  slug: string,
 ): Promise<NewsArticle | null> {
   const all = await getNewsArticles();
   return all.find((a) => a.slug === slug) ?? null;
@@ -192,8 +186,7 @@ export async function getNewsArticleSlugs(): Promise<string[]> {
 
 // ─── JOURNAL ─────────────────────────────────────────────────────────────────
 
-const _WP_UPLOADS =
-  "https://psicologos.org.ar/wp-content/uploads";
+const _WP_UPLOADS = "https://psicologos.org.ar/wp-content/uploads";
 
 const _journalData: JournalIssue[] = [
   {
@@ -344,14 +337,14 @@ export async function getJournalIssues(): Promise<JournalIssue[]> {
 }
 
 export async function getJournalIssueBySlug(
-  slug: string
+  slug: string,
 ): Promise<JournalIssue | null> {
   const all = await getJournalIssues();
   return all.find((j) => j.slug === slug) ?? null;
 }
 
 export async function getJournalIssueByNumber(
-  number: number
+  number: number,
 ): Promise<JournalIssue | null> {
   const all = await getJournalIssues();
   return all.find((j) => j.number === number) ?? null;

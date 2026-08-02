@@ -35,7 +35,7 @@ const structuredData = JSON.stringify({
 
 <BaseLayout {seo}>
   <Fragment slot="structured-data">
-    <script type="application/ld+json" set:html={structuredData} />
+    <script is:inline type="application/ld+json" set:html={structuredData} />
   </Fragment>
 
   <div class="container issue-layout">

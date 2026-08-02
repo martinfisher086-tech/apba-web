@@ -10,6 +10,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const { slug } = Astro.params;
+if (typeof slug !== "string") return Astro.redirect("/404");
 const article = await getNewsArticleBySlug(slug);
 if (!article) return Astro.redirect("/404");
 
@@ -35,14 +36,7 @@ const structuredData = JSON.stringify({
   url: `https://psicologos.org.ar/actividades/${article.slug}/`,
 });
 
-const heroImgSrc = (() => {
-  if (!article.heroImage) return null;
-  const raw = article.heroImage as Record<string, unknown>;
-  if (raw["status"] === "pending_download" || typeof raw["url"] !== "string" || !raw["url"]) {
-    return null;
-  }
-  return article.heroImage.url;
-})();
+const heroImgSrc = article.heroImage?.url || null;
 
 const allRecent = await getNewsArticles({ limit: 8 });
 const sidebarArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0, 5);
@@ -51,7 +45,7 @@ const relatedArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0
 
 <BaseLayout {seo}>
   <Fragment slot="structured-data">
-    <script type="application/ld+json" set:html={structuredData} />
+    <script is:inline type="application/ld+json" set:html={structuredData} />
   </Fragment>
 
   <div class="article-page container">

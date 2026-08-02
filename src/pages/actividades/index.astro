@@ -37,7 +37,7 @@ const PAGE_SIZE = 12;
   </div>
 </BaseLayout>
 
-<script define:vars={{ PAGE_SIZE }}>
+<script is:inline define:vars={{ PAGE_SIZE }}>
   (function () {
     const grid = document.getElementById("actividades-pagination");
     if (!grid) return;
@@ -50,10 +50,7 @@ const PAGE_SIZE = 12;
     if (totalPages <= 1) return;
 
     paginationNav.hidden = false;
-    let current = 1;
-
     function showPage(page) {
-      current = page;
       items.forEach(function (item, idx) {
         const start = (page - 1) * PAGE_SIZE;
         const end = page * PAGE_SIZE;

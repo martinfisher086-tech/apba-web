@@ -10,7 +10,6 @@ env:
   NODE_VERSION: "20"
 
 jobs:
-
   # ── Type check + lint ───────────────────────────────────────────────────────
   check:
     name: Type check & lint
@@ -22,7 +21,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
       - run: npm ci
-      - run: npm run check          # astro check (TypeScript)
+      - run: npm run check # astro check (TypeScript)
       - run: npm run lint
       - run: npm run format:check
 
@@ -58,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: "npm" }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "npm" }
       - run: npm ci
       - uses: actions/download-artifact@v4
         with: { name: dist }
@@ -73,7 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: "npm" }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "npm" }
       - run: npm ci
       - run: npm run test:redirects
 
@@ -85,7 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: "npm" }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "npm" }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:a11y
@@ -102,7 +101,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: "npm" }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: "npm" }
       - run: npm ci
       - uses: actions/download-artifact@v4
         with: { name: dist }

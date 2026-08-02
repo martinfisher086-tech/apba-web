@@ -57,7 +57,7 @@ const structuredData = JSON.stringify([
 
 <BaseLayout {seo}>
   <Fragment slot="structured-data">
-    <script type="application/ld+json" set:html={structuredData} />
+    <script is:inline type="application/ld+json" set:html={structuredData} />
   </Fragment>
 
   <!-- Accessible page heading — the hero is image-only, so the H1 is visually hidden -->
