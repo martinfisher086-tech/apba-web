@@ -50,7 +50,7 @@ const PAGE_SIZE = 12;
     if (totalPages <= 1) return;
 
     paginationNav.hidden = false;
-    function showPage(page) {
+    function showPage(page, shouldScroll) {
       items.forEach(function (item, idx) {
         const start = (page - 1) * PAGE_SIZE;
         const end = page * PAGE_SIZE;
@@ -58,7 +58,9 @@ const PAGE_SIZE = 12;
       });
       renderLinks(page);
       const firstVisible = items[(page - 1) * PAGE_SIZE];
-      if (firstVisible) firstVisible.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (shouldScroll && firstVisible) {
+        firstVisible.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
 
     function renderLinks(activePage) {
@@ -88,12 +90,12 @@ const PAGE_SIZE = 12;
 
       paginationNav.querySelectorAll("button[data-page]").forEach(function (btn) {
         btn.addEventListener("click", function () {
-          showPage(parseInt(btn.getAttribute("data-page"), 10));
+          showPage(parseInt(btn.getAttribute("data-page"), 10), true);
         });
       });
     }
 
-    showPage(1);
+    showPage(1, false);
   })();
 </script>
 

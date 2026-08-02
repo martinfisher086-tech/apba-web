@@ -1,85 +1,71 @@
-/**
- * Verifies that all redirect-candidates from extraction/redirect-candidates.csv
- * are declared in the hosting platform redirect config (_redirects for Netlify
- * or vercel.json for Vercel). Run in CI after build.
- *
- * Usage: node scripts/verify-redirects.mjs [--config path/to/_redirects]
- */
-import { readFileSync, existsSync } from "fs";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = resolve(__dirname, "..");
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const configPath = resolve(root, "vercel.json");
+const newsPath = resolve(root, "extraction/news-clean.json");
 
-// ── Load extraction redirect candidates ────────────────────────────────────
-const csvPath = resolve(ROOT, "../extraction/redirect-candidates.csv");
-if (!existsSync(csvPath)) {
-  console.warn(
-    `⚠  redirect-candidates.csv not found at ${csvPath} — skipping verification`,
-  );
-  process.exit(0);
-}
-
-const csvLines = readFileSync(csvPath, "utf-8")
-  .split("\n")
-  .filter((l) => l.trim() && !l.startsWith("#") && !l.startsWith("from"));
-
-const candidates = csvLines.map((line) => {
-  const [from, to, statusStr] = line.split(",").map((s) => s.trim());
-  return { from, to, status: parseInt(statusStr ?? "301", 10) };
-});
-
-// ── Load declared redirects ─────────────────────────────────────────────────
-const netlifyRedirects = resolve(ROOT, "public/_redirects");
-const vercelConfig = resolve(ROOT, "vercel.json");
-
-let declared = new Set();
-
-if (existsSync(netlifyRedirects)) {
-  const lines = readFileSync(netlifyRedirects, "utf-8")
-    .split("\n")
-    .filter((l) => l.trim() && !l.startsWith("#"));
-  for (const line of lines) {
-    const [from] = line.split(/\s+/);
-    if (from) declared.add(from);
-  }
-  console.log(`📄 Loaded ${declared.size} redirects from public/_redirects`);
-} else if (existsSync(vercelConfig)) {
-  const config = JSON.parse(readFileSync(vercelConfig, "utf-8"));
-  for (const r of config.redirects ?? []) {
-    declared.add(r.source);
-  }
-  console.log(`📄 Loaded ${declared.size} redirects from vercel.json`);
-} else {
-  console.warn(
-    "⚠  No redirect config found (public/_redirects or vercel.json). Skipping.",
-  );
-  process.exit(0);
-}
-
-// ── Diff ────────────────────────────────────────────────────────────────────
-const missing = candidates.filter((c) => !declared.has(c.from));
-const extra = [...declared].filter(
-  (d) => !candidates.find((c) => c.from === d),
-);
-
-if (missing.length === 0) {
-  console.log(`✅ All ${candidates.length} redirect candidates are declared.`);
-} else {
+if (!existsSync(configPath)) {
   console.error(
-    `\n❌ ${missing.length} redirect(s) from extraction are NOT declared:\n`,
+    "❌ vercel.json is required; redirect verification cannot be skipped.",
   );
-  for (const { from, to, status } of missing) {
-    console.error(`   ${from}  →  ${to}  [${status}]`);
-  }
+  process.exit(1);
 }
 
-if (extra.length > 0) {
-  console.warn(
-    `\n⚠  ${extra.length} declared redirect(s) have no extraction candidate (may be intentional):`,
-  );
-  for (const d of extra) console.warn(`   ${d}`);
+const config = JSON.parse(readFileSync(configPath, "utf8"));
+const news = JSON.parse(readFileSync(newsPath, "utf8")).items;
+const requiredAliases = {
+  "/agenda-2/": "/agenda/",
+  "/informacion-util-2/": "/informacion-util/",
+  "/asistencia-2/": "/asistencia/",
+  "/que-es-apba/": "/institucional/que-es-apba/",
+  "/representacion-gremial/": "/institucional/representacion-gremial/",
+  "/docencia-e-investigacion/": "/institucional/docencia-e-investigacion/",
+  "/publicaciones/": "/institucional/publicaciones/",
+  "/departamentos/": "/institucional/departamentos/",
+  "/comision-directiva/": "/institucional/comision-directiva/",
+  "/gaceta-psicologica/": "/revistas/",
+  "/noticias/": "/novedades/",
+  "/cursos-gratuitos/": "/cursos/",
+  "/apba/": "/institucional/",
+  "/asesoramiento-juridico/": "/contacto/",
+  "/pacientes/": "/contacto/",
+  "/seguro-mala-praxis/": "/contacto/",
+  "/convenios/": "/beneficios/",
+};
+
+const required = new Map(Object.entries(requiredAliases));
+for (const item of news) {
+  const source = new URL(item.legacyUrl, "https://psicologos.org.ar").pathname;
+  required.set(source, item.newUrl);
 }
 
-process.exit(missing.length > 0 ? 1 : 0);
+const declared = new Map(
+  (config.redirects ?? []).map((redirect) => [
+    redirect.source,
+    { destination: redirect.destination, permanent: redirect.permanent },
+  ]),
+);
+const failures = [];
+for (const [source, destination] of required) {
+  const redirect = declared.get(source);
+  if (!redirect) failures.push(`${source} is missing`);
+  else if (redirect.destination !== destination)
+    failures.push(
+      `${source} points to ${redirect.destination}, expected ${destination}`,
+    );
+  else if (redirect.permanent !== true)
+    failures.push(`${source} must be permanent (301)`);
+}
+
+if (failures.length) {
+  console.error(
+    `❌ Redirect coverage failed (${failures.length}):\n${failures.join("\n")}`,
+  );
+  process.exit(1);
+}
+
+console.log(
+  `✅ ${required.size} historical redirects are declared as permanent.`,
+);

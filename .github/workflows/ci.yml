@@ -63,6 +63,8 @@ jobs:
         with: { name: dist, path: dist }
       - name: Check all IA routes exist in dist/
         run: node scripts/verify-routes.mjs
+      - name: Check internal links and public files
+        run: npm run test:links
 
   # ── Redirect map check ──────────────────────────────────────────────────────
   redirects:

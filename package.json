@@ -17,6 +17,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:a11y": "playwright test tests/a11y",
+    "test:links": "node scripts/verify-links.mjs",
     "test:redirects": "node scripts/verify-redirects.mjs",
     "test:routes": "node scripts/verify-routes.mjs",
     "ci:lighthouse": "lhci autorun"

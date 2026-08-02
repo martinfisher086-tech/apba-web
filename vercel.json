@@ -1,0 +1,291 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/agenda-2/", "destination": "/agenda/", "permanent": true },
+    {
+      "source": "/informacion-util-2/",
+      "destination": "/informacion-util/",
+      "permanent": true
+    },
+    {
+      "source": "/asistencia-2/",
+      "destination": "/asistencia/",
+      "permanent": true
+    },
+    {
+      "source": "/que-es-apba/",
+      "destination": "/institucional/que-es-apba/",
+      "permanent": true
+    },
+    {
+      "source": "/representacion-gremial/",
+      "destination": "/institucional/representacion-gremial/",
+      "permanent": true
+    },
+    {
+      "source": "/docencia-e-investigacion/",
+      "destination": "/institucional/docencia-e-investigacion/",
+      "permanent": true
+    },
+    {
+      "source": "/publicaciones/",
+      "destination": "/institucional/publicaciones/",
+      "permanent": true
+    },
+    {
+      "source": "/departamentos/",
+      "destination": "/institucional/departamentos/",
+      "permanent": true
+    },
+    {
+      "source": "/comision-directiva/",
+      "destination": "/institucional/comision-directiva/",
+      "permanent": true
+    },
+    {
+      "source": "/gaceta-psicologica/",
+      "destination": "/revistas/",
+      "permanent": true
+    },
+    { "source": "/noticias/", "destination": "/novedades/", "permanent": true },
+    {
+      "source": "/cursos-gratuitos/",
+      "destination": "/cursos/",
+      "permanent": true
+    },
+    { "source": "/apba/", "destination": "/institucional/", "permanent": true },
+    {
+      "source": "/asesoramiento-juridico/",
+      "destination": "/contacto/",
+      "permanent": true
+    },
+    { "source": "/pacientes/", "destination": "/contacto/", "permanent": true },
+    {
+      "source": "/seguro-mala-praxis/",
+      "destination": "/contacto/",
+      "permanent": true
+    },
+    {
+      "source": "/convenios/",
+      "destination": "/beneficios/",
+      "permanent": true
+    },
+    {
+      "source": "/especialidad-psicologia-clinica-proceso-de-certificacion-2-convocatoria-inscripcion-2025/",
+      "destination": "/novedades/especialidad-psicologia-clinica-proceso-de-certificacion-2-convocatoria-inscripcion-2025/",
+      "permanent": true
+    },
+    {
+      "source": "/x-congreso-latinoamericano-de-psicologia-ulapsi/",
+      "destination": "/novedades/x-congreso-latinoamericano-de-psicologia-ulapsi/",
+      "permanent": true
+    },
+    {
+      "source": "/curso-intensivo-actualizacion-en-psicologia-clinica/",
+      "destination": "/novedades/curso-intensivo-actualizacion-en-psicologia-clinica/",
+      "permanent": true
+    },
+    {
+      "source": "/despedimos-a-betty/",
+      "destination": "/novedades/despedimos-a-betty/",
+      "permanent": true
+    },
+    {
+      "source": "/5646-2/",
+      "destination": "/novedades/5646-2/",
+      "permanent": true
+    },
+    {
+      "source": "/especialidad-psicologia-clinica-proceso-de-certificacion-convocatoria-inscripcion-2024/",
+      "destination": "/novedades/especialidad-psicologia-clinica-proceso-de-certificacion-convocatoria-inscripcion-2024/",
+      "permanent": true
+    },
+    {
+      "source": "/apba-residencias/",
+      "destination": "/novedades/apba-residencias/",
+      "permanent": true
+    },
+    {
+      "source": "/5575-2/",
+      "destination": "/novedades/5575-2/",
+      "permanent": true
+    },
+    {
+      "source": "/locura-no-es-sinonimo-de-violencia/",
+      "destination": "/novedades/locura-no-es-sinonimo-de-violencia/",
+      "permanent": true
+    },
+    {
+      "source": "/ante-los-ataques-del-jefe-de-gobierno-porteno-a-la-ley-nacional-de-salud-mental/",
+      "destination": "/novedades/ante-los-ataques-del-jefe-de-gobierno-porteno-a-la-ley-nacional-de-salud-mental/",
+      "permanent": true
+    },
+    {
+      "source": "/repudiamos-los-actos-negacionistas-y-vandalicos-llevados-adelante-en-la-estacion-de-subtes-portena-rodolfo-walsh/",
+      "destination": "/novedades/repudiamos-los-actos-negacionistas-y-vandalicos-llevados-adelante-en-la-estacion-de-subtes-portena-rodolfo-walsh/",
+      "permanent": true
+    },
+    {
+      "source": "/respuesta-del-gobierno-de-la-ciudad-ante-nuestra-defensa-de-las-concurrencias/",
+      "destination": "/novedades/respuesta-del-gobierno-de-la-ciudad-ante-nuestra-defensa-de-las-concurrencias/",
+      "permanent": true
+    },
+    {
+      "source": "/respuesta-de-la-uba-ante-nuestra-defensa-de-las-concurrencias/",
+      "destination": "/novedades/respuesta-de-la-uba-ante-nuestra-defensa-de-las-concurrencias/",
+      "permanent": true
+    },
+    {
+      "source": "/en-defensa-las-concurrencias/",
+      "destination": "/novedades/en-defensa-las-concurrencias/",
+      "permanent": true
+    },
+    {
+      "source": "/en-defensa-de-la-ley-nacional-de-salud-mental-en-beneficio-de-la-comunidad/",
+      "destination": "/novedades/en-defensa-de-la-ley-nacional-de-salud-mental-en-beneficio-de-la-comunidad/",
+      "permanent": true
+    },
+    {
+      "source": "/rechazamos-el-cierre-de-las-concurrencias-en-la-ciudad-de-buenos-aires/",
+      "destination": "/novedades/rechazamos-el-cierre-de-las-concurrencias-en-la-ciudad-de-buenos-aires/",
+      "permanent": true
+    },
+    {
+      "source": "/firmamos-un-convenio-con-ate-capital-crece-nuestra-asociacion-fortaleciendo-los-vinculos-con-la-comunidad/",
+      "destination": "/novedades/firmamos-un-convenio-con-ate-capital-crece-nuestra-asociacion-fortaleciendo-los-vinculos-con-la-comunidad/",
+      "permanent": true
+    },
+    {
+      "source": "/solidaridad-con-ana-maria-fernandez/",
+      "destination": "/novedades/solidaridad-con-ana-maria-fernandez/",
+      "permanent": true
+    },
+    {
+      "source": "/celebramos-el-inicio-del-proceso-de-transformacion-de-los-hospitales-neuropsiquiatricos-en-la-provincia-de-buenos-aires/",
+      "destination": "/novedades/celebramos-el-inicio-del-proceso-de-transformacion-de-los-hospitales-neuropsiquiatricos-en-la-provincia-de-buenos-aires/",
+      "permanent": true
+    },
+    {
+      "source": "/el-gambito-de-apba-o-sobre-una-muy-interesante-experiencia-institucional/",
+      "destination": "/novedades/el-gambito-de-apba-o-sobre-una-muy-interesante-experiencia-institucional/",
+      "permanent": true
+    },
+    {
+      "source": "/en-defensa-de-la-ley-nacional-de-salud-mental/",
+      "destination": "/novedades/en-defensa-de-la-ley-nacional-de-salud-mental/",
+      "permanent": true
+    },
+    {
+      "source": "/apba-acompana-una-respuesta-solidaria-ante-la-pandemia/",
+      "destination": "/novedades/apba-acompana-una-respuesta-solidaria-ante-la-pandemia/",
+      "permanent": true
+    },
+    {
+      "source": "/en-defensa-de-la-democracia-responsabilidad-y-sensatez/",
+      "destination": "/novedades/en-defensa-de-la-democracia-responsabilidad-y-sensatez/",
+      "permanent": true
+    },
+    {
+      "source": "/la-ciudad-de-buenos-aires-sigue-sin-protocolo-oficial-para-atencion-presencial-de-la-psicologia/",
+      "destination": "/novedades/la-ciudad-de-buenos-aires-sigue-sin-protocolo-oficial-para-atencion-presencial-de-la-psicologia/",
+      "permanent": true
+    },
+    {
+      "source": "/las-psicologas-y-psicologos-exigimos-un-protocolo-para-la-atencion-en-la-ciudad-de-buenos-aires/",
+      "destination": "/novedades/las-psicologas-y-psicologos-exigimos-un-protocolo-para-la-atencion-en-la-ciudad-de-buenos-aires/",
+      "permanent": true
+    },
+    {
+      "source": "/autorizan-las-practicas-presenciales-psicoterapeuticas-en-caba/",
+      "destination": "/novedades/autorizan-las-practicas-presenciales-psicoterapeuticas-en-caba/",
+      "permanent": true
+    },
+    {
+      "source": "/creditos-bancarios-especiales-para-socios-y-socias/",
+      "destination": "/novedades/creditos-bancarios-especiales-para-socios-y-socias/",
+      "permanent": true
+    },
+    {
+      "source": "/repudio-a-las-declaraciones-del-decano-de-la-facultad-de-psicologia-de-la-uba/",
+      "destination": "/novedades/repudio-a-las-declaraciones-del-decano-de-la-facultad-de-psicologia-de-la-uba/",
+      "permanent": true
+    },
+    {
+      "source": "/mas-de-100-organizaciones-en-argentina-adhieren-a-la-declaracion-acompane-no-castigue-2020/",
+      "destination": "/novedades/mas-de-100-organizaciones-en-argentina-adhieren-a-la-declaracion-acompane-no-castigue-2020/",
+      "permanent": true
+    },
+    {
+      "source": "/solicitamos-al-ministerio-de-salud-de-la-ciudad-la-redaccion-de-un-protocolo-de-practicas-psicoterapeuticas-presenciales/",
+      "destination": "/novedades/solicitamos-al-ministerio-de-salud-de-la-ciudad-la-redaccion-de-un-protocolo-de-practicas-psicoterapeuticas-presenciales/",
+      "permanent": true
+    },
+    {
+      "source": "/hacia-un-nuevo-paradigma-en-el-abordaje-de-los-consumos-problematico/",
+      "destination": "/novedades/hacia-un-nuevo-paradigma-en-el-abordaje-de-los-consumos-problematico/",
+      "permanent": true
+    },
+    {
+      "source": "/repudio-al-espionaje-ilegal-del-gobierno-de-mauricio-macri/",
+      "destination": "/novedades/repudio-al-espionaje-ilegal-del-gobierno-de-mauricio-macri/",
+      "permanent": true
+    },
+    {
+      "source": "/hasta-siempre-querido-pablo-garano/",
+      "destination": "/novedades/hasta-siempre-querido-pablo-garano/",
+      "permanent": true
+    },
+    {
+      "source": "/proteccion-sin-derechos-es-segregacion/",
+      "destination": "/novedades/proteccion-sin-derechos-es-segregacion/",
+      "permanent": true
+    },
+    {
+      "source": "/en-el-marco-de-la-pandemia-covid-19-el-departamento-de-asistencia-se-mantiene-activo/",
+      "destination": "/novedades/en-el-marco-de-la-pandemia-covid-19-el-departamento-de-asistencia-se-mantiene-activo/",
+      "permanent": true
+    },
+    {
+      "source": "/el-gobierno-de-la-ciudad-de-buenos-aires-debe-cuidar-a-quienes-nos-cuidan/",
+      "destination": "/novedades/el-gobierno-de-la-ciudad-de-buenos-aires-debe-cuidar-a-quienes-nos-cuidan/",
+      "permanent": true
+    },
+    {
+      "source": "/apba-convocatoria-a-psicologas-y-psicologos-voluntarios-para-contencion-telefonica-en-el-marco-de-la-pandemia-de-coronavirus-covid19/",
+      "destination": "/novedades/apba-convocatoria-a-psicologas-y-psicologos-voluntarios-para-contencion-telefonica-en-el-marco-de-la-pandemia-de-coronavirus-covid19/",
+      "permanent": true
+    },
+    {
+      "source": "/la-salud-mental-es-un-derecho-que-las-prepagas-deben-garantizar/",
+      "destination": "/novedades/la-salud-mental-es-un-derecho-que-las-prepagas-deben-garantizar/",
+      "permanent": true
+    },
+    {
+      "source": "/repudiamos-la-practica-conocida-como-backlash/",
+      "destination": "/novedades/repudiamos-la-practica-conocida-como-backlash/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: https://i1.ytimg.com https://i3.ytimg.com https://i4.ytimg.com; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), geolocation=(), microphone=()"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    }
+  ]
+}
