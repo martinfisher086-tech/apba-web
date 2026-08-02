@@ -84,15 +84,49 @@ const _rawPages: _RawPagesFeed = JSON.parse(
   readFileSync(resolve(__libDir, "../../extraction/pages-clean.json"), "utf-8"),
 ) as _RawPagesFeed;
 
+const _unavailableExternalLinks = [
+  "http://shorturl.at/kryEH",
+  "https://revistadefilosofia.org/28-01.pdf?fbclid=IwAR0nUDmaSIQsJuK8L7Sqw5o4lxZsY7uzPmDv3g0T16kVpjdCKC9xqDuUgzQ",
+  "https://forms.gle/LcoP8o87wVde8rdTA",
+  "https://docs.google.com/forms/d/100XEMObW6ARPh5xm12GOhHFpwhmp7qdw5TXhf2NBjcA/edit?usp=sharing",
+  "https://docs.google.com/forms/d/e/1FAIpQLScjJGp_OVwbfJ3EAvCPBPMajpVSLVnt7oywLNb1ur3O74QDyA/viewform?usp=publish-editor",
+];
+
+function _escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function _prepareImportedHtml(html: string): string {
+  let prepared = html.replaceAll(
+    /https?:\/\/psicologos\.org\.ar\/wp-content\/uploads/gi,
+    "/wp-content/uploads",
+  );
+
+  for (const url of _unavailableExternalLinks) {
+    const linkPattern = new RegExp(
+      `<a\\b[^>]*href=["']${_escapeRegExp(url)}["'][^>]*>(.*?)<\\/a>`,
+      "gis",
+    );
+    prepared = prepared.replace(
+      linkPattern,
+      '$1 <a href="mailto:martinfisher086@gmail.com">(consultar disponibilidad)</a>',
+    );
+  }
+
+  return prepared;
+}
+
 function _mapPage(item: _RawPage): Page {
-  let body = item.body.replace(
-    "<p>Secretaria de Prensa: <strong>Paula Giménez</strong></p>",
-    "",
+  let body = _prepareImportedHtml(
+    item.body.replace(
+      "<p>Secretaria de Prensa: <strong>Paula Giménez</strong></p>",
+      "",
+    ),
   );
 
   if (item.slug === "normativa") {
     body = body.replaceAll(
-      "http://psicologos.org.ar/wp-content/uploads/2019/12/",
+      "/wp-content/uploads/2019/12/",
       "/documents/normativa/",
     );
   }
@@ -126,7 +160,7 @@ function _mapNewsItem(item: _RawNewsItem): NewsArticle {
     slug: item.slug,
     title: item.title,
     excerpt: item.excerpt,
-    body: item.body,
+    body: _prepareImportedHtml(item.body),
     category: item.categories[0] ?? "novedades",
     tags: item.tags,
     author: "APBA",
@@ -198,7 +232,7 @@ export async function getNewsArticleSlugs(): Promise<string[]> {
 
 // ─── JOURNAL ─────────────────────────────────────────────────────────────────
 
-const _WP_UPLOADS = "https://psicologos.org.ar/wp-content/uploads";
+const _WP_UPLOADS = "/wp-content/uploads";
 
 const _journalData: JournalIssue[] = [
   {
