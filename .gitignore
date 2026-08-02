@@ -6,6 +6,8 @@ planpagos.md
 /node_modules/
 /dist/
 /planpagos.md
+/playwright-report/
+/test-results/
 
 /node_modules/
 /dist/

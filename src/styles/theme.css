@@ -193,7 +193,7 @@
 
   /* Text aliases */
   --apba-text-secondary: #5a6b7b; /* same as --apba-text-muted */
-  --apba-text-tertiary: #8a9cae; /* slightly lighter for truly tertiary text */
+  --apba-text-tertiary: #5a6b7b; /* WCAG AA for small text on white surfaces */
 
   /* Surface aliases */
   --apba-surface: #ffffff; /* same as --apba-surface-base */
