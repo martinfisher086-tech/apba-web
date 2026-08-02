@@ -88,7 +88,10 @@ function _mapPage(item: _RawPage): Page {
   const page: Page = {
     slug: item.slug,
     title: item.title,
-    body: item.body,
+    body: item.body.replace(
+      "<p>Secretaria de Prensa: <strong>Paula Giménez</strong></p>",
+      "",
+    ),
     menuOrder: item.menuOrder,
     status: item.status as "published" | "draft",
     legacyUrls: [item.legacyUrl],
