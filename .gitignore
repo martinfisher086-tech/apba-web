@@ -9,6 +9,7 @@ planpagos.md
 /playwright-report/
 /test-results/
 /.lighthouseci/
+/.astro/
 
 /node_modules/
 /dist/

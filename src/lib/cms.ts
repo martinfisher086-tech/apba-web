@@ -8,9 +8,8 @@
  * All functions return typed data per src/types/models.ts.
  */
 
-import { readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import rawNewsData from "../../extraction/news-clean.json";
+import rawPagesData from "../../extraction/pages-clean.json";
 import type {
   NewsArticle,
   ImageAsset,
@@ -56,11 +55,7 @@ interface _RawNewsFeed {
   items: _RawNewsItem[];
 }
 
-// Load at build time — path is relative to this file (src/lib/ → ../../ = project root)
-const __libDir = dirname(fileURLToPath(import.meta.url));
-const _rawNews: _RawNewsFeed = JSON.parse(
-  readFileSync(resolve(__libDir, "../../extraction/news-clean.json"), "utf-8"),
-) as _RawNewsFeed;
+const _rawNews = rawNewsData as _RawNewsFeed;
 
 // ─── RAW JSON TYPES (pages-clean.json) ──────────────────────────────────────
 
@@ -80,9 +75,7 @@ interface _RawPagesFeed {
   items: _RawPage[];
 }
 
-const _rawPages: _RawPagesFeed = JSON.parse(
-  readFileSync(resolve(__libDir, "../../extraction/pages-clean.json"), "utf-8"),
-) as _RawPagesFeed;
+const _rawPages = rawPagesData as unknown as _RawPagesFeed;
 
 const _unavailableExternalLinks = [
   "http://shorturl.at/kryEH",
