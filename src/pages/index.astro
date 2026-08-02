@@ -280,10 +280,10 @@ const structuredData = JSON.stringify([
   .hero-slide--1 {
     z-index: 1;
     will-change: opacity;
-    animation: heroCrossfade 16s var(--apba-ease-in-out) infinite;
+    animation: heroCrossfade 8s var(--apba-ease-in-out) infinite;
   }
   /* 2-image crossfade — only the top layer animates; bottom stays visible.
-     Cycle 16s ⇒ ~6.5s hold per image, ~1.3s fade (within the 1.2–1.5s brief). */
+     Cycle 8s ⇒ ~3.25s hold per image, ~0.65s fade. */
   @keyframes heroCrossfade {
     0%, 40%   { opacity: 1; }
     48%, 90%  { opacity: 0; }
