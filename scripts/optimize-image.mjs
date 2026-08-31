@@ -60,5 +60,7 @@ for (const width of WIDTHS) {
 
   await resized.clone().webp({ quality: 78 }).toFile(webp);
 
-  console.log(`${w}×${h}  jpg ${kb(jpg)}  webp ${kb(webp)}  → ${base}-${width}`);
+  console.log(
+    `${w}×${h}  jpg ${kb(jpg)}  webp ${kb(webp)}  → ${base}-${width}`,
+  );
 }
