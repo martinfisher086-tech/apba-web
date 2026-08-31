@@ -3,7 +3,9 @@ import type { Course } from "@models/models";
 import Badge from "@components/atoms/Badge.astro";
 import {
   formatCourseDate,
+  hasDetailPage,
   modalityLabel,
+  registrationLabel,
   statusLabel,
   statusVariant,
 } from "@lib/courses";
@@ -14,8 +16,6 @@ interface Props {
   headingLevel?: 2 | 3 | 4;
   /** Sizes attribute for the flyer — depends on the grid it is rendered in. */
   sizes?: string;
-  /** The first card in a listing carries the LCP image; skip lazy-loading it. */
-  eager?: boolean;
   class?: string;
 }
 
@@ -23,7 +23,6 @@ const {
   course,
   headingLevel = 3,
   sizes = "(min-width: 1024px) 380px, (min-width: 640px) 46vw, calc(100vw - 2rem)",
-  eager = false,
   class: className = "",
 } = Astro.props;
 const Heading = `h${headingLevel}` as "h2" | "h3" | "h4";
@@ -31,26 +30,46 @@ const Heading = `h${headingLevel}` as "h2" | "h3" | "h4";
 const href = `/cursos/${course.slug}/`;
 const image = course.image;
 const sources = image ? responsiveSources(image.url) : undefined;
+
+// Flyer-only courses have no page to link to: the card carries everything the
+// flyer says, in text, so the information is not locked inside the image.
+const linked = hasDetailPage(course);
+const registration = course.registrationUrl;
 ---
 
 <article class:list={["course-card", className]}>
   {image && (
-    <a href={href} class="card-image" tabindex="-1" aria-hidden="true">
-      <picture>
-        {sources && <source type="image/webp" srcset={sources.webp} sizes={sizes} />}
-        <img
-          src={image.url}
-          srcset={sources?.jpeg}
-          sizes={sources ? sizes : undefined}
-          alt=""
-          width={image.width ?? 1200}
-          height={image.height ?? 675}
-          loading={eager ? "eager" : "lazy"}
-          fetchpriority={eager ? "high" : undefined}
-          decoding="async"
-        />
-      </picture>
-    </a>
+    linked ? (
+      <a href={href} class="card-image" tabindex="-1" aria-hidden="true">
+        <picture>
+          {sources && <source type="image/webp" srcset={sources.webp} sizes={sizes} />}
+          <img
+            src={image.url}
+            srcset={sources?.jpeg}
+            sizes={sources ? sizes : undefined}
+            alt=""
+            width={image.width ?? 1200}
+            height={image.height ?? 675}
+            decoding="async"
+          />
+        </picture>
+      </a>
+    ) : (
+      <div class="card-image">
+        <picture>
+          {sources && <source type="image/webp" srcset={sources.webp} sizes={sizes} />}
+          <img
+            src={image.url}
+            srcset={sources?.jpeg}
+            sizes={sources ? sizes : undefined}
+            alt=""
+            width={image.width ?? 1200}
+            height={image.height ?? 675}
+            decoding="async"
+          />
+        </picture>
+      </div>
+    )
   )}
 
   <div class="card-body">
@@ -60,9 +79,11 @@ const sources = image ? responsiveSources(image.url) : undefined;
     </div>
 
     <Heading class="card-title">
-      <a href={href}>{course.title}</a>
+      {linked ? <a href={href}>{course.title}</a> : course.title}
     </Heading>
     {course.subtitle && <p class="card-subtitle">{course.subtitle}</p>}
+
+    <p class="card-description">{course.description}</p>
 
     <dl class="card-facts">
       {course.startDate && (
@@ -83,9 +104,30 @@ const sources = image ? responsiveSources(image.url) : undefined;
           <dd>{course.duration}</dd>
         </div>
       )}
+      {!linked && course.instructors.length > 0 && (
+        <div>
+          <dt>Docentes</dt>
+          <dd>{course.instructors.join(", ")}</dd>
+        </div>
+      )}
+      {!linked && (
+        <div>
+          <dt>Arancel</dt>
+          <dd>{course.isFree ? "Gratuito" : (course.price ?? "Consultar")}</dd>
+        </div>
+      )}
     </dl>
 
-    <span class="card-cta" aria-hidden="true">Ver el curso →</span>
+    {linked ? (
+      <span class="card-cta" aria-hidden="true">Ver el curso →</span>
+    ) : (
+      registration && (
+        <p class="card-contact">
+          Informes e inscripción:{" "}
+          <a href={registration}>{registrationLabel(registration)}</a>
+        </p>
+      )
+    )}
   </div>
 </article>
 
@@ -101,7 +143,8 @@ const sources = image ? responsiveSources(image.url) : undefined;
       box-shadow var(--apba-duration-normal) var(--apba-ease-out),
       transform var(--apba-duration-normal) var(--apba-ease-out);
   }
-  .course-card:hover {
+  /* Only cards that lead somewhere lift on hover. */
+  .course-card:has(.card-cta):hover {
     box-shadow: var(--apba-shadow-md);
     transform: translateY(-2px);
   }
@@ -120,7 +163,7 @@ const sources = image ? responsiveSources(image.url) : undefined;
     object-fit: cover;
     transition: transform var(--apba-duration-normal) var(--apba-ease-out);
   }
-  .course-card:hover .card-image img { transform: scale(1.03); }
+  .course-card:has(.card-cta):hover .card-image img { transform: scale(1.03); }
 
   .card-body {
     padding: var(--apba-space-4);
@@ -150,6 +193,12 @@ const sources = image ? responsiveSources(image.url) : undefined;
     line-height: var(--apba-leading-snug);
     margin: 0;
   }
+  .card-description {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+  }
 
   .card-facts {
     margin: var(--apba-space-1) 0 0;
@@ -173,5 +222,15 @@ const sources = image ? responsiveSources(image.url) : undefined;
     font-size: var(--apba-text-body-sm);
     font-weight: var(--apba-weight-semibold);
     color: var(--apba-brand-primary);
+  }
+  .card-contact {
+    margin: auto 0 0;
+    padding-top: var(--apba-space-3);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+  }
+  .card-contact a {
+    color: var(--apba-brand-primary);
+    font-weight: var(--apba-weight-semibold);
   }
 </style>

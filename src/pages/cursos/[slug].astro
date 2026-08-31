@@ -6,6 +6,7 @@ import { getCourses } from "@lib/cms";
 import {
   formatCourseDate,
   fullTitle,
+  hasDetailPage,
   modalityLabel,
   registrationLabel,
   statusLabel,
@@ -14,9 +15,11 @@ import {
 import { responsiveSources } from "@lib/images";
 import type { Course } from "@models/models";
 
+// Only courses with editorial copy get a page. The flyer-only ones are shown
+// as self-contained cards in /cursos/ — see hasDetailPage().
 export async function getStaticPaths() {
   const courses = await getCourses();
-  return courses.map((course) => ({
+  return courses.filter(hasDetailPage).map((course) => ({
     params: { slug: course.slug },
     props: { course, others: courses.filter((c) => c.slug !== course.slug) },
   }));

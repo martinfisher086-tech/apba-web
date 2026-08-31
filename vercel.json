@@ -1,6 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
+    {
+      "source": "/cursos/ia-y-psicologia/",
+      "destination": "/cursos/",
+      "permanent": false
+    },
+    {
+      "source": "/cursos/practica-salud-mental-sistema-penal/",
+      "destination": "/cursos/",
+      "permanent": false
+    },
+    {
+      "source": "/cursos/subjetividad-y-comunidad/",
+      "destination": "/cursos/",
+      "permanent": false
+    },
     { "source": "/agenda-2/", "destination": "/agenda/", "permanent": true },
     {
       "source": "/informacion-util-2/",
