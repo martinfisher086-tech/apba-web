@@ -70,10 +70,15 @@ hero), switch focus ring to white (`--apba-text-on-brand`):
 
 | Foreground                 | Background                         | Ratio     | Result |
 | -------------------------- | ---------------------------------- | --------- | ------ |
-| `--apba-success` (#1E7F4F) | `--apba-success-surface` (#E6F4EC) | **5.1:1** | ✅ AA  |
-| `--apba-warning` (#B26A00) | `--apba-warning-surface` (#FFF3E0) | **5.3:1** | ✅ AA  |
+| `--apba-success` (#1A7146) | `--apba-success-surface` (#E6F4EC) | **5.3:1** | ✅ AA  |
+| `--apba-warning` (#8F5500) | `--apba-warning-surface` (#FFF3E0) | **5.5:1** | ✅ AA  |
 | `--apba-error` (#B3261E)   | `--apba-error-surface` (#FCE8E6)   | **5.6:1** | ✅ AA  |
 | `--apba-info` (#16519E)    | `--apba-info-surface` (#E8F0FA)    | **6.1:1** | ✅ AA  |
+
+> The success and warning rows previously listed #1E7F4F (claimed 5.1:1) and
+> #B26A00 (claimed 5.3:1). axe-core measured those pairs at **4.4:1** and
+> **3.9:1** — below the AA floor. Both foregrounds were darkened in
+> `src/styles/theme.css`; the ratios above are the corrected, measured values.
 
 ---
 

@@ -48,6 +48,17 @@ for (const htmlPath of walk(dist).filter((path) => extname(path) === ".html")) {
   const attributePattern = /\b(?:href|src|action)\s*=\s*["']([^"']+)["']/gi;
   for (const [, value] of html.matchAll(attributePattern))
     references.add(value);
+
+  // Responsive candidates: `srcset="a.webp 640w, b.webp 1200w"`. A missing
+  // candidate is invisible in the browser — it just silently downgrades — so
+  // check every URL, not only the <img src> fallback.
+  const srcsetPattern = /\bsrcset\s*=\s*["']([^"']+)["']/gi;
+  for (const [, value] of html.matchAll(srcsetPattern)) {
+    for (const candidate of value.split(",")) {
+      const url = candidate.trim().split(/\s+/)[0];
+      if (url) references.add(url);
+    }
+  }
 }
 
 for (const value of references) {

@@ -109,11 +109,15 @@ export type CourseStatus = "upcoming" | "ongoing" | "past";
 export interface Course {
   slug: string;
   title: string;
-  description: string; // richText
+  subtitle?: string;
+  description: string; // plain-text summary — cards, meta description, schema.org
+  body?: string; // richText — full detail page content
+  image?: ImageAsset; // flyer / banner
   modality: CourseModality;
   startDate?: string;
   endDate?: string;
   schedule?: string;
+  duration?: string; // e.g. "6 clases", "8 meses, de octubre a abril"
   instructors: string[];
   isFree: boolean;
   price?: string;

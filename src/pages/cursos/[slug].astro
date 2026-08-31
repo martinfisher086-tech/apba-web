@@ -1,121 +1,316 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/atoms/Badge.astro";
+import CourseCard from "@components/molecules/CourseCard.astro";
 import { getCourses } from "@lib/cms";
+import {
+  formatCourseDate,
+  fullTitle,
+  modalityLabel,
+  registrationLabel,
+  statusLabel,
+  statusVariant,
+} from "@lib/courses";
+import { responsiveSources } from "@lib/images";
 import type { Course } from "@models/models";
 
 export async function getStaticPaths() {
   const courses = await getCourses();
   return courses.map((course) => ({
     params: { slug: course.slug },
-    props: { course },
+    props: { course, others: courses.filter((c) => c.slug !== course.slug) },
   }));
 }
 
-interface Props { course: Course }
-const { course } = Astro.props;
+interface Props {
+  course: Course;
+  others: Course[];
+}
+const { course, others } = Astro.props;
+
+const name = fullTitle(course);
+const image = course.image;
+const sources = image ? responsiveSources(image.url) : undefined;
+const flyerSizes = "(min-width: 1024px) 720px, calc(100vw - 2rem)";
+const isPast = course.status === "past";
+const registration = course.registrationUrl;
+const isEmailRegistration = registration?.startsWith("mailto:") ?? false;
 
 const seo = {
-  title: `${course.title} — Cursos APBA`,
-  description: course.seo?.description ?? "",
+  title: course.seo?.title ?? `${name} — Cursos APBA`,
+  description: course.seo?.description ?? course.description,
   noindex: false,
 };
 
-const schema = {
+const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Course",
-  name: course.title,
+  name,
   description: course.description,
+  url: `https://psicologos.org.ar/cursos/${course.slug}/`,
+  ...(image && { image: `https://psicologos.org.ar${image.url}` }),
   provider: {
     "@type": "Organization",
-    name: "APBA",
+    name: "APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires",
     sameAs: "https://psicologos.org.ar",
   },
-};
+  ...(course.instructors.length > 0 && {
+    instructor: course.instructors.map((n) => ({ "@type": "Person", name: n })),
+  }),
+  hasCourseInstance: {
+    "@type": "CourseInstance",
+    courseMode: course.modality === "virtual" ? "online" : "onsite",
+    ...(course.startDate && { startDate: course.startDate }),
+    ...(course.endDate && { endDate: course.endDate }),
+    ...(course.schedule && { courseSchedule: course.schedule }),
+  },
+});
 ---
 
 <BaseLayout {seo}>
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <Fragment slot="structured-data">
+    <script is:inline type="application/ld+json" set:html={structuredData} />
+  </Fragment>
+
   <div class="container page-layout">
     <nav aria-label="Ruta de navegación" class="breadcrumb">
       <ol>
         <li><a href="/">Inicio</a></li>
-        <li><a href="/cursos/">Cursos y jornadas</a></li>
+        <li><a href="/cursos/">Cursos y Jornadas</a></li>
         <li aria-current="page">{course.title}</li>
       </ol>
     </nav>
 
     <article class="course-detail">
+      {image && (
+        <picture>
+          {sources && <source type="image/webp" srcset={sources.webp} sizes={flyerSizes} />}
+          <img
+            class="course-flyer"
+            src={image.url}
+            srcset={sources?.jpeg}
+            sizes={sources ? flyerSizes : undefined}
+            alt={image.alt}
+            width={image.width ?? 1200}
+            height={image.height ?? 675}
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
+      )}
+
       <header class="course-header">
+        <div class="course-badges">
+          <Badge variant={statusVariant(course.status)}>{statusLabel(course.status)}</Badge>
+          <Badge variant="default">{modalityLabel(course.modality)}</Badge>
+        </div>
         <h1>{course.title}</h1>
-        {course.description && <p class="course-lead" set:html={course.description} />}
+        {course.subtitle && <p class="course-subtitle">{course.subtitle}</p>}
       </header>
 
-      <div class="course-meta">
+      <dl class="course-meta">
         {course.startDate && (
           <div class="meta-item">
-            <span class="meta-label">Inicio</span>
-            <time datetime={course.startDate}>{course.startDate}</time>
+            <dt>Inicio</dt>
+            <dd><time datetime={course.startDate}>{formatCourseDate(course.startDate)}</time></dd>
           </div>
         )}
-        {course.modality && (
+        {course.schedule && (
           <div class="meta-item">
-            <span class="meta-label">Modalidad</span>
-            <span>{course.modality}</span>
+            <dt>Cursada</dt>
+            <dd>{course.schedule}</dd>
+          </div>
+        )}
+        {course.duration && (
+          <div class="meta-item">
+            <dt>Duración</dt>
+            <dd>{course.duration}</dd>
           </div>
         )}
         <div class="meta-item">
-          <span class="meta-label">Arancel</span>
-          <span>{course.isFree ? "Gratuito" : course.price ?? "Consultar"}</span>
+          <dt>Modalidad</dt>
+          <dd>{modalityLabel(course.modality)}</dd>
         </div>
-      </div>
+        <div class="meta-item">
+          <dt>Arancel</dt>
+          <dd>{course.isFree ? "Gratuito" : (course.price ?? "Consultar")}</dd>
+        </div>
+      </dl>
 
-      <p class="placeholder-notice">Estamos actualizando el contenido de este curso. Para más información, escribinos a <a href="mailto:apba@psicologos.org.ar">apba@psicologos.org.ar</a>.</p>
+      {course.body
+        ? <div class="course-body prose" set:html={course.body} />
+        : <p class="course-lead">{course.description}</p>
+      }
 
-      {course.registrationUrl && (
-        <a href={course.registrationUrl} class="btn-register" target="_blank" rel="noopener noreferrer">
-          Inscribirse
-        </a>
+      {course.instructors.length > 0 && (
+        <section class="course-team" aria-labelledby="docentes-heading">
+          <h2 id="docentes-heading">Docentes</h2>
+          <ul class="team-list" role="list">
+            {course.instructors.map((instructor) => <li>{instructor}</li>)}
+          </ul>
+        </section>
       )}
+
+      <section class="course-cta" aria-labelledby="inscripcion-heading">
+        <h2 id="inscripcion-heading">
+          {isPast ? "Consultá por próximas ediciones" : "Informes e inscripción"}
+        </h2>
+        <p>
+          {isPast
+            ? "Esta edición ya finalizó. Escribinos para que te avisemos cuando se abra una nueva."
+            : "Escribinos y te enviamos el programa, los aranceles vigentes y los descuentos para socias y socios."}
+        </p>
+        {registration && (
+          <a
+            href={registration}
+            class="btn-register"
+            target={isEmailRegistration ? undefined : "_blank"}
+            rel={isEmailRegistration ? undefined : "noopener noreferrer"}
+          >
+            {isEmailRegistration ? registrationLabel(registration) : "Inscribirse"}
+          </a>
+        )}
+      </section>
     </article>
+
+    {others.length > 0 && (
+      <section class="other-courses" aria-labelledby="otros-heading">
+        <h2 id="otros-heading">Otros cursos de APBA</h2>
+        <ul class="course-grid" role="list">
+          {others.map((other) => (
+            <li><CourseCard course={other} headingLevel={3} /></li>
+          ))}
+        </ul>
+      </section>
+    )}
   </div>
 </BaseLayout>
 
 <style>
   .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
+  .course-detail { max-width: var(--apba-reading-width); }
+  /* Let the <img> be laid out by .course-detail directly, not by <picture>. */
+  .course-detail > picture { display: contents; }
+
+  .course-flyer {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--apba-radius-lg);
+    margin-bottom: var(--apba-space-6);
+    background: var(--apba-surface-sunken);
+  }
+
   .course-header { margin-bottom: var(--apba-space-6); }
+  .course-badges {
+    display: flex;
+    gap: var(--apba-space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--apba-space-3);
+  }
+  .course-header h1 { margin: 0; }
+  .course-subtitle {
+    font-size: var(--apba-text-body-lg);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-snug);
+    margin-top: var(--apba-space-2);
+  }
+
+  .course-meta {
+    display: grid;
+    gap: var(--apba-space-4);
+    padding: var(--apba-space-5);
+    background: var(--apba-surface-raised);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+    margin: 0 0 var(--apba-space-8);
+  }
+  @media (min-width: 640px) {
+    .course-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  .meta-item { display: flex; flex-direction: column; gap: var(--apba-space-1); }
+  .meta-item dt {
+    font-size: var(--apba-text-caption);
+    font-weight: var(--apba-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--apba-tracking-wider);
+    color: var(--apba-text-tertiary);
+  }
+  .meta-item dd { margin: 0; color: var(--apba-text-primary); }
+
   .course-lead {
     font-size: var(--apba-text-body-lg);
     color: var(--apba-text-secondary);
-    max-width: 72ch;
-    margin-top: var(--apba-space-3);
+    line-height: var(--apba-leading-relaxed);
   }
-  .course-meta {
+  .prose :global(p) { margin-bottom: var(--apba-space-4); line-height: var(--apba-leading-loose); }
+  .prose :global(h2) { margin-top: var(--apba-space-8); margin-bottom: var(--apba-space-4); font-size: var(--apba-text-h4); }
+  .prose :global(ul) { margin-bottom: var(--apba-space-4); padding-left: var(--apba-space-6); }
+  .prose :global(li) { margin-bottom: var(--apba-space-2); line-height: var(--apba-leading-relaxed); }
+
+  .course-team { margin-top: var(--apba-space-8); }
+  .course-team h2 { font-size: var(--apba-text-h4); margin-bottom: var(--apba-space-3); }
+  .team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--apba-space-6);
-    padding: var(--apba-space-4);
-    background: var(--apba-surface-secondary);
-    border-radius: var(--apba-radius-lg);
-    margin-bottom: var(--apba-space-8);
+    gap: var(--apba-space-2);
   }
-  .meta-item { display: flex; flex-direction: column; gap: var(--apba-space-1); }
-  .meta-label { font-size: var(--apba-text-caption); font-weight: var(--apba-weight-semibold); text-transform: uppercase; letter-spacing: 0.05em; color: var(--apba-text-tertiary); }
+  .team-list li {
+    padding: var(--apba-space-1) var(--apba-space-3);
+    background: var(--apba-surface-raised);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-full);
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+  }
+
+  .course-cta {
+    margin-top: var(--apba-space-10);
+    padding: var(--apba-space-6);
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-lg);
+  }
+  .course-cta h2 { font-size: var(--apba-text-h4); margin: 0 0 var(--apba-space-2); }
+  .course-cta p {
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+    max-width: 56ch;
+  }
   .btn-register {
     display: inline-flex;
-    margin-top: var(--apba-space-8);
-    padding: var(--apba-space-3) var(--apba-space-8);
+    align-items: center;
+    margin-top: var(--apba-space-4);
+    padding: var(--apba-space-3) var(--apba-space-6);
     background: var(--apba-brand-primary);
     color: var(--apba-text-on-brand);
     text-decoration: none;
     border-radius: var(--apba-radius-md);
     font-weight: var(--apba-weight-semibold);
     min-height: 44px;
-    align-items: center;
+    transition: background-color var(--apba-duration-fast) var(--apba-ease-out);
   }
-  .placeholder-notice {
-    background: var(--apba-warning-surface);
-    color: var(--apba-warning);
-    padding: var(--apba-space-4);
-    border-radius: var(--apba-radius-md);
+  .btn-register:hover { background: var(--apba-brand-primary-strong); }
+
+  .other-courses {
+    margin-top: var(--apba-space-16);
+    padding-top: var(--apba-space-10);
+    border-top: 1px solid var(--apba-border);
   }
+  .other-courses h2 { margin-bottom: var(--apba-space-6); }
+  .course-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--apba-space-6);
+  }
+  .course-grid > li { display: flex; }
+  .course-grid > li > :global(*) { flex: 1; }
+  @media (min-width: 640px)  { .course-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .course-grid { grid-template-columns: repeat(3, 1fr); } }
 </style>

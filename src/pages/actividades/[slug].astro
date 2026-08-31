@@ -2,6 +2,8 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NewsCard from "@components/molecules/NewsCard.astro";
 import { getNewsArticles, getNewsArticleBySlug } from "@lib/cms";
+import { formatLongDate, formatShortDate } from "@lib/dates";
+import { responsiveSources } from "@lib/images";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -37,6 +39,9 @@ const structuredData = JSON.stringify({
 });
 
 const heroImgSrc = article.heroImage?.url || null;
+// Legacy WordPress artwork ships as a single file — heroSources is undefined there.
+const heroSources = heroImgSrc ? responsiveSources(heroImgSrc) : undefined;
+const heroSizes = "(min-width: 1024px) 720px, calc(100vw - 2rem)";
 
 const allRecent = await getNewsArticles({ limit: 8 });
 const sidebarArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0, 5);
@@ -61,13 +66,20 @@ const relatedArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0
       <!-- ── Main content ── -->
       <article class="article-main">
         {heroImgSrc ? (
-          <img
-            src={heroImgSrc}
-            alt={article.heroImage?.alt ?? ""}
-            width="1200"
-            height="630"
-            class="hero-image"
-          />
+          <picture>
+            {heroSources && <source type="image/webp" srcset={heroSources.webp} sizes={heroSizes} />}
+            <img
+              src={heroImgSrc}
+              srcset={heroSources?.jpeg}
+              sizes={heroSources ? heroSizes : undefined}
+              alt={article.heroImage?.alt ?? ""}
+              width="1200"
+              height="630"
+              fetchpriority="high"
+              decoding="async"
+              class="hero-image"
+            />
+          </picture>
         ) : (
           <div class="hero-image-placeholder" aria-hidden="true">
             <img src="/images/apba-logo.svg" alt="" width="64" height="64" class="placeholder-brand-logo" />
@@ -81,11 +93,7 @@ const relatedArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0
           {article.publishDate && (
             <p class="caption article-date">
               <time datetime={article.publishDate}>
-                {new Date(article.publishDate).toLocaleDateString("es-AR", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                {formatLongDate(article.publishDate)}
               </time>
             </p>
           )}
@@ -115,11 +123,7 @@ const relatedArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0
                   <a href={`/actividades/${a.slug}/`}>{a.title}</a>
                   {a.publishDate && (
                     <time class="widget-news-date" datetime={a.publishDate}>
-                      {new Date(a.publishDate).toLocaleDateString("es-AR", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
+                      {formatShortDate(a.publishDate)}
                     </time>
                   )}
                 </li>
@@ -163,6 +167,8 @@ const relatedArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0
   }
 
   .article-main { max-width: var(--apba-reading-width); }
+  /* Let the <img> be laid out by .article-main directly, not by <picture>. */
+  .article-main picture { display: contents; }
   .hero-image {
     width: 100%;
     aspect-ratio: 16/9;
@@ -205,6 +211,21 @@ const relatedArticles = allRecent.filter((a) => a.slug !== article.slug).slice(0
   .prose :global(h3) { margin-top: var(--apba-space-6); margin-bottom: var(--apba-space-3); }
   .prose :global(ul), .prose :global(ol) { margin-bottom: var(--apba-space-4); padding-left: var(--apba-space-6); }
   .prose :global(li) { margin-bottom: var(--apba-space-2); line-height: var(--apba-leading-relaxed); }
+  .prose :global(li > p) { margin-block: var(--apba-space-2); }
+
+  /* Editorial helpers used inside imported article HTML.
+     `.apba-key-date` highlights a convocatoria deadline; `.apba-note` an aside. */
+  .prose :global(.apba-key-date) {
+    font-size: var(--apba-text-h4);
+    color: var(--apba-brand-accent);
+    border-left: 4px solid var(--apba-brand-accent);
+    padding-left: var(--apba-space-4);
+  }
+  .prose :global(.apba-note) {
+    padding: var(--apba-space-4);
+    background: var(--apba-brand-tint);
+    border-radius: var(--apba-radius-md);
+  }
 
   .article-sidebar {
     display: flex;
