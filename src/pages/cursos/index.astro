@@ -4,7 +4,7 @@ import ComingSoon from "@components/organisms/ComingSoon.astro";
 import PageHero from "@components/organisms/PageHero.astro";
 import CourseCard from "@components/molecules/CourseCard.astro";
 import { getCourses } from "@lib/cms";
-import { fullTitle } from "@lib/courses";
+import { fullTitle, hasDetailPage } from "@lib/courses";
 
 const courses = await getCourses();
 
@@ -20,6 +20,9 @@ const breadcrumbs = [
   { label: "Cursos y Jornadas" },
 ];
 
+// Flyer-only courses have no page of their own, so they are described inline
+// rather than linked — a ListItem url pointing at a nonexistent page would be
+// a broken reference for search engines.
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -27,8 +30,19 @@ const structuredData = JSON.stringify({
   itemListElement: courses.map((course, i) => ({
     "@type": "ListItem",
     position: i + 1,
-    name: fullTitle(course),
-    url: `https://psicologos.org.ar/cursos/${course.slug}/`,
+    item: {
+      "@type": "Course",
+      name: fullTitle(course),
+      description: course.description,
+      provider: {
+        "@type": "Organization",
+        name: "APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires",
+        sameAs: "https://psicologos.org.ar",
+      },
+      ...(hasDetailPage(course) && {
+        url: `https://psicologos.org.ar/cursos/${course.slug}/`,
+      }),
+    },
   })),
 });
 ---
@@ -58,9 +72,9 @@ const structuredData = JSON.stringify({
         </p>
 
         <ul class="course-grid" role="list">
-          {courses.map((course, i) => (
+          {courses.map((course) => (
             <li>
-              <CourseCard course={course} headingLevel={2} eager={i === 0} />
+              <CourseCard course={course} headingLevel={2} />
             </li>
           ))}
         </ul>

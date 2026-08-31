@@ -40,6 +40,15 @@ export function fullTitle(course: Course): string {
   return course.subtitle ? `${course.title}. ${course.subtitle}` : course.title;
 }
 
+/**
+ * A course only gets its own page when the editorial team supplied real copy
+ * for it. The flyer-only courses render as a self-contained card instead —
+ * everything the flyer says is in the card, so a detail page would add nothing.
+ */
+export function hasDetailPage(course: Course): boolean {
+  return Boolean(course.body);
+}
+
 /** "25 de agosto de 2026" — only for dates we actually know in full. */
 export function formatCourseDate(iso: string): string {
   return formatLongDate(iso);
