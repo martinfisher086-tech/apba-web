@@ -396,8 +396,152 @@ export async function getJournalIssueSlugs(): Promise<string[]> {
 
 // ─── COURSES ─────────────────────────────────────────────────────────────────
 
+/**
+ * Editorial course listing. Ordered for display: open enrolment first, then
+ * courses already running, then finished editions.
+ * Source: flyers + course briefs supplied by APBA (agosto 2026).
+ */
+const _courseData: Course[] = [
+  {
+    slug: "preparacion-examen-residencias-2027",
+    title: "Curso de Preparación para Examen de Residencias 2027",
+    description:
+      "Preparación para el examen de residencias 2027 a cargo de docentes que transitaron la residencia. Ocho meses de cursada virtual, de octubre a abril.",
+    body: [
+      `<p>Desde APBA lanzamos nuestro <strong>Curso de Preparación para el Examen de Residencias 2027</strong>.</p>`,
+      `<p>Sabemos lo que implica este recorrido, porque ya lo transitamos. Somos un equipo de docentes que realizamos la residencia y pasamos por este examen, por eso te ofrecemos una propuesta pensada desde nuestra propia experiencia, para que la preparación sea más amena y en compañía.</p>`,
+      `<p>También convocamos docentes que integran la bibliografía para que puedan transmitir sus propios textos y ustedes tengan un acercamiento desde la palabra del autor/a.</p>`,
+      `<h2>¿Cómo es la cursada?</h2>`,
+      `<ul><li><strong>Duración:</strong> 8 meses, de octubre a abril, con posibilidad de sumar un mes de repaso intensivo conforme al cronograma oficial que se publicará más adelante.</li><li><strong>Modalidad:</strong> virtual, los días martes de 18 a 22 hs.</li></ul>`,
+      `<h2>¿Qué trabajamos?</h2>`,
+      `<ul><li>Choices de práctica.</li><li>Lectura de los textos acompañada por docentes.</li><li>Repaso de preguntas de años anteriores.</li><li>Trabajo con exámenes previos.</li><li>Acompañamiento del recorrido con tutorías individuales si fueran necesarias.</li><li>Trabajo grupal sobre las dudas y dificultades que surjan.</li></ul>`,
+      `<p>Ofrecemos aranceles accesibles porque entendemos el momento que atraviesan y pensamos en facilitar un ingreso más democrático y con menores barreras de costos y tiempos.</p>`,
+    ].join("\n\n"),
+    image: {
+      url: "/images/cursos/curso-preparacion-residencias-2027-1200.jpg",
+      alt: "Curso de preparación de examen de residencias 2027 — APBA",
+      width: 1200,
+      height: 671,
+    },
+    modality: "virtual",
+    schedule: "Martes de 18 a 22 hs.",
+    duration: "8 meses, de octubre a abril",
+    instructors: [],
+    isFree: false,
+    price: "Aranceles accesibles — consultar",
+    registrationUrl: "mailto:cursosapba@gmail.com",
+    status: "upcoming",
+    seo: {
+      title: "Curso de Preparación para Examen de Residencias 2027 — APBA",
+      description:
+        "Curso virtual de APBA para preparar el examen de residencias 2027. Ocho meses de cursada, martes de 18 a 22 hs. Informes e inscripción: cursosapba@gmail.com.",
+      noindex: false,
+    },
+  },
+  {
+    slug: "practica-salud-mental-sistema-penal",
+    title: "La Práctica en Salud Mental y el Sistema Penal hoy",
+    description:
+      "Curso a distancia de APBA sobre la práctica en salud mental y su articulación con el sistema penal en la actualidad.",
+    image: {
+      url: "/images/cursos/curso-salud-mental-sistema-penal-1200.jpg",
+      alt: "Curso: La Práctica en Salud Mental y el Sistema Penal hoy — APBA",
+      width: 1200,
+      height: 675,
+    },
+    modality: "virtual",
+    startDate: "2026-08-25",
+    schedule: "Martes 18 hs.",
+    duration: "6 clases",
+    instructors: [
+      "Pablo Catalán",
+      "Julieta Porcel",
+      "Rosario Gauna Alsina",
+      "Mariano Poblet Machado",
+      "Gabriela Tozoroni",
+      "Facundo Labriola",
+      "Simón Cluigt",
+      "Docentes invitadxs",
+    ],
+    isFree: false,
+    price: "Aranceles institucionales — consultá por nuestros descuentos",
+    registrationUrl: "mailto:cursosapba@gmail.com",
+    status: "ongoing",
+    seo: {
+      title: "La Práctica en Salud Mental y el Sistema Penal hoy — Cursos APBA",
+      description:
+        "Curso a distancia de APBA sobre la práctica en salud mental y el sistema penal. Martes 18 hs., 6 clases. Informes: cursosapba@gmail.com.",
+      noindex: false,
+    },
+  },
+  {
+    slug: "subjetividad-y-comunidad",
+    title: "Subjetividad y Comunidad",
+    subtitle: "Desafíos actuales de su interrelación",
+    description:
+      "Curso a distancia de APBA sobre subjetividad y comunidad: los desafíos actuales de su interrelación.",
+    image: {
+      url: "/images/cursos/curso-subjetividad-y-comunidad-1200.jpg",
+      alt: "Curso: Subjetividad y Comunidad. Desafíos actuales de su interrelación — APBA",
+      width: 1200,
+      height: 675,
+    },
+    modality: "virtual",
+    startDate: "2026-08-29",
+    schedule: "Sábados de 9.30 a 12 hs.",
+    duration: "4 encuentros",
+    instructors: [
+      "Eduardo Tissera",
+      "Claudia Bonzo",
+      "Sol Schneer",
+      "Ana Espada",
+      "Lucrecia Petit",
+      "Docentes invitados",
+    ],
+    isFree: false,
+    price: "Aranceles institucionales — consultá por nuestros descuentos",
+    registrationUrl: "mailto:cursosapba@gmail.com",
+    status: "ongoing",
+    seo: {
+      title: "Subjetividad y Comunidad — Cursos APBA",
+      description:
+        "Curso a distancia de APBA: Subjetividad y Comunidad, desafíos actuales de su interrelación. Sábados de 9.30 a 12 hs., 4 encuentros.",
+      noindex: false,
+    },
+  },
+  {
+    slug: "ia-y-psicologia",
+    title: "IA y Psicología",
+    subtitle:
+      "Nuevas herramientas para pensar, investigar y acompañar en la práctica profesional",
+    description:
+      "Curso a distancia de APBA sobre inteligencia artificial y psicología: nuevas herramientas para pensar, investigar y acompañar en la práctica profesional.",
+    image: {
+      url: "/images/cursos/curso-ia-y-psicologia-1200.jpg",
+      alt: "Curso: IA y Psicología, nuevas herramientas para la práctica profesional — APBA",
+      width: 1200,
+      height: 675,
+    },
+    modality: "virtual",
+    startDate: "2026-08-11",
+    endDate: "2026-08-18",
+    schedule: "11, 13 y 18 de agosto, 19 hs.",
+    instructors: ["Johanna Goldwaser", "Juan Pablo Ocampo"],
+    isFree: false,
+    price: "Aranceles institucionales — consultá por nuestros descuentos",
+    registrationUrl: "mailto:cursosapba@gmail.com",
+    status: "past",
+    seo: {
+      title: "IA y Psicología — Cursos APBA",
+      description:
+        "Curso a distancia de APBA sobre IA y psicología: nuevas herramientas para pensar, investigar y acompañar en la práctica profesional.",
+      noindex: false,
+    },
+  },
+];
+
 export async function getCourses(): Promise<Course[]> {
-  return []; // TODO: CMS query
+  return _courseData;
 }
 
 export async function getCourseBySlug(slug: string): Promise<Course | null> {
@@ -406,7 +550,8 @@ export async function getCourseBySlug(slug: string): Promise<Course | null> {
 }
 
 export async function getCourseSlugs(): Promise<string[]> {
-  return []; // TODO
+  const all = await getCourses();
+  return all.map((c) => c.slug);
 }
 
 // ─── CERTIFICATION ───────────────────────────────────────────────────────────

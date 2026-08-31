@@ -1,6 +1,7 @@
 ---
 import type { JournalIssue } from "@models/models";
 import DownloadButton from "@components/molecules/DownloadButton.astro";
+import { formatMonthYear } from "@lib/dates";
 
 interface Props {
   issue: JournalIssue;
@@ -32,7 +33,7 @@ const Heading = `h${headingLevel}` as "h2" | "h3" | "h4";
     </Heading>
     {issue.publishDate && (
       <time class="card-date" datetime={issue.publishDate}>
-        {new Date(issue.publishDate).toLocaleDateString("es-AR", { year: "numeric", month: "long" })}
+        {formatMonthYear(issue.publishDate)}
       </time>
     )}
     {issue.description && <p class="card-desc">{issue.description}</p>}

@@ -28,7 +28,14 @@ const PAGE_SIZE = 12;
     <div class="news-grid" id="actividades-grid">
       {news.map((article, i) => (
         <div class:list={["news-item", { "news-item--featured": i === 0 }]} data-index={i}>
-          <NewsCard article={article} headingLevel={2} />
+          <NewsCard
+            article={article}
+            headingLevel={2}
+            eager={i === 0}
+            sizes={i === 0
+              ? "(min-width: 1024px) 800px, (min-width: 768px) 46vw, calc(100vw - 2rem)"
+              : "(min-width: 1024px) 380px, (min-width: 768px) 46vw, calc(100vw - 2rem)"}
+          />
         </div>
       ))}
     </div>

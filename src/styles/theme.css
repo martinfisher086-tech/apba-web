@@ -81,9 +81,12 @@
   --apba-border-strong: #9eb4c8;
 
   /* ── FEEDBACK ─────────────────────────────────────────────────────────── */
-  --apba-success: #1e7f4f;
+  /* Success and warning were darkened after axe-core measured the original
+     #1E7F4F / #B26A00 at 4.4:1 and 3.9:1 on their own surfaces — both below
+     the 4.5:1 AA floor for normal text. See contrast-audit.md §3. */
+  --apba-success: #1a7146;
   --apba-success-surface: #e6f4ec;
-  --apba-warning: #b26a00;
+  --apba-warning: #8f5500;
   --apba-warning-surface: #fff3e0;
   --apba-error: #b3261e;
   --apba-error-surface: #fce8e6;

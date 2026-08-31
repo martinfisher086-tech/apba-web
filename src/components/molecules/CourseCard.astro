@@ -1,59 +1,177 @@
 ---
 import type { Course } from "@models/models";
+import Badge from "@components/atoms/Badge.astro";
+import {
+  formatCourseDate,
+  modalityLabel,
+  statusLabel,
+  statusVariant,
+} from "@lib/courses";
+import { responsiveSources } from "@lib/images";
 
 interface Props {
   course: Course;
   headingLevel?: 2 | 3 | 4;
+  /** Sizes attribute for the flyer — depends on the grid it is rendered in. */
+  sizes?: string;
+  /** The first card in a listing carries the LCP image; skip lazy-loading it. */
+  eager?: boolean;
   class?: string;
 }
 
-const { course, headingLevel = 3, class: className = "" } = Astro.props;
+const {
+  course,
+  headingLevel = 3,
+  sizes = "(min-width: 1024px) 380px, (min-width: 640px) 46vw, calc(100vw - 2rem)",
+  eager = false,
+  class: className = "",
+} = Astro.props;
 const Heading = `h${headingLevel}` as "h2" | "h3" | "h4";
+
+const href = `/cursos/${course.slug}/`;
+const image = course.image;
+const sources = image ? responsiveSources(image.url) : undefined;
 ---
 
 <article class:list={["course-card", className]}>
+  {image && (
+    <a href={href} class="card-image" tabindex="-1" aria-hidden="true">
+      <picture>
+        {sources && <source type="image/webp" srcset={sources.webp} sizes={sizes} />}
+        <img
+          src={image.url}
+          srcset={sources?.jpeg}
+          sizes={sources ? sizes : undefined}
+          alt=""
+          width={image.width ?? 1200}
+          height={image.height ?? 675}
+          loading={eager ? "eager" : "lazy"}
+          fetchpriority={eager ? "high" : undefined}
+          decoding="async"
+        />
+      </picture>
+    </a>
+  )}
+
   <div class="card-body">
-    <Heading class="card-title">
-      <a href={`/cursos/${course.slug}/`}>{course.title}</a>
-    </Heading>
     <div class="card-meta">
-      {course.modality && <span class="meta-chip">{course.modality}</span>}
-      <span class="meta-chip">
-        {course.isFree ? "Gratuito" : course.price ?? "Consultar"}
-      </span>
+      <Badge variant={statusVariant(course.status)}>{statusLabel(course.status)}</Badge>
+      <Badge variant="default">{modalityLabel(course.modality)}</Badge>
     </div>
-    {course.description && <p class="card-desc" set:html={course.description} />}
-    {course.startDate && (
-      <p class="card-date">
-        Inicio: <time datetime={course.startDate}>{course.startDate}</time>
-      </p>
-    )}
+
+    <Heading class="card-title">
+      <a href={href}>{course.title}</a>
+    </Heading>
+    {course.subtitle && <p class="card-subtitle">{course.subtitle}</p>}
+
+    <dl class="card-facts">
+      {course.startDate && (
+        <div>
+          <dt>Inicio</dt>
+          <dd><time datetime={course.startDate}>{formatCourseDate(course.startDate)}</time></dd>
+        </div>
+      )}
+      {course.schedule && (
+        <div>
+          <dt>Cursada</dt>
+          <dd>{course.schedule}</dd>
+        </div>
+      )}
+      {course.duration && (
+        <div>
+          <dt>Duración</dt>
+          <dd>{course.duration}</dd>
+        </div>
+      )}
+    </dl>
+
+    <span class="card-cta" aria-hidden="true">Ver el curso →</span>
   </div>
 </article>
 
 <style>
   .course-card {
-    padding: var(--apba-space-4);
+    display: flex;
+    flex-direction: column;
     border: 1px solid var(--apba-border);
     border-radius: var(--apba-radius-lg);
+    overflow: hidden;
     background: var(--apba-surface);
+    transition:
+      box-shadow var(--apba-duration-normal) var(--apba-ease-out),
+      transform var(--apba-duration-normal) var(--apba-ease-out);
+  }
+  .course-card:hover {
+    box-shadow: var(--apba-shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card-image {
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--apba-surface-sunken);
+  }
+  /* Let the <img> be laid out by .card-image directly, not by <picture>. */
+  .card-image picture { display: contents; }
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--apba-duration-normal) var(--apba-ease-out);
+  }
+  .course-card:hover .card-image img { transform: scale(1.03); }
+
+  .card-body {
+    padding: var(--apba-space-4);
     display: flex;
     flex-direction: column;
     gap: var(--apba-space-2);
-    transition: box-shadow var(--apba-motion-fast);
+    flex: 1;
   }
-  .course-card:hover { box-shadow: var(--apba-shadow-md); }
-  .card-title { font-size: var(--apba-text-body-lg); font-weight: var(--apba-weight-semibold); margin: 0; }
+  .card-meta { display: flex; gap: var(--apba-space-2); flex-wrap: wrap; }
+
+  .card-title {
+    font-size: var(--apba-text-body-lg);
+    font-weight: var(--apba-weight-semibold);
+    line-height: var(--apba-leading-tight);
+    margin: 0;
+  }
   .card-title a { color: var(--apba-text-primary); text-decoration: none; }
   .card-title a:hover { color: var(--apba-brand-primary); }
-  .card-meta { display: flex; gap: var(--apba-space-2); flex-wrap: wrap; }
-  .meta-chip {
-    padding: var(--apba-space-1) var(--apba-space-2);
-    background: var(--apba-surface-secondary);
-    border-radius: var(--apba-radius-sm);
-    font-size: var(--apba-text-caption);
-    color: var(--apba-text-secondary);
+  .card-title a:focus-visible {
+    outline: 3px solid var(--apba-focus-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
-  .card-desc { font-size: var(--apba-text-body-sm); color: var(--apba-text-secondary); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .card-date { font-size: var(--apba-text-body-sm); color: var(--apba-text-secondary); margin: 0; }
+  .card-subtitle {
+    font-size: var(--apba-text-body-sm);
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-snug);
+    margin: 0;
+  }
+
+  .card-facts {
+    margin: var(--apba-space-1) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--apba-space-1);
+    font-size: var(--apba-text-body-sm);
+  }
+  .card-facts div { display: flex; gap: var(--apba-space-2); }
+  .card-facts dt {
+    flex-shrink: 0;
+    min-width: 5.5em;
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-text-tertiary);
+  }
+  .card-facts dd { margin: 0; color: var(--apba-text-secondary); }
+
+  .card-cta {
+    margin-top: auto;
+    padding-top: var(--apba-space-3);
+    font-size: var(--apba-text-body-sm);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary);
+  }
 </style>

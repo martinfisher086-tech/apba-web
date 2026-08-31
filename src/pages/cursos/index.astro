@@ -1,51 +1,129 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ComingSoon from "@components/organisms/ComingSoon.astro";
+import PageHero from "@components/organisms/PageHero.astro";
+import CourseCard from "@components/molecules/CourseCard.astro";
 import { getCourses } from "@lib/cms";
+import { fullTitle } from "@lib/courses";
 
 const courses = await getCourses();
 
 const seo = {
   title: "Cursos y Jornadas — APBA",
-  description: "Cursos, jornadas y actividades de formación continua de APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires.",
+  description:
+    "Cursos, jornadas y actividades de formación continua de APBA — Asociación de Psicólogas y Psicólogos de Buenos Aires.",
   noindex: false,
 };
+
+const breadcrumbs = [
+  { label: "Inicio", href: "/" },
+  { label: "Cursos y Jornadas" },
+];
+
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Cursos y jornadas de APBA",
+  itemListElement: courses.map((course, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: fullTitle(course),
+    url: `https://psicologos.org.ar/cursos/${course.slug}/`,
+  })),
+});
 ---
 
 <BaseLayout {seo}>
+  <Fragment slot="structured-data">
+    {courses.length > 0 && (
+      <script is:inline type="application/ld+json" set:html={structuredData} />
+    )}
+  </Fragment>
+
   {courses.length === 0 ? (
     <ComingSoon
       title="Cursos y Jornadas"
-      breadcrumbs={[
-        { label: "Inicio", href: "/" },
-        { label: "Cursos y Jornadas" },
-      ]}
+      breadcrumbs={breadcrumbs}
       lead="Estamos actualizando la oferta de cursos, jornadas y actividades de formación continua de APBA. Volvé pronto o escribinos para más información."
     />
   ) : (
-    <div class="container page-layout">
-      <nav aria-label="Ruta de navegación" class="breadcrumb">
-        <ol>
-          <li><a href="/">Inicio</a></li>
-          <li aria-current="page">Cursos y Jornadas</li>
-        </ol>
-      </nav>
+    <Fragment>
+      <PageHero title="Cursos y Jornadas" {breadcrumbs} />
 
-      <h1>Cursos y Jornadas</h1>
+      <div class="container page-layout">
+        <p class="page-lead">
+          Formación continua de APBA: cursos a distancia dictados por equipos de
+          profesionales de la Asociación, con aranceles institucionales y
+          descuentos para socias y socios.
+        </p>
 
-      <ul class="course-list">
-        {courses.map((c) => (
-          <li>
-            <a href={`/cursos/${c.slug}/`}><h2>{c.title}</h2></a>
-            <p class="caption">{c.modality} · {c.isFree ? "Gratuito" : c.price ?? ""}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <ul class="course-grid" role="list">
+          {courses.map((course, i) => (
+            <li>
+              <CourseCard course={course} headingLevel={2} eager={i === 0} />
+            </li>
+          ))}
+        </ul>
+
+        <aside class="contact-band">
+          <h2>Informes e inscripción</h2>
+          <p>
+            Escribinos a <a href="mailto:cursosapba@gmail.com">cursosapba@gmail.com</a> y
+            te enviamos el programa, los aranceles vigentes y los descuentos para
+            socias y socios.
+          </p>
+          <a href="/asociate/" class="contact-link">Asociate a APBA →</a>
+        </aside>
+      </div>
+    </Fragment>
   )}
 </BaseLayout>
 
 <style>
   .page-layout { padding-block: var(--apba-space-8) var(--apba-space-16); }
-  .course-list { list-style: none; display: flex; flex-direction: column; gap: var(--apba-space-6); margin-top: var(--apba-space-6); }
+
+  .page-lead {
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    max-width: 68ch;
+    margin-bottom: var(--apba-space-8);
+  }
+
+  .course-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--apba-space-6);
+  }
+  .course-grid > li { display: flex; }
+  .course-grid > li > :global(*) { flex: 1; }
+  @media (min-width: 640px)  { .course-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .course-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .contact-band {
+    margin-top: var(--apba-space-12);
+    padding: var(--apba-space-6);
+    background: var(--apba-surface-raised);
+    border: 1px solid var(--apba-border);
+    border-radius: var(--apba-radius-lg);
+  }
+  .contact-band h2 {
+    font-size: var(--apba-text-h4);
+    margin: 0 0 var(--apba-space-2);
+  }
+  .contact-band p {
+    color: var(--apba-text-secondary);
+    line-height: var(--apba-leading-relaxed);
+    margin: 0;
+    max-width: 60ch;
+  }
+  .contact-link {
+    display: inline-block;
+    margin-top: var(--apba-space-4);
+    font-weight: var(--apba-weight-semibold);
+    color: var(--apba-brand-primary);
+    text-decoration: none;
+  }
+  .contact-link:hover { text-decoration: underline; }
 </style>
