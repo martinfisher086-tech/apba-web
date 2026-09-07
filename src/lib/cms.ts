@@ -229,6 +229,33 @@ const _WP_UPLOADS = "/wp-content/uploads";
 
 const _journalData: JournalIssue[] = [
   {
+    slug: "numero-7",
+    number: 7,
+    title: "Habitar la red",
+    subtitle: "Entre el lazo social y la captura",
+    publishDate: "2026-09-01",
+    coverImage: {
+      url: "/images/gaceta/cover-7.jpg",
+      alt: "Portada Gaceta Psicológica N° 7 — Habitar la red. Entre el lazo social y la captura",
+      width: 1181,
+      height: 1654,
+    },
+    pdfFile: {
+      url: `${_WP_UPLOADS}/2026/09/Gaceta_psicologica_07_SEPTIEMBRE_2026.pdf`,
+      filename: "Gaceta_psicologica_07_SEPTIEMBRE_2026.pdf",
+      mimeType: "application/pdf",
+      sizeBytes: 850307,
+    },
+    articles: [],
+    seo: {
+      title:
+        "Gaceta Psicológica N° 7 — Habitar la red. Entre el lazo social y la captura — APBA",
+      description:
+        "Descargá el N° 7 de la Gaceta Psicológica de APBA: Habitar la red. Entre el lazo social y la captura. Septiembre de 2026.",
+      noindex: false,
+    },
+  },
+  {
     slug: "numero-6",
     number: 6,
     title: "Consumos problemáticos",

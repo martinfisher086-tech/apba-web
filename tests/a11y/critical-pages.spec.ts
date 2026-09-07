@@ -5,6 +5,7 @@ const routes = [
   "/",
   "/actividades/",
   "/revistas/",
+  "/asistencia/",
   "/asociate/",
   "/cursos/",
   "/cursos/preparacion-examen-residencias-2027/",
